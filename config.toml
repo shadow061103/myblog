@@ -1,6 +1,6 @@
-baseURL = 'http://example.org/'
+baseURL = 'https://shadow061103.github.io/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'Steve的技術筆記'
 theme='gokarna'
 
 [params]
@@ -11,7 +11,7 @@ theme='gokarna'
   avatarSize = "size-l"
 
   # Description to display on homepage
-  description = "hi! I'm Steve,this is my skill blog."
+  description = "Embrace your past,it shaped your present."
 
   # Accent color is displayed when you hover over <a> tags
   accentColor = "#FF4D4D"
