@@ -1,14 +1,16 @@
 baseURL = 'https://shadow061103.github.io/'
-languageCode = 'en-us'
+languageCode = 'zh-tw'
 title = 'Steve的技術筆記'
 theme='gokarna'
+enableEmoji = true
+enableRobotsTXT = true
 
 [params]
-  # URL for the avatar on homepage
+  # URL for the avatar on homepage 首頁頭像
   avatarURL = "/images/steve.jpg"
 
   # Choose one of size-xs, size-s, size-m, size-l & size-xl. (Default: size-m)
-  avatarSize = "size-l"
+  avatarSize = "size-xl"
 
   # Description to display on homepage
   description = "Embrace your past,it shaped your present."
@@ -26,7 +28,45 @@ theme='gokarna'
   # If you want to display posts on the homepage, the options are
   # "popular" (order posts by weight), "recent" (order posts by date)
   # or "" (do not display, default option)
-  showPostsOnHomePage = "recent"
+  #showPostsOnHomePage = "recent"
 
   # Footer text
   footer = "The Steve's skill blog"
+
+  socialIcons = [
+    {name = "linkedin", url = "https://www.linkedin.com/in/kuan-fu-lin-798091146/"},
+    {name = "instagram", url = "https://example.com"},
+    {name="github",url="https://github.com/shadow061103"},
+    {name = "resume", url = "https://www.cakeresume.com/s--_dg5b864zDoms-FFAV02QA--/lin-kuanfu"},
+    {name = "email", url = "mailto:shadow061103@gmail.com"}
+  ]
+[menu]
+  [[menu.main]]
+    name = "Home"
+    pre = "<span data-feather='home'></span>"
+    url = "/"
+    weight = 1
+
+  [[menu.main]]
+    name = "Posts"
+    pre = "<span data-feather='book'></span>"
+    url = "/posts/"
+    weight = 2
+
+  [[menu.main]]
+    name = "Projects"
+    pre = "<span data-feather='code'></span>"
+    url = "/projects/"
+    weight = 3
+
+  [[menu.main]]
+    name = "Tags"
+    pre = "<span data-feather='tag'></span>"
+    url = "/tags/"
+    weight = 4
+
+  [[menu.main]]
+    identifier = "github"
+    pre = "<span data-feather='github'></span>"
+    url = "https://github.com/shadow061103"
+    weight = 5
