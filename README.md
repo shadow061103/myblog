@@ -8,8 +8,13 @@ git submodule add https://github.com/526avijitgupta/gokarna.git themes/gokarna
 echo theme = \"gokrana\" >> config.toml
 ```
 
-### theme basic usage
-https://gokarna-hugo.netlify.app/posts/theme-documentation-basics/#installation
+### theme usage doc
+- [basic](https://gokarna-hugo.netlify.app/posts/theme-documentation-basics/#installation)
+- [advance](https://gokarna-hugo.netlify.app/posts/theme-documentation-advanced/)
+
+- 首頁icon
+會去找`static/icons`資料夾下的圖片對應config的socialIcons配置
+icon需要用svg格式 可在[這裡](https://www.svgrepo.com/vectors/blog/1)下載
 
 ### 新增文章
 `hugo new posts/first_page.md`

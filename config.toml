@@ -38,6 +38,7 @@ enableRobotsTXT = true
     {name = "instagram", url = "https://example.com"},
     {name="github",url="https://github.com/shadow061103"},
     {name = "resume", url = "https://www.cakeresume.com/s--_dg5b864zDoms-FFAV02QA--/lin-kuanfu"},
+    {name = "blog", url = "https://dotblogs.com.tw/shadowkk"},
     {name = "email", url = "mailto:shadow061103@gmail.com"}
   ]
 [menu]
@@ -70,3 +71,8 @@ enableRobotsTXT = true
     pre = "<span data-feather='github'></span>"
     url = "https://github.com/shadow061103"
     weight = 5
+[markup]
+  [markup.tableOfContents]
+    startLevel = 1
+    endLevel = 4
+    ordered = false
