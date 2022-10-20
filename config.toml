@@ -41,6 +41,9 @@ enableRobotsTXT = true
     {name = "blog", url = "https://dotblogs.com.tw/shadowkk"},
     {name = "email", url = "mailto:shadow061103@gmail.com"}
   ]
+[permalinks]
+  posts = '/:section/:year:month/:slug/'
+  
 [menu]
   [[menu.main]]
     name = "Home"

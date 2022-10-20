@@ -6,6 +6,7 @@ description: "C#的big5難字處理"
 tags: ["big5","Csharp"]
 type: post
 showTableOfContents: true
+slug: "big5難字處理"
 ---
 
 # big5難字處理
