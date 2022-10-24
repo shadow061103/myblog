@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>efcore on Steve的技術筆記</title>
+    <link>https://shadow061103.github.io/tags/efcore/</link>
+    <description>Recent content in efcore on Steve的技術筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Thu, 20 Oct 2022 16:55:56 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/efcore/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>EFCore使用</title>
+      <link>https://shadow061103.github.io/posts/202210/efcore%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Thu, 20 Oct 2022 16:55:56 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/efcore%E4%BD%BF%E7%94%A8/</guid>
+      <description>tags: C# EF Core使用 安裝 下載nuget clidotnet add package Microsoft.EntityFrameworkCore.SqlServer套件管理員主控台Install-Package Microsoft.EntityFrameworkCore.SqlServer 非必要 建資料庫 dotnet tool install --global dotnet-efdotnet add package Microsoft.EntityFrameworkCore.Designdotnet ef migrations add InitialCreatedotnet ef database update這邊用法//要指定資料夾dotnet ef migrations add addPayToken -o Infrastructure/Migrationsdotnet ef database update 這邊如果要新增database 需要先寫好entity跟context
+產生Scriptdotnet ef migrations script --context FinancialContext 可以使用EF core power tool建立DBContext檔 使用 如果只要單一實例DBContext，可以在startUp做DI設定，使用時在建構子注入 public void ConfigureServices(IServiceCollection services) { services.AddControllers(); services.AddDbContext&amp;lt;ApplicationDbContext&amp;gt;( options =&amp;gt; options.</description>
+    </item>
+    
+    <item>
+      <title>EFcore模型驗證預設不檢查插入問題</title>
+      <link>https://shadow061103.github.io/posts/202210/efcore%E6%A8%A1%E5%9E%8B%E9%A9%97%E8%AD%89%E9%A0%90%E8%A8%AD%E4%B8%8D%E6%AA%A2%E6%9F%A5%E6%8F%92%E5%85%A5%E5%95%8F%E9%A1%8C/</link>
+      <pubDate>Thu, 20 Oct 2022 16:44:27 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/efcore%E6%A8%A1%E5%9E%8B%E9%A9%97%E8%AD%89%E9%A0%90%E8%A8%AD%E4%B8%8D%E6%AA%A2%E6%9F%A5%E6%8F%92%E5%85%A5%E5%95%8F%E9%A1%8C/</guid>
+      <description>EF core模型驗證預設不檢查插入，撈資料讀取失敗 情境 在model上的屬性設置如下
+[Column(&amp;#34;bank_trade_no&amp;#34;)] [MaxLength(30)] [Required] public string BankTradeNo { get; set; } DB欄位是設定成可為null且預設Null的值
+問題發生原因 問題發生在 DB有一筆資料的欄位是null，用ef core撈出來的時候報exception error stack
+System.InvalidOperationException: An error occurred while reading a database value for property &amp;#39;AclinkTradeRecord.BankTradeNo&amp;#39;. The expected type was &amp;#39;System.String&amp;#39; but the actual value was null.---&amp;gt; System.InvalidCastException: Unable to cast object of type &amp;#39;System.DBNull&amp;#39; to type &amp;#39;System.String&amp;#39;.at MySqlConnector.Core.Row.GetString(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 371at MySqlConnector.MySqlDataReader.GetString(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 282at lambda_method11(Closure , QueryContext , DbDataReader , ResultContext , SingleQueryResultCoordinator )--- End of inner exception stack trace ---at lambda_method11(Closure , QueryContext , DbDataReader , ResultContext , SingleQueryResultCoordinator )at Microsoft.</description>
+    </item>
+    
+  </channel>
+</rss>

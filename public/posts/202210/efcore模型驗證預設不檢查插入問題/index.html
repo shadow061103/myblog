@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>EFcore模型驗證預設不檢查插入問題</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, Csharp, efcore'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/efcore%E6%A8%A1%E5%9E%8B%E9%A9%97%E8%AD%89%E9%A0%90%E8%A8%AD%E4%B8%8D%E6%AA%A2%E6%9F%A5%E6%8F%92%E5%85%A5%E5%95%8F%E9%A1%8C/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="EFcore模型驗證預設不檢查插入問題">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/steve.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EFcore模型驗證預設不檢查插入問題">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/efcore%E6%A8%A1%E5%9E%8B%E9%A9%97%E8%AD%89%E9%A0%90%E8%A8%AD%E4%B8%8D%E6%AA%A2%E6%9F%A5%E6%8F%92%E5%85%A5%E5%95%8F%E9%A1%8C/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/efcore%E6%A8%A1%E5%9E%8B%E9%A9%97%E8%AD%89%E9%A0%90%E8%A8%AD%E4%B8%8D%E6%AA%A2%E6%9F%A5%E6%8F%92%E5%85%A5%E5%95%8F%E9%A1%8C/">
+    <meta name="twitter:image" content="/images/steve.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/efcore%E6%A8%A1%E5%9E%8B%E9%A9%97%E8%AD%89%E9%A0%90%E8%A8%AD%E4%B8%8D%E6%AA%A2%E6%9F%A5%E6%8F%92%E5%85%A5%E5%95%8F%E9%A1%8C/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/steve.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>EFcore模型驗證預設不檢查插入問題</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 20, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/csharp">Csharp</a></li>
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/efcore">efcore</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h1 id="ef-core模型驗證預設不檢查插入撈資料讀取失敗">EF core模型驗證預設不檢查插入，撈資料讀取失敗</h1>
+<h3 id="情境">情境</h3>
+<p>在model上的屬性設置如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#a6e22e">[Column(&#34;bank_trade_no&#34;)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">[MaxLength(30)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">[Required]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> BankTradeNo { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+</span></span></code></pre></div><p>DB欄位是設定成可為null且預設Null的值</p>
+<h3 id="問題發生原因">問題發生原因</h3>
+<p>問題發生在 DB有一筆資料的欄位是null，用ef core撈出來的時候報exception
+error stack</p>
+<pre tabindex="0"><code>System.InvalidOperationException: An error occurred while reading a database value for property &#39;AclinkTradeRecord.BankTradeNo&#39;. The expected type was &#39;System.String&#39; but the actual value was null.
+ ---&gt; System.InvalidCastException: Unable to cast object of type &#39;System.DBNull&#39; to type &#39;System.String&#39;.
+   at MySqlConnector.Core.Row.GetString(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 371
+   at MySqlConnector.MySqlDataReader.GetString(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 282
+   at lambda_method11(Closure , QueryContext , DbDataReader , ResultContext , SingleQueryResultCoordinator )
+   --- End of inner exception stack trace ---
+   at lambda_method11(Closure , QueryContext , DbDataReader , ResultContext , SingleQueryResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at WebApplication2.RepositoryBase.GetFirstOrDefaltAsync[TEntity](Expression`1 predicate) in C:\SideProject\WebApplication2\WebApplication2\IRepository.cs:line 40
+   at WebApplication2.TradeRecordRepository.GetTradeAsync(Expression`1 predicate) in C:\SideProject\WebApplication2\WebApplication2\IRepository.cs:line 105
+   at WebApplication2.Controllers.WeatherForecastController.GetAsync() in C:\SideProject\WebApplication2\WebApplication2\Controllers\WeatherForecastController.cs:line 67
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeActionMethodAsync&gt;g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeNextActionFilterAsync&gt;g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State&amp; next, Scope&amp; scope, Object&amp; state, Boolean&amp; isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeInnerFilterAsync&gt;g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeFilterPipelineAsync&gt;g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeAsync&gt;g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.&lt;Invoke&gt;g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+</code></pre><h3 id="解決方式">解決方式</h3>
+<p>1.思考為何有設定[Require]卻可以插入null值進DB?
+後來有查到ef core現在<code>SaveChangesAsync()</code>方法不會做模型驗證了
+需要自己override方法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#75715e">//加在context上</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span>  <span style="color:#66d9ef">async</span> Task&lt;<span style="color:#66d9ef">int</span>&gt; SaveChangesAsync()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> changedEntities = ChangeTracker
+</span></span><span style="display:flex;"><span>                .Entries()
+</span></span><span style="display:flex;"><span>                .Where(_ =&gt; _.State == EntityState.Added ||
+</span></span><span style="display:flex;"><span>                            _.State == EntityState.Modified);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> errors = <span style="color:#66d9ef">new</span> List&lt;ValidationResult&gt;(); <span style="color:#75715e">// all errors are here</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> e <span style="color:#66d9ef">in</span> changedEntities)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">var</span> vc = <span style="color:#66d9ef">new</span> ValidationContext(e.Entity, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span>                Validator.TryValidateObject(
+</span></span><span style="display:flex;"><span>                    e.Entity, vc, errors, validateAllProperties: <span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">base</span>.SaveChangesAsync();
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div><p>2.null值撈出來會出錯問題
+這部分就要調整model跟DFB一致，看要都是可以null或是not null
+<a href="https://blog.miniasp.com/post/2022/04/23/EF-Core-has-no-ValidateOnSaveEnabled-anymore">EF Core 已經不會在 SaveChanges() 的時候對實體模型進行額外驗證(Will)</a>
+<a href="https://www.bricelam.net/2016/12/13/validation-in-efcore.html">參考解法</a>
+<a href="https://dotblogs.com.tw/yc421206/2018/12/16/model_validation">自訂驗證-余小章</a></p>
+
+        </p>
+    </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

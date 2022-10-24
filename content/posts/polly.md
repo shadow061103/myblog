@@ -1,5 +1,5 @@
 ---
-title: "Polly"
+title: "Polly錯誤自動重試機制"
 date: 2022-10-20T16:54:03+08:00
 draft: false
 tags: ["Csharp"]

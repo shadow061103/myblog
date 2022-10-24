@@ -1,5 +1,5 @@
 ---
-title: "Oop"
+title: "OOP物件導向"
 date: 2022-10-20T17:02:58+08:00
 draft: false
 tags: ["Csharp"]

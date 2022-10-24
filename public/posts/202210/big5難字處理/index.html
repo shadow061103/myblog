@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>big5難字處理</title>
+    <meta name="description" content="C#的big5難字處理">
+    <meta name="keywords" content='blog, gokarna, hugo, big5, Csharp'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/big5%E9%9B%A3%E5%AD%97%E8%99%95%E7%90%86/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="big5難字處理">
+    <meta property="og:description" content="C#的big5難字處理">
+    <meta property="og:image" content="/images/steve.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="big5難字處理">
+    <meta name="twitter:description" content="C#的big5難字處理">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/big5%E9%9B%A3%E5%AD%97%E8%99%95%E7%90%86/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/big5%E9%9B%A3%E5%AD%97%E8%99%95%E7%90%86/">
+    <meta name="twitter:image" content="/images/steve.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/big5%E9%9B%A3%E5%AD%97%E8%99%95%E7%90%86/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/steve.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>big5難字處理</h1>
+        <small role="doc-subtitle">C#的big5難字處理</small>
+        <p class="post-date">
+            October 18, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/big5">big5</a></li>
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/csharp">Csharp</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h1 id="big5難字處理">big5難字處理</h1>
+<h3 id="判斷轉big5後是不是">判斷轉big5後是不是?</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">bool</span> IsBelongHardWord(<span style="color:#66d9ef">char</span> str)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> big5 = Encoding.GetEncoding(<span style="color:#e6db74">&#34;big5&#34;</span>);
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> cInBig5 = big5.GetString(big5.GetBytes(<span style="color:#66d9ef">new</span>[] { str }));
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> str != <span style="color:#e6db74">&#39;?&#39;</span> &amp;&amp; cInBig5 == <span style="color:#e6db74">&#34;?&#34;</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div><h3 id="stringinfo的解法">StringInfo的解法</h3>
+<ul>
+<li>上面解法不適用&quot;𨫎&quot;、&ldquo;𩗴&rdquo; 這種組合字，因為會被拆成2個char</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">string</span> s = <span style="color:#e6db74">&#34;𨫎𩗴嫑堃瀞abc一二三&#34;</span>;
+</span></span><span style="display:flex;"><span>	TextElementEnumerator charEnum = StringInfo.GetTextElementEnumerator(s);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (charEnum.MoveNext())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> str = charEnum.GetTextElement();
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> encode = Encoding.GetEncoding(<span style="color:#ae81ff">950</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> big5 = encode.GetString(encode.GetBytes(str));
+</span></span><span style="display:flex;"><span>		(<span style="color:#e6db74">$&#34;{str} 難字{str != big5}&#34;</span>).Dump();
+</span></span><span style="display:flex;"><span>	}
+</span></span></code></pre></div><h3 id="參考">參考</h3>
+<p><a href="https://www.huanlintalk.com/2009/12/unicode-character-and-ranma-12.html">https://www.huanlintalk.com/2009/12/unicode-character-and-ranma-12.html</a></p>
+
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#big5難字處理">big5難字處理</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#判斷轉big5後是不是">判斷轉big5後是不是?</a></li>
+            <li><a href="#stringinfo的解法">StringInfo的解法</a></li>
+            <li><a href="#參考">參考</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
