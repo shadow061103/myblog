@@ -1,7 +1,7 @@
 ---
 title: "docker管理工具"
 date: 2022-10-24T15:42:34+08:00
-draft: true
+draft: false
 tags: ["docker"]
 type: post
 author: "Steve Lin"

@@ -1,7 +1,7 @@
 ---
 title: "Dockerfile"
 date: 2022-10-24T15:42:59+08:00
-draft: true
+draft: false
 tags: ["docker"]
 type: post
 author: "Steve Lin"

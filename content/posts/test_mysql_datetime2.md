@@ -1,7 +1,7 @@
 ---
 title: "測試mysql datetime2"
 date: 2022-10-27T17:07:35+08:00
-draft: true
+draft: false
 tags: ["DB"]
 type: post
 author: "Steve Lin"

@@ -1,7 +1,7 @@
 ---
 title: "Mock測試物件"
 date: 2022-10-24T15:55:06+08:00
-draft: true
+draft: false
 tags: ["單元測試"]
 type: post
 author: "Steve Lin"

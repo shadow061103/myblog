@@ -1,7 +1,7 @@
 ---
 title: "Mysql的limit、offset"
 date: 2022-10-27T17:08:21+08:00
-draft: true
+draft: false
 tags: ["DB"]
 type: post
 author: "Steve Lin"

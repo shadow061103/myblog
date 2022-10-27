@@ -1,7 +1,7 @@
 ---
 title: "取得遠端分支"
 date: 2022-10-27T16:52:43+08:00
-draft: true
+draft: false
 tags: ["git"]
 type: post
 author: "Steve Lin"

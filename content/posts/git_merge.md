@@ -1,7 +1,7 @@
 ---
 title: "git merge 不直接合併的方法"
 date: 2022-10-27T16:53:23+08:00
-draft: true
+draft: false
 tags: ["git"]
 type: post
 author: "Steve Lin"

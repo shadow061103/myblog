@@ -1,7 +1,7 @@
 ---
 title: "docker-compose.yml範例"
 date: 2022-10-24T15:37:25+08:00
-draft: true
+draft: false
 tags: ["docker"]
 type: post
 author: "Steve Lin"

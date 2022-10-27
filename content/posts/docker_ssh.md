@@ -1,7 +1,7 @@
 ---
 title: "SSH服務"
 date: 2022-10-24T15:39:33+08:00
-draft: true
+draft: false
 tags: ["docker","ssh","linux"]
 type: post
 author: "Steve Lin"

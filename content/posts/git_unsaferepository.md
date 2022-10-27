@@ -1,7 +1,7 @@
 ---
 title: "git unsafe repository錯誤解決"
 date: 2022-10-27T16:51:00+08:00
-draft: true
+draft: false
 tags: ["git"]
 type: post
 author: "Steve Lin"

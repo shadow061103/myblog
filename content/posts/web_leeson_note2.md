@@ -1,7 +1,7 @@
 ---
 title: "版型課程第二周筆記"
 date: 2022-10-27T17:12:06+08:00
-draft: true
+draft: false
 tags: ["網頁切版直播課程"]
 type: post
 author: "Steve Lin"
