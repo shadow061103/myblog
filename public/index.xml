@@ -6,7 +6,365 @@
     <description>Recent content on Steve的技術筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 20 Oct 2022 17:06:27 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 Oct 2022 17:12:36 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>gulp 使用說明</title>
+      <link>https://shadow061103.github.io/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/</link>
+      <pubDate>Thu, 27 Oct 2022 17:12:36 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/</guid>
+      <description>gulp 使用說明 gulp官方文件 gulpfile gulpfile就是gulpfile.js的簡稱，用gulp的指定的時後會自動載入 裡面會放相關api EX:src(), dest(), series(),parallel() 可用其他語言寫再轉譯 TypeScript,命名gulpfile.ts跟安裝ts-node module. Babel,命名 gulpfile.babel.js跟安裝the @babel/register module. 當檔案太大時可以寫在不同檔案，再import進來，資料夾名稱要命名成gulpfile.js(包含index.js) Gulp Task 非同步的js function
+public tasks:從gulpfile輸出，可以用gulp指令啟動 private tasks:for內部使用，常用的方法有series()、parallel() 外部使用者不能獨立使用 const { series } = require(&amp;#39;gulp&amp;#39;); // The `clean` function is not exported so it can be considered a private task. // It can still be used within the `series()` composition. function clean(cb) { // body omitted cb(); } // The `build` function is exported so it is public and can be run with the `gulp` command.</description>
+    </item>
+    
+    <item>
+      <title>環境安裝流程</title>
+      <link>https://shadow061103.github.io/posts/202210/%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Thu, 27 Oct 2022 17:12:31 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/</guid>
+      <description>gulp 環境安裝流程 1.安裝Node.js，打開終端機或命令提示字元，輸入node -v，安裝完成會顯示版本號 2.在終端機安裝gulp，繼續輸入指令 npm i gulp@4 -g ,輸入gulp -v查詢是否有回傳版本號 3.下載此資料夾並解壓縮 4.移動到該資料夾 5.輸入指令 npm install 安裝插件，這是安裝專案內package.json列出的需要元件 npm install gulp -g 會在全域下安裝gulp 6.輸入指令gulp執行 7.若步驟6執行成功，會打開瀏覽器，看到指定畫面 指令列表 gulp - 執行開發模式(會開啟模擬瀏覽器並監聽相關檔案) gulp build - 執行編譯模式(不會開啟瀏覽器) gulp clean - 清除 dist 資料夾 gulp deploy - 將 dist 資料夾部署至 GitHub Pages npm install gulp-cli -g 才能使用gulp指令 </description>
+    </item>
+    
+    <item>
+      <title>版型課程第八周筆記</title>
+      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AB%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <pubDate>Thu, 27 Oct 2022 17:12:20 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AB%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <description>版型課程第八周筆記 盡量用元件跟util組合，少用card li{}這種寫法 scss同類性質高的時候再拆資料夾 命名盡量一致化，小駝峰，用下底線或-會讓人誤解是子模組
+7+1 scss ###　BEM
+__區塊 元素 &amp;ndash;修飾符:樣式呈現 </description>
+    </item>
+    
+    <item>
+      <title>版型課程第七周筆記</title>
+      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%83%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <pubDate>Thu, 27 Oct 2022 17:12:18 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%83%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <description>版型課程第七周筆記 視差滾動 Css3 animation 範例 用keyframes去自訂動畫效果 from開始 to結束 @keyframes example { from {left:0px; top:0px;} to {left:200px; top:0px;} } div { /* 要執行的 animation 名稱 */ animation-name: example; /* 執行過程秒數 */ animation-duration: 10s; } 查瀏覽器兼容效果can I use 也可以設定比例 %數代表時間比例 @keyframes example { 0% {background-color:pink; left:0px; top:0px;} 25% {background-color:yellow; left:200px; top:0px;} 50% {background-color:blue; left:200px; top:200px;} 75% {background-color:green; left:0px; top:200px;} 100% {background-color:red; left:0px; top:50px;} } /* The element to apply the animation to */ div { width: 100px; height: 100px; position: relative; background-color: red; animation-name: example; animation-duration: 4s; /* 晚幾秒發動 */ animation-delay: 2s; /* 要重複跑幾次，或者是用 infinite 一直持續跑 */ animation-iteration-count: infinite; /* 停留在哪個影格 forwards、backwards、both */ /* animation-fill-mode: backwards; */ /* forwards 停留在最後一個位置 backwards: 留在第一個位置 both 擁有前兩者功能 */ } Animate.</description>
+    </item>
+    
+    <item>
+      <title>版型課程第六周筆記</title>
+      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AD%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <pubDate>Thu, 27 Oct 2022 17:12:15 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AD%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <description>版型課程第六周筆記 bootstrap是手機寫到PC
+格線系統 避免寫一些奇怪數字 俗稱magic number
+.col-1{ width:60px; } .col-2{ width:120px; } 格線系統關鍵字：column(欄)、gutter(間距) 左右會用margin推 960 grid 要符合1024*768解析度 通常會有12欄(比較好整除) 沒格線系統就會用magic number bootstrap是用padding推gutter的值 column內不能多用padding跟margin，因為寬度會超過%數 row裡面再包column，因為元素才會對齊 沒用格線系統只有局部區塊好看，用的話一致性高有規律 class=row的第一層只能放col bootstrap的斷點設計 文件位置 依照裝置大小去置換class 常見錯誤，在 .col 增加寬度 常見錯誤，在格線系統調整左右 margin 與 padding 常見觀念：可以加上下 的 margin 與 padding 常見觀念：最外層至少補一個 container 常見觀念：整體格線邏輯是一致
+匯入bootstrap的module 位置 // Required @import &amp;#34;../node_modules/bootstrap/scss/functions&amp;#34;; @import &amp;#34;../node_modules/bootstrap/scss/variables&amp;#34;; @import &amp;#34;../node_modules/bootstrap/scss/mixins&amp;#34;; // Optional @import &amp;#34;../node_modules/bootstrap/scss/reboot&amp;#34;; @import &amp;#34;../node_modules/bootstrap/scss/type&amp;#34;; @import &amp;#34;../node_modules/bootstrap/scss/images&amp;#34;; @import &amp;#34;../node_modules/bootstrap/scss/code&amp;#34;; @import &amp;#34;../node_modules/bootstrap/scss/grid&amp;#34;; 可以在裡面直接改樣式 spacers:推間距 $theme-colors:主要顏色 !default 誰先註冊就是預設值，看先後會不會被覆蓋，但如果是一般樣式後面沒寫，就會覆蓋掉default utilities是一定要用的(工具類別) 編譯 BS4 SCSS ，用 NPM 套件工具來安裝，匯入方式 步驟一：開啟新資料夾，將資料夾 cd 拉進終端機 步驟二：輸入指令 npm init，一直按 enter 後，資料夾裡面會多一個 package.</description>
+    </item>
+    
+    <item>
+      <title>版型課程第五周筆記</title>
+      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%94%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <pubDate>Thu, 27 Oct 2022 17:12:12 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%94%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <description>版型課程第五周筆記 表單三要素 form input submit 使用id差別 為了使用者體驗 input使用id標註，用label for指定，只要點到label就會自動focus在input上 &amp;lt;label for=&amp;quot;Email&amp;quot;&amp;gt;請輸入email:&amp;lt;/label&amp;gt;
+select選單 彈跳樣式跟顏色不要改，每個瀏覽器的樣式也不一樣，除非用div+js自幹 可以用套件 可能下載過慢，太大包 流量比例:7成圖片、2成css跟js、1成文檔 disable的標籤資料不會送到後端，readonly的會 css reset 差異 meyerweb CSS Reset
+設計師不會用bootstrap normalize
+bootstrap内建使用 ul、li樣式不一樣 不能同時使用
+bootstrap的reset css https://github.com/twbs/bootstrap/blob/main/scss/_reboot.scss
+body跟*的差別 body是範圍內，*是每個tag標籤
+css先放再放js檔案，放在body最後面是最保險的 可以先做自己的util scss 換另外個專案 工具包的概念 純手寫 拉出BS4喜歡的功能再自己手寫 看懂BS4+都用BS4 scss去改寫 視窗置底技巧 讓元素根據視窗顯示的高度置底
+用定位的方法也可以置底，但是把高度變小就會蓋過其它元素 可以在上層div用 min-height: 100vh;讓元素隨視窗高度變化 100vh表示100%瀏覽器高度,20vh表示20%高度 Material Icon css連結 在要掛icon的地方插入 &amp;lt;span class=&amp;#34;material-icons&amp;#34;&amp;gt;insert_chart&amp;lt;/span&amp;gt; </description>
+    </item>
+    
+    <item>
+      <title>版型課程第四周筆記</title>
+      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%9B%9B%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <pubDate>Thu, 27 Oct 2022 17:12:10 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%9B%9B%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <description>版型課程第四周筆記 Layout 類似 .Net MVC的share.cshtml
+用gulp整合 前端任務化 ejs樣板語言 &amp;lt;%- content %&amp;gt; app資料夾:放css,html,images,js檔案 dist資料夾:輸出在用沒事不要碰他，儲存就會放一份，把layout跟頁面合併在一起 會自動監聽 改layout.ejs檔案就好 只是幫助管理 Layout說明 ejs include(路徑) 把外部檔案載入 檔案要設成相對路徑 githubpage才會讀得到 連結到錨點 使用id選擇器 a href連結要加# Sass預處理器 是一種css的擴充，解決重複性、可維護性差的問題
+語法分為新的SCSS(Sassy CSS、Sass 3，檔名為 *.scss) 和舊的 SASS（不使用大括弧格式、使用縮排，不能直接使用 CSS 語法、學習曲線較高等特性，檔名為 *.sass） PPT 安裝套件 Live Sass Compiler 環境教學 可以幫助縮短語法語法介紹 github demo 變數設計 一定要放在最上面 前綴詞$ 可以做數值運算或色彩運算 lighten($primary,30%) 調亮 darken($primary,30%) 調暗 通常用來存色彩或空間跟尺寸 命名用情境色primary、secondary、accent 或功能background 命名可以參考bootstrap 避免使用色名 green或yellow，尺寸盡可能語意化large-size 主色 //變數$primary:#ff0000; import檔案拆分 _variable.scss &amp;gt; all.scss &amp;gt;all.css @import &amp;quot;variable&amp;quot; 檔名有_代表不會不輸出成css 拿來被合併用的(被忽略) .</description>
+    </item>
+    
+    <item>
+      <title>版型課程第三周筆記</title>
+      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%89%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <pubDate>Thu, 27 Oct 2022 17:12:08 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%89%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <description>版型課程第三周筆記 RWD自適應語法 依照顯示器寬度去呈現樣式 375px iphone7-11 414px ipad 768px~992px 767px 手機以下 bootstrap 1140px media要從最大寫到最小 潛規則 &amp;gt;去客戶那邊紀錄裝置解析度/瀏覽器/手機型號 .list .item{ width:25%; } @media (max-width :992px) { .list .item{ width:50%; } } @media (max-width :767px) { .list .item{ width:100%; } } 響應式要加 &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&amp;gt;
+CSS 語法 media queries @media(max-width:768px){}
+可以設定限定方式 有需要再查 css權重 先看權重再看先後順序，後者贏 HTML標籤 1分 lang=css tag { color:black; } 類別選擇器10分 .class { color:black; } id選擇器100分 #id { color:black; } 行內樣式1000分 &amp;lt;h1 style=&amp;quot;color:black;&amp;quot;&amp;gt;&amp;lt;/h1&amp;gt; !</description>
+    </item>
+    
+    <item>
+      <title>版型課程第二周筆記</title>
+      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <pubDate>Thu, 27 Oct 2022 17:12:06 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <description>版型課程第二周筆記 Flex container 1.內元件要有效果，就要在外容器加上 display:flex 2.每個 HTML 標籤，能同時擁有內元件跟外容器身份 Flex 主軸與交錯軸觀念(測試工具) 外容器語法 決定軸線：flex-direction (互動詢問)
+1.row (預設) 2.row-reverse 3.column 4.column-reverse 主軸對齊：justify-content
+1.flex-start (預設) 2.center 3.flex-end 4.space-between 5.space-around 6.space-evenly 換行屬性：flex-wrap
+1.nowrap 2.wrap (寬度不夠會自動往下長) 交錯軸對齊：align-item
+1.flex-start 2.center 3.flex-end 4.stretch 5.baseline 圖片設定 背景圖片 background-image:url(../img/logo.png) 圖片重複顯示 background-repeat: no-repeat不重複 /repeat-x水平重複 / repeat-y垂直重複 背景顏色 background-color: #色碼 背景圖案會蓋在背景顏色上面 背景圖片位置 background-position:right(x軸) bottom(y軸) /30px 30px backbround-size:cover; font-weight 屬性用法介紹 CSS 中設定文字粗細（也可以說是字體厚度）的語法是 font-weight，可以是 100~900 的數字或 normal、bold、bolder、lighter &amp;hellip; 等値。
+normal：也就是預設字體厚度，其實可以不用特別寫出來。 bold：常用的粗體字。 bolder：比粗體更粗一點。 lighter：比一般字體更細。 100~900：數字越大越厚，數字小於 500 似乎效果不明顯。 font-style 屬性 CSS font-style 屬性的功能是用來設計網頁文字的斜體、傾斜等字體樣式，實際效果與 HTML 的 標籤類似，簡單來說就是網頁文字的斜體字特效在 CSS 的表示法，CSS font-style 屬性提供兩種類似的斜體字設定方式，均獲得大部份主流瀏覽器的支援。</description>
+    </item>
+    
+    <item>
+      <title>版型課程第一周筆記</title>
+      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%80%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <pubDate>Thu, 27 Oct 2022 17:12:03 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%80%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <description>版型課程第一周筆記 css reset 可以reset讓瀏覽器一致 css reset 加速寫CODE的速度 練習英打，若沒時間最少練習常用的單字，可參考 透過 keybr.com 練習內容 使用套件 TabNine 記憶單辭。 容器 區塊元素 預設display:block 盡可能占滿整個版面 會另起一行進行呈現 可以設定寬高 div、p、h1~h6、 ul、ol、li、 dl、dt、dd、 form、table、hr、 blockquote 、 address、menu 行內元素 display inline 比較常用在段落裡 不能設定寬高 除非改成區塊元素display:block span、em、i、b、strong、a、img、input、br、select、textarea、q、bdo、sub、sup 邊界線 {border: 1px solid blue;} 說明:
+線條粗細 樣式 solid實心線 dashed虛線 dotted點點 顏色 留白 padding 往內推元素 margin 往外推元素 盡量要一致 水平置中 是整個元素置中
+{ margin-left: auto; margin-right: auto; margin:0 auto; } 文字內容置中
+{text-align:center;} 盒模型 元素寬高會包含 border</description>
+    </item>
+    
+    <item>
+      <title>Docker建立Mysql資料庫</title>
+      <link>https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/</link>
+      <pubDate>Thu, 27 Oct 2022 17:09:09 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/</guid>
+      <description>tags: DB Docker建立Mysql資料庫 docker建立container 1.docker pull mysql:8 2.docker run &amp;ndash;name mysql_test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8 3.可以用mysql workbench登入 127.0.0.1:3306
+下指令進入mysql client 1.docker exec -it bash 進入互動模式 2.mysql -h localhost -u root -p 進入client 就可以下指令
+https://hub.docker.com/_/mysql
+練習 [面試][資料庫]關聯式資料庫要如何設計避免超賣？</description>
+    </item>
+    
+    <item>
+      <title>Mysql的limit、offset</title>
+      <link>https://shadow061103.github.io/posts/202210/mysql%E7%9A%84limitoffset/</link>
+      <pubDate>Thu, 27 Oct 2022 17:08:21 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/mysql%E7%9A%84limitoffset/</guid>
+      <description>Mysql的limit、offset limit [count] 代表限制回傳幾筆
+limit [index,count] index是從0開始算 limit 2,4表示從第3筆開始回傳4筆 可以想成是跳過index筆取count筆
+limit [cnt1] offset [cnt2] 跳過cnt2筆取cnt1筆 跟上面有點類似</description>
+    </item>
+    
+    <item>
+      <title>測試mysql datetime2</title>
+      <link>https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/</link>
+      <pubDate>Thu, 27 Oct 2022 17:07:35 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/</guid>
+      <description>測試mysql datetime2 question 用mysql db 新增欄位時用datetime2會跳錯誤訊息
+System.ArgumentOutOfRangeException: Index and length must refer to a location within the string. (Parameter &amp;#39;length&amp;#39;)at System.String.Substring(Int32 startIndex, Int32 length)at MySql.Data.Types.MySqlBinary.MySql.Data.Types.IMySqlValue.WriteValue(MySqlPacket packet, Boolean binary, Object val, Int32 length)at MySql.Data.MySqlClient.MySqlParameter.Serialize(MySqlPacket packet, Boolean binary, MySqlConnectionStringBuilder settings)at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex)at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet)at MySql.Data.MySqlClient.Statement.BindParameters()at MySql.Data.MySqlClient.PreparableStatement.Execute()at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()at System.Data.Common.DbCommand.ExecuteNonQueryAsync(CancellationToken cancellationToken)--- End of stack trace from previous location ---at Dapper.</description>
+    </item>
+    
+    <item>
+      <title>Revert commit</title>
+      <link>https://shadow061103.github.io/posts/202210/revert-commit/</link>
+      <pubDate>Thu, 27 Oct 2022 16:54:36 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/revert-commit/</guid>
+      <description>Revert commit 情境 不小心把uat或sit分支的東西merge到開發分支 且後來又繼續commit 可以用Revert指令還原，不建議用reset，因為就算退回去 後面開發的東西還要重做
+1.首先要找到Merge的那個分支 再對他用revert 指定哪一個parent https://medium.com/@kurosean/%E7%B5%82%E6%96%BC%E6%90%9E%E6%87%82%E5%A6%82%E4%BD%95-revert-merge-commit-a034b9e69fef</description>
+    </item>
+    
+    <item>
+      <title>git merge 不直接合併的方法</title>
+      <link>https://shadow061103.github.io/posts/202210/git-merge-%E4%B8%8D%E7%9B%B4%E6%8E%A5%E5%90%88%E4%BD%B5%E7%9A%84%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Thu, 27 Oct 2022 16:53:23 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/git-merge-%E4%B8%8D%E7%9B%B4%E6%8E%A5%E5%90%88%E4%BD%B5%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
+      <description> tags: Git git merge 不直接合併的方法 git merge member --no-commit --no-ff &amp;ndash;no-commit就是不產生一個commit,資料會放到暫存區 &amp;ndash;no-ff不要fast forward 不commit的話可以git reset --merge或git merge --abort </description>
+    </item>
+    
+    <item>
+      <title>取得遠端分支</title>
+      <link>https://shadow061103.github.io/posts/202210/%E5%8F%96%E5%BE%97%E9%81%A0%E7%AB%AF%E5%88%86%E6%94%AF/</link>
+      <pubDate>Thu, 27 Oct 2022 16:52:43 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E5%8F%96%E5%BE%97%E9%81%A0%E7%AB%AF%E5%88%86%E6%94%AF/</guid>
+      <description>取得遠端分支 1. Fetch all remote branches git fetch origin 2.List the branches available for checkout git branch -a Pull changes from a remote branch git checkout -b fix-failing-tests origin/fix-failing-tests 另一種做法 取得遠端分支git branch --remote拉到本地端新建一個追蹤分支git checkout -t origin/refactoring或是直接把origin拿掉git checkout refactoring </description>
+    </item>
+    
+    <item>
+      <title>git unsafe repository錯誤解決</title>
+      <link>https://shadow061103.github.io/posts/202210/git-unsafe-repository%E9%8C%AF%E8%AA%A4%E8%A7%A3%E6%B1%BA/</link>
+      <pubDate>Thu, 27 Oct 2022 16:51:00 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/git-unsafe-repository%E9%8C%AF%E8%AA%A4%E8%A7%A3%E6%B1%BA/</guid>
+      <description>git unsafe repository錯誤解決 在下git指令的時候會跳出錯誤 原因是git更新的安全修正 要解決可以用它上面的指令 或是去找gitconfig(路徑:C:/[user][user name].gitconfig) 加上這一段
+[safe]directory = * Git unsafe repository 錯誤與 Gitea 整合問題</description>
+    </item>
+    
+    <item>
+      <title>Mock測試物件</title>
+      <link>https://shadow061103.github.io/posts/202210/mock%E6%B8%AC%E8%A9%A6%E7%89%A9%E4%BB%B6/</link>
+      <pubDate>Mon, 24 Oct 2022 15:55:06 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/mock%E6%B8%AC%E8%A9%A6%E7%89%A9%E4%BB%B6/</guid>
+      <description>Mock測試物件 安裝套件 Install-Package Moq -Version 4.18.2
+用法 var cal=new Mock&amp;lt;ICaculator&amp;gt;(); cal.Setup(x=&amp;gt;x.Add(It.IsAny&amp;lt;int&amp;gt;(),It.IsAny&amp;lt;int&amp;gt;())).Returns(3); cal.Object.Add(1,2).Dump(); ASP.NET MVC 單元測試系列 (3)：瞭解 Mock 假物件 ( moq )</description>
+    </item>
+    
+    <item>
+      <title>Test-Driven Development(TDD)</title>
+      <link>https://shadow061103.github.io/posts/202210/test-driven-developmenttdd/</link>
+      <pubDate>Mon, 24 Oct 2022 15:51:14 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/test-driven-developmenttdd/</guid>
+      <description>Test-Driven Development(TDD) 測試驅動開發
+需求 透過測試（單元測試）推動整個開發的進行 在撰寫程式碼之前，先透過測試案例的撰寫，確定外部如何使用物件，包含了功能、類別、方法的確定。 以需求為出發點，開發符合需求的程式， 避免過度設計（Over Design） 開發流程 1.定義目前要完成的功能（確定需求） 2.撰寫測試案例。撰寫的過程應針對意圖進行命名，思考需要得到什麼結果，要得到這樣的結果會需要提供什麼資訊。 3.編譯測試程式不通過。 4.撰寫對應測試程式的功能程式碼。 5.讓測試通過。 6.對程式碼進行重構，並確保測試可以通過。 7.依照同樣的循環，完成所有的功能開發。
+三原則 1.You are not allowed to write any production code unless it is to make a failing unit test pass. (除非這能讓失敗的單元測試通過， 否則不允許去編寫任何的產品代碼。) 2.You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures. (只允許編寫剛好能夠導致失敗的單元測試。) 3.You are not allowed to write any more production code than is sufficient to pass the one failing unit test.</description>
+    </item>
+    
+    <item>
+      <title>單元測試</title>
+      <link>https://shadow061103.github.io/posts/202210/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</link>
+      <pubDate>Mon, 24 Oct 2022 15:50:08 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</guid>
+      <description>單元測試 定義 一個測試案例只測一種情境 最小的測試單位 不跟外部資源相依 沒有邏輯判斷 測試案例之間的相依性為0 特性FIRST Fast：快速。每個單元測試的執行時間應該要很短。 Independent：獨立。單元測試不與外部資源相依，單元測試之間也不能夠相依，要能夠單獨針對測試目標進行測試。 Repeatable：可重複。所有的單元測試都可重複被執行，且不影響預期的結果。 Self-Validating：自我驗證（可反應驗證結果）。單元測試執行不論成功或失敗，都應該要能夠從測試報告裡直接瞭解其意義或失敗的原因。 Timely：及時。單元測試應該在產品程式碼完成的當下就可以驗證執行結果是否符合預期。 驗證方式 驗證測試目標物件的方法回傳值是否符合預期 驗證測試目標物件的狀態改變是否符合預期 驗證測試目標物件與相依物件的互動是否符合預期 3A原則 Arrange 初始化目標物件 初始化方法參數 建立模擬物件行為 設定環境變數期望結果 Act 實際呼叫測試目標物件的方法 Assert 驗證政目標是否如預期運作 測試方法的命名 被測試方法名稱+測試場景描述+預期行為 可以用中文 受測對象:可使用target或sut(system under test) 預期結果 - expected 實際執行結果 - actual 範例:ToInt_傳入為正整數的物件_應傳回正確的正整數 快捷鍵 testc建立測試類別 testm 建立測試方法 Ctrl+R, T: 執行單一測試 Ctrl+R, A: 執行所有測試（開發時最常使用） Ctrl+R, Ctrl+T: 偵錯單一測試（測試失敗時，最常使用） Ctrl+R, Ctrl+A: 偵錯所有測試 測試相關標籤Attribute [TestClass()] [TestMethod()] [Owenr(“User_Name”)] [TestCategory(“Calculator”)] [TestProperty(“Calculator”, “Add”)] [Ignore] 建立群組 可以依據類別、持續期間、執行結果、TestCategory內容、測試專案區分群組 也可以建立播放清單 Assert類別 Assert.AreEqual(expected, actual); Assert.</description>
+    </item>
+    
+    <item>
+      <title>docker container操作</title>
+      <link>https://shadow061103.github.io/posts/202210/docker-container%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Mon, 24 Oct 2022 15:45:01 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker-container%E6%93%8D%E4%BD%9C/</guid>
+      <description>docker container操作 進container改檔案 方法一 1.docker exec -it bash 2.apt-get update 3.apt-get install vim 4.vim &amp;lt;檔名&amp;gt; 5.用insert模式修改，完成後Esc + :wq
+方法二 1.docker exec -it bash 看配置跟檔案位置 2.docker cp :&amp;lt;file path+file name&amp;gt; 3.改完檔案內容之後複製回去 docker cp &amp;lt;host file path +file name&amp;gt; :
+刪除container docker container rm [hash]
+刪除image docker image rm [hash]
+https://blog.clarence.tw/2019/09/10/docker-removing-containers-images-volumes-and-networks/</description>
+    </item>
+    
+    <item>
+      <title>Dockerfile</title>
+      <link>https://shadow061103.github.io/posts/202210/dockerfile/</link>
+      <pubDate>Mon, 24 Oct 2022 15:42:59 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/dockerfile/</guid>
+      <description>dockerfile介紹 介紹 #開頭的是註解 指令分成指令名稱，然後是args instruction arguments # key=value的是設定參數 docker build ~/path可以建image，後面是指定檔案目錄(不是file檔路徑)，目錄底下要有Dockerfile 可以用-t指定名稱跟tag(跟建container一樣) 如果名稱不是Dockerfile可以用-f指定檔案名稱 docker build -t mytag . 後面有.表示用這個資料夾的檔案 基礎指令 FROM 指定建置的image是基於哪個image而來 格式 FROM &amp;lt;image&amp;gt;FROM &amp;lt;image&amp;gt;:&amp;lt;tag&amp;gt;FROM &amp;lt;image&amp;gt;@&amp;lt;digest&amp;gt;tag跟digest都是optional的，沒填就用latestFROM &amp;lt;image&amp;gt; as &amp;lt;name&amp;gt;這個name可以自訂 之後用COPY --from指定 MAINTAINER 提供工作者資訊 MAINTAINER &amp;lt;name&amp;gt; 控制指令 RUN RUN command para1 para2是用shell程式執行指令，可以支援換列, 實際上是用/bin/sh執行 如果指令一樣但結果不同，docker會用快取的結果，所以可以指定--no-cache解決 建構映像的過程中執行，並把結果提交到新的映像層中 RUN command para1 para2... //比較好RUN [&amp;#34;executable&amp;#34;,&amp;#34;para1&amp;#34;,&amp;#34;para2&amp;#34;,...] WORKDIR 用來切換工作目錄，可以是相對或絕對路徑 允許使用環境變數 WORKDIR /usrWORKDIR local用相對路徑會參考目前工作目錄去切換 ONBUILD 可以攜帶另一個指令，但不會在建構目前映像的時候執行 而是在建構其他映像，並透過FROM把目前映像當作基礎映像的時候執行 可以用docker inspect查看有哪些指令 引入指令 ADD 可以把source code或設定檔之類的東西匯入 可以用go的萬用字元比對規格指定多個檔案ADD hom* /dir/ src只能用相對路徑，而且是相對於dockerfile的路徑，不能往上層找(就是只能找dockerfile下的檔案) dest可以是相對或絕對路徑， src可以放網址下載外部網路的內容 ADD &amp;lt;src&amp;gt;.</description>
+    </item>
+    
+    <item>
+      <title>docker管理工具</title>
+      <link>https://shadow061103.github.io/posts/202210/docker%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Mon, 24 Oct 2022 15:42:34 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/</guid>
+      <description>docker管理工具 docker compose 組態預設放在docker-compose.yml檔案，也可以自訂檔名 windows或MacOS已經內建安裝，用docker-compose version查看 其他OS要安裝需要去github抓檔案下來裝 Docker compose是用yaml格式，可以上網找怎麼寫 範例 可以看kevin寫的docker-compose.yaml
+文件規格 services:代表所有組成專案的服務容器與配置 image或build:代表容器用的基礎映像，build是用dockerfile產生的，值是dockerfile的目錄 volume:跟-v用法一樣，但是可以指定相對於檔案的目錄 environment:指定環境變數 ports:指定連接port，最好用雙引號 links:容器間的連接 指令 docker-compose build 建構專案映像 &amp;ndash;pull:總是拉最新的image &amp;ndash;firce-rm:刪除基於原有映像的容器 &amp;ndash;no-cache:不使用快取 docker-compose create 建立專案容器 &amp;ndash;force-create:重新建立已存在於docker的容器 &amp;ndash;build:建構容器所需的映像 docker-compose start 啟動所有容器 docker-compose start nginx php mysql 指定要啟動的服務 docker-compose up docker-compose down組合執行 docker-compose stop停止專案 docker-compose rm刪除專案 docker-compose logs &amp;lt;service&amp;gt;取得服務日誌 </description>
+    </item>
+    
+    <item>
+      <title>Docker api</title>
+      <link>https://shadow061103.github.io/posts/202210/docker-api/</link>
+      <pubDate>Mon, 24 Oct 2022 15:41:56 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker-api/</guid>
+      <description>docker api 是restful的
+docker remote api:用來操作映像或容器 docker registry api:管理遠端映像倉庫 docker cloud api:操作docker雲端服務 Docker Remote API 取得docker運行宿主機環境介面sudo curl --unix-socket /var/run/docker.sock http://localhost/info遠端打的話可以用api用法 前面網址是基底sudo curl http://host:port/info列出容器GET /containers/json列出inagesGET /images/json docker registry api 取得image資訊Get /v2/[name]/manifests/[references]pull imageGET /v2/[name]/blobs/[digest]推送映像先判斷registry已經準備好POSt /v2/[name]/blobs/uploads </description>
+    </item>
+    
+    <item>
+      <title>docker的安全性</title>
+      <link>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7/</link>
+      <pubDate>Mon, 24 Oct 2022 15:41:29 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7/</guid>
+      <description>docker的安全性 資源控制群組CGroup 可以限制資源:分配電腦資源 優先化: 用量報告:取得控制群組分配資源的統計資訊 核心能力機制 權限檢查 復原更改 資源使用限制 限制分配的最大記憶體 限制實體記憶體-m--memory限制總記憶體--memory-swap 限制CPU 透過權重分配-c--cpu-shares--cpu-period--cpu-quota 狀態監控 docker ps看資源占有情況 --no-stream是只看當下的docker stats --no-stream [name]docker logs </description>
+    </item>
+    
+    <item>
+      <title>docker的網路(II)</title>
+      <link>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E7%B6%B2%E8%B7%AFii/</link>
+      <pubDate>Mon, 24 Oct 2022 15:40:50 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E7%B6%B2%E8%B7%AFii/</guid>
+      <description>docker的網路(II) 基於Linux的network container裡面的Network Nampspaces 透過Veth pair(Virtual Ethernet Pair)虛擬網路通道出去 docker利用bridge連接到宿主機的橋接器 就可以跟其他container通訊 主要組成 Network Nampspaces:實現網路的隔離 Veth Pair:打穿隔離環境的網路傳輸資料通道 Linux Bridge:網路交換機，宿主機的橋接器 Iptables:提供網路資料穿透與NAT等功能 容器網路模型CNM 實作Libnetwork，實作上面那些東西
+Sandbox:容器中隔離網路配置的虛擬環境，有獨立的網路組態等資訊，類似Network Nampspace Endpoint:傳遞網路資料的通道入口，類似Veth Pair Network:由一組端點組成，同一個網路的端點可以互相通訊 預設網路 docker network ls可以顯示所有網路清單，首次啟用會有3個預設網路 bridge是容器預設的網路，會對應到docker0 想改變容器網路可以在run的時候用--network修改 host是使用宿主機的網卡 docker network inspect bridge可以查看相關資訊 PS C:\Users\KuanFu&amp;gt; docker network lsNETWORK ID NAME DRIVER SCOPE0d96b30c3fca bridge bridge local8f72209b8925 host host local76e669bab0e6 none null local 自訂網路跟相關指令 想要讓幾個特定容器互相溝通，而不是所有容器都用bridge互相存取
+建立網路 docker network create 預設會使用bridge 可以用&amp;ndash;subnet 建一個有子網範圍的容器網路 //create一個網路 --driver可以簡化-ddocker network create --driver bridge isolateddocker network create --subnet 10.</description>
+    </item>
+    
+    <item>
+      <title>docker的資料卷Data Volume</title>
+      <link>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E8%B3%87%E6%96%99%E5%8D%B7data-volume/</link>
+      <pubDate>Mon, 24 Oct 2022 15:40:10 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E8%B3%87%E6%96%99%E5%8D%B7data-volume/</guid>
+      <description>docker的資料卷Data Volume 保存檔案資料的模組
+容器內的檔案環境是在一個臨時層上，容器停止或刪除時，檔案就不見了 資料卷是掛載在容器內檔案系統的檔案或目錄，可以永久保存 不依賴於容器，所以容器可以共用 指令 對資料卷指定名稱，不然就要用hash才能取得 docker volume create --name html 掛載volume在容器 docker create --name web -v /html -v /var/log/nginx nginx -v [name]:[dest] : name是資料卷名稱 dest是目錄 也可以把server的目錄當作資料卷掛到容器上，用 -v [src]:[dest] 後面加:ro可以變唯讀檔案 範例是掛2個volume 檢查 docker volume inspect html[{&amp;#34;CreatedAt&amp;#34;: &amp;#34;2021-11-30T15:10:52Z&amp;#34;,&amp;#34;Driver&amp;#34;: &amp;#34;local&amp;#34;,&amp;#34;Labels&amp;#34;: {},&amp;#34;Mountpoint&amp;#34;: &amp;#34;/var/lib/docker/volumes/html/_data&amp;#34;,&amp;#34;Name&amp;#34;: &amp;#34;html&amp;#34;,&amp;#34;Options&amp;#34;: {},&amp;#34;Scope&amp;#34;: &amp;#34;local&amp;#34;}] 查看所有的 docker volume list 刪除資料卷(沒被任何容器使用時才會刪) docker volume rm [hash]或是隨容器刪除docker rm -v web 資料卷容器 用來管理資料卷，是其他容器的橋樑 不用處在運行狀態也可以用 其他容器只是透過資料卷容器取得的資料卷資訊 docker create --name data -v /html ubuntudocker inspect data//掛載指定資料卷的所有資料卷docker run -d --name web --volumes-from data nginx &amp;ndash;volumes-from指定要掛哪一個 同一個資料卷容器內的檔案會共享 要匯出資料卷 先建立一個新的container 用&amp;ndash;volumes-from指定資料捲容器 -v指定本地端檔案 建立之後把包成tar檔 關閉container Docker筆記 - 讓資料遠離Container，使用 Volume、Bind Mount 與 Tmpfs Mount</description>
+    </item>
+    
+    <item>
+      <title>SSH服務</title>
+      <link>https://shadow061103.github.io/posts/202210/ssh%E6%9C%8D%E5%8B%99/</link>
+      <pubDate>Mon, 24 Oct 2022 15:39:33 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/ssh%E6%9C%8D%E5%8B%99/</guid>
+      <description>SSH服務 遠端操作主機的方式，docker也可以用ssh連接和存取內部容器
+Linux下安裝OpenSSH 定義在應用層和傳輸層的安全協定 相較於FTP,Telnet更安全 Linux安裝SSH sudo apt-get purge openssh-serversudo apt-get install openssh-serversudo service sshd startsudo service ssh status /lib/systemd/systemd-sysv-install enable ssh預設會裝到/usr/sbin下啟動方式是守護狀態 要用-D轉到前台運行sudo /usr/sbin/sshd -D 啟動程式後會監聽port 22，就可以接收用戶端請求了 windows用戶端程式是PuTTY
+指令 登入 ssh user@host -p可以指定port ssh host 不指定登入使用者 應用情境 把一些設定檔放在資料卷容器 然後起一個SSH的容器去操作這個資料卷容器
+docker create --name config -v /etc/nginx alpine echo Nginx Configurationdocker create --name code -v /var/web alpine echo Rootdocker create --name web --volumes-from code --volumes-from config -p 80:80 -p 443:443 nginx:1.</description>
+    </item>
+    
+    <item>
+      <title>docker安裝Web server</title>
+      <link>https://shadow061103.github.io/posts/202210/docker%E5%AE%89%E8%A3%9Dweb-server/</link>
+      <pubDate>Mon, 24 Oct 2022 15:37:57 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker%E5%AE%89%E8%A3%9Dweb-server/</guid>
+      <description>docker安裝Web server Apache 下指令 docker run -it --name apache ubuntu:16.04 /bin/bash#apt-get update &amp;amp;&amp;amp; apt-get -y install apache2 &amp;amp;&amp;amp; apt-get clean//開啟TLS安全加密模組#a2ensite default-ssl# service apache2 reload#a2enmod ssldocker commit -m &amp;#39;apache server&amp;#39; apache kuan/apachedocker run -d -p 1002:80 kuan/apache /usr/sbin/apache2ctl -D FOREGROUND Dockerfile FROM ubuntu:16.04MAINTAINER kuan &amp;lt;shadow061103@gmail.com&amp;gt;RUN apt-get update &amp;amp;&amp;amp; apt-get -y install apache2 &amp;amp;&amp;amp; apt-get cleanRUN /usr/sbin/a2ensite default-sslRUN /usr/sbin/a2enmod sslEXPOSE 80EXPOSE 443CMD [&amp;#34;/usr/sbin/apache2ctl&amp;#34;,&amp;#34;-D&amp;#34;,&amp;#34;FOREGROUND&amp;#34;] docker build -t kuan/apache .</description>
+    </item>
+    
+    <item>
+      <title>docker-compose.yml範例</title>
+      <link>https://shadow061103.github.io/posts/202210/docker-compose.yml%E7%AF%84%E4%BE%8B/</link>
+      <pubDate>Mon, 24 Oct 2022 15:37:25 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker-compose.yml%E7%AF%84%E4%BE%8B/</guid>
+      <description> tags: docker docker-compose.yml version: &amp;#34;3.2&amp;#34;services:elasticsearch:image: elasticsearch:7.10.1container_name: elasticsearch-localports:- &amp;#34;9200:9200&amp;#34;- &amp;#34;9300:9300&amp;#34;environment:- cluster.name=docker-cluster- bootstrap.memory_lock=true- http.host=0.0.0.0- http.port=9200- transport.host=127.0.0.1- &amp;#34;ES_JAVA_OPTS=-Xms512m -Xmx512m&amp;#34;- &amp;#34;http.cors.allow-origin=http://127.0.0.1:1358&amp;#34;- &amp;#34;http.cors.enabled=true&amp;#34;- &amp;#34;http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization&amp;#34;- &amp;#34;http.cors.allow-credentials=true&amp;#34;ulimits:memlock:soft: -1hard: -1volumes:- es_data:/usr/share/elasticsearch/datanetworks:- esnetkibana:image: kibana:7.10.1container_name: kibana-localenvironment:SERVER_NAME: kibana-serverELASTICSEARCH_URL: http://elasticsearch:9200networks:- esnetdepends_on:- elasticsearchports:- &amp;#34;5601:5601&amp;#34;cerebro:image: yannart/cerebro:latestcontainer_name: cerebro-073networks:- esnetports:- &amp;#34;9900:9000&amp;#34;depends_on:- elasticsearch dejavu:image: appbaseio/dejavu:latestcontainer_name: dejavunetworks:- esnet ports:- &amp;#34;1358:1358&amp;#34;volumes:es_data:driver: local networks:esnet:driver: bridge </description>
+    </item>
+    
+    <item>
+      <title>docker 安裝ping套件&amp;proxy</title>
+      <link>https://shadow061103.github.io/posts/202210/docker-%E5%AE%89%E8%A3%9Dping%E5%A5%97%E4%BB%B6proxy/</link>
+      <pubDate>Mon, 24 Oct 2022 15:36:51 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker-%E5%AE%89%E8%A3%9Dping%E5%A5%97%E4%BB%B6proxy/</guid>
+      <description>docker 安裝ping套件&amp;amp;proxy 安裝套件 apt-get update apt-get install -y iputils-ping
+設定proxy export http_proxy=http://secproxy.evertrust.com.tw:6588 &amp;amp;&amp;amp; export https_proxy=https://secproxy.evertrust.com.tw:6588</description>
+    </item>
+    
+    <item>
+      <title>docker的網路</title>
+      <link>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E7%B6%B2%E8%B7%AF/</link>
+      <pubDate>Mon, 24 Oct 2022 15:36:11 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E7%B6%B2%E8%B7%AF/</guid>
+      <description>docker的網路 介紹 透過Network Namespace虛擬出網路環境，提供獨立的網路設備、IP協定堆疊、IP路由表、防火牆 docker啟動時會在宿主機架一個docker0的虛擬網路，連接宿主機跟容器(用Weth pair) 這個是僅限於容器跟宿主機溝通，不對外 查網路設定 inspect的NetworkSettings docker inspect [name] port映射 容器可以透過預設的docker0連接到外網，但是外網不能連到容器，因為可能同時好幾個容器在使用docker0 建立容器的時候加上-P，會在宿主機隨機找可用的port，再綁定到容器的port上 -p是指定特定的port 前面是宿主機的port後面是docker的port docker run -p &amp;lt;hport&amp;gt;:&amp;lt;cport&amp;gt; -p可以設定多個 可以限制特定IP -p &amp;lt;ip&amp;gt;:&amp;lt;hport&amp;gt;:&amp;lt;cport&amp;gt; 容器間通訊 建立容器時加上&amp;ndash;link參數 指定container --link [container name] 連接其他容器時不使用IP，而是直接指定容器名稱 docker run -d -p 80:80 -p 443:443 --name web --link redis-lab nginx 可以用環境變數檢查 docker exec -it web /bin/bashroot@e4e93bef390b:/# envHOSTNAME=e4e93bef390bPWD=/REDIS_LAB_PORT_6379_TCP=tcp://172.17.0.3:6379REDIS_LAB_PORT=tcp://172.17.0.3:6379PKG_RELEASE=1~bullseyeHOME=/rootREDIS_LAB_ENV_REDIS_VERSION=6.2.6REDIS_LAB_PORT_6379_TCP_PROTO=tcpREDIS_LAB_NAME=/web/redis-labNJS_VERSION=0.7.0TERM=xtermREDIS_LAB_ENV_GOSU_VERSION=1.12REDIS_LAB_PORT_6379_TCP_ADDR=172.17.0.3SHLVL=1REDIS_LAB_ENV_REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-6.2.6.tar.gzPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/binREDIS_LAB_PORT_6379_TCP_PORT=6379NGINX_VERSION=1.21.4REDIS_LAB_ENV_REDIS_DOWNLOAD_SHA=5b2b8b7a50111ef395bf1c1d5be11e6e167ac018125055daa8b5c2317ae131ab_=/usr/bin/env </description>
+    </item>
+    
+    <item>
+      <title>Docker image</title>
+      <link>https://shadow061103.github.io/posts/202210/docker-image/</link>
+      <pubDate>Mon, 24 Oct 2022 15:35:38 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker-image/</guid>
+      <description>Docker image 指令 把image拉到本地端 sudo docker pull 查看image的詳細資訊 sudo docker inspect [image name|image id] 刪除docker image sudo docker rmi [image name] -f可以強制刪除 匯出image變成檔案 sudo docker save -o ubuntu.tar ubuntu:latestsudo docker save ubuntu:latest &amp;gt; ubuntu.tar 匯入檔案變成image sudo docker load -i ubuntu.tarsudo docker load &amp;lt; ubuntu.tar 建立容器 sudo docker run debian:jessie 執行容器 sudo docker run debian:jessie -i或-interative 互動模式 -t或-tty 開啟偽終端機 -d後臺執行 不能跟-i一起用 查看處理序狀態 比較像linux的ps用法 docker top [container] 查看容器資訊 docker inspect [container] 可以用-f 過濾資訊 容器日誌 docker run -d --name log_demo ubuntu /bin/bash -c &amp;#39;for((i=0;1;i++)); do echo &amp;#34;time $i&amp;#34;; sleep 1;done;&amp;#39; docker logs log_demo 只輸出最後幾行 docker logs --tail 5 log_demo 限定時間 docker logs --since 2021-11-21T05:56:38 log_demo 附加到容器，就是切換成前台運行模式(依附在主處理序)，但是退出也會讓容器一起停止 docker attach [name] 容器中執行命令 docker exec [name] 提交容器更改 docker commit [hash]可以產生新的image 匯出容器 docker export -o [name].</description>
+    </item>
+    
+    <item>
+      <title>Docker介紹</title>
+      <link>https://shadow061103.github.io/posts/202210/docker%E4%BB%8B%E7%B4%B9/</link>
+      <pubDate>Mon, 24 Oct 2022 15:34:48 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker%E4%BB%8B%E7%B4%B9/</guid>
+      <description>Docker 底層實作 使用 Linux Kernel的 Namespace: 和 Cgroup 組合而成
+Namespace:作環境隔離使用的，像是把Process ID、User ID、Network…等等的環境執行狀態隔離開來 Cgroup:用來做系統資源的管理，如：CPU、Memory、I/O…等等，資源做有效的隔離和做使用上的限制 系統架構 client-server的架構，client部分稱為docker client，server的部分稱為docker daemon
+Docker Daemon：用來執行管理Docker image、啟動 container、停止 container的service，有提供 Restful API 給使用者做操作或是顯示一些 Docker container 的狀態訊息 Docker Client:使用 Restful API 連到 Docker daemon，並且提供 command line 的方式讓使用者可以操作 docker 常用名詞 docker image:啟動docker container要使用的擋案，是一個唯讀映像檔，可以像積木一樣一層一層堆起來 可以從Docker Hubpull下來 從另外一台電腦上的 Docker image export 出來，然後import到自已的電腦 寫dockerfile Docker Container:透過 Docker image 執行起來的 Process，同一個 Docker image 可以啟動多個 Docker Container，container之間的環境是隔離開來的 Docker Hub:存放 Docker image的倉庫，內部環境架的私有docker hub叫Docker Registry 小練習
+指令介紹 docker search:搜尋有哪些image is-official=true:找官方的image docker pull [imagename]:把image下載到本地端 docker images:檢查現有的image docker run -it [imagename]:執行container /bin/bash:可以進入terminal 輸入exit可以離開(會停止container)，ctrl + p+ctrl + q不會把container關閉 docker ps :查看現有的container -a:包含停止的 docker exec -it [containerid] /bin/bash進入terminal模式 Dockerfile 不需要進container安裝程式和設定檔，只要docker build就可以建docker image，之後要用就只要docker run</description>
+    </item>
+    
     <item>
       <title>AutomapperResolver無法用建構式注入解法</title>
       <link>https://shadow061103.github.io/posts/202210/automapperresolver%E7%84%A1%E6%B3%95%E7%94%A8%E5%BB%BA%E6%A7%8B%E5%BC%8F%E6%B3%A8%E5%85%A5%E8%A7%A3%E6%B3%95/</link>

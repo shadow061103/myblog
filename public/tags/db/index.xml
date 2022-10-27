@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DB on Steve的技術筆記</title>
+    <link>https://shadow061103.github.io/tags/db/</link>
+    <description>Recent content in DB on Steve的技術筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Thu, 27 Oct 2022 17:09:09 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/db/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker建立Mysql資料庫</title>
+      <link>https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/</link>
+      <pubDate>Thu, 27 Oct 2022 17:09:09 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/</guid>
+      <description>tags: DB Docker建立Mysql資料庫 docker建立container 1.docker pull mysql:8 2.docker run &amp;ndash;name mysql_test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8 3.可以用mysql workbench登入 127.0.0.1:3306
+下指令進入mysql client 1.docker exec -it bash 進入互動模式 2.mysql -h localhost -u root -p 進入client 就可以下指令
+https://hub.docker.com/_/mysql
+練習 [面試][資料庫]關聯式資料庫要如何設計避免超賣？</description>
+    </item>
+    
+    <item>
+      <title>Mysql的limit、offset</title>
+      <link>https://shadow061103.github.io/posts/202210/mysql%E7%9A%84limitoffset/</link>
+      <pubDate>Thu, 27 Oct 2022 17:08:21 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/mysql%E7%9A%84limitoffset/</guid>
+      <description>Mysql的limit、offset limit [count] 代表限制回傳幾筆
+limit [index,count] index是從0開始算 limit 2,4表示從第3筆開始回傳4筆 可以想成是跳過index筆取count筆
+limit [cnt1] offset [cnt2] 跳過cnt2筆取cnt1筆 跟上面有點類似</description>
+    </item>
+    
+    <item>
+      <title>測試mysql datetime2</title>
+      <link>https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/</link>
+      <pubDate>Thu, 27 Oct 2022 17:07:35 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/</guid>
+      <description>測試mysql datetime2 question 用mysql db 新增欄位時用datetime2會跳錯誤訊息
+System.ArgumentOutOfRangeException: Index and length must refer to a location within the string. (Parameter &amp;#39;length&amp;#39;)at System.String.Substring(Int32 startIndex, Int32 length)at MySql.Data.Types.MySqlBinary.MySql.Data.Types.IMySqlValue.WriteValue(MySqlPacket packet, Boolean binary, Object val, Int32 length)at MySql.Data.MySqlClient.MySqlParameter.Serialize(MySqlPacket packet, Boolean binary, MySqlConnectionStringBuilder settings)at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex)at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet)at MySql.Data.MySqlClient.Statement.BindParameters()at MySql.Data.MySqlClient.PreparableStatement.Execute()at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()at System.Data.Common.DbCommand.ExecuteNonQueryAsync(CancellationToken cancellationToken)--- End of stack trace from previous location ---at Dapper.</description>
+    </item>
+    
+  </channel>
+</rss>

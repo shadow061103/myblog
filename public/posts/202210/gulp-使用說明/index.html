@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>gulp 使用說明</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, 網頁切版直播課程'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="gulp 使用說明">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/steve.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="gulp 使用說明">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/">
+    <meta name="twitter:image" content="/images/steve.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/steve.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>gulp 使用說明</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 27, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/%E7%B6%B2%E9%A0%81%E5%88%87%E7%89%88%E7%9B%B4%E6%92%AD%E8%AA%B2%E7%A8%8B">網頁切版直播課程</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h1 id="gulp-使用說明">gulp 使用說明</h1>
+<h3 id="gulp官方文件httpsgulpjscomdocsengetting-startedquick-start"><a href="https://gulpjs.com/docs/en/getting-started/quick-start">gulp官方文件</a></h3>
+<h3 id="gulpfile">gulpfile</h3>
+<ul>
+<li>gulpfile就是gulpfile.js的簡稱，用gulp的指定的時後會自動載入</li>
+<li>裡面會放相關api EX:src(), dest(), series(),parallel()</li>
+<li>可用其他語言寫再轉譯
+<ul>
+<li>TypeScript,命名gulpfile.ts跟安裝ts-node module.</li>
+<li>Babel,命名 gulpfile.babel.js跟安裝the @babel/register module.</li>
+<li>當檔案太大時可以寫在不同檔案，再import進來，資料夾名稱要命名成gulpfile.js(包含index.js)</li>
+</ul>
+</li>
+</ul>
+<h3 id="gulp-task">Gulp Task</h3>
+<blockquote>
+<p>非同步的js function</p>
+</blockquote>
+<ul>
+<li>public tasks:從gulpfile輸出，可以用gulp指令啟動</li>
+<li>private tasks:for內部使用，常用的方法有<code>series()</code>、<code>parallel()</code>
+外部使用者不能獨立使用</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">series</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;gulp&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// The `clean` function is not exported so it can be considered a private task.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// It can still be used within the `series()` composition.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">clean</span>(<span style="color:#a6e22e">cb</span>) {
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// body omitted
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">cb</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// The `build` function is exported so it is public and can be run with the `gulp` command.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// It can also be used within the `series()` composition.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">build</span>(<span style="color:#a6e22e">cb</span>) {
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// body omitted
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">cb</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">exports</span>.<span style="color:#a6e22e">build</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">build</span>;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">exports</span>.<span style="color:#66d9ef">default</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">series</span>(<span style="color:#a6e22e">clean</span>, <span style="color:#a6e22e">build</span>);
+</span></span></code></pre></div><p><img src="https://gulpjs.com/img/docs-gulp-tasks-command.png" alt=""></p>
+<h3 id="compose-tasks">compose tasks</h3>
+<p><code>series()</code>跟<code>parallel()</code>可以讓個別tasks組合成一個，兩個都可以接受多個task方法，或是包成巢狀</p>
+<ul>
+<li>series():讓tasks照順序執行</li>
+<li>parallel():同時執行tasks</li>
+</ul>
+<h3 id="跟檔案互動">跟檔案互動</h3>
+<blockquote>
+<p><code>src()</code>、<code>dest()</code>可以跟檔案系統互動</p>
+</blockquote>
+<ul>
+<li>src:檔案來源位置</li>
+<li>desc:檔案輸出位置</li>
+<li>pipe:檔案串流方法</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">src</span>, <span style="color:#a6e22e">dest</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;gulp&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">exports</span>.<span style="color:#66d9ef">default</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">src</span>(<span style="color:#e6db74">&#39;src/*.js&#39;</span>)
+</span></span><span style="display:flex;"><span>   .<span style="color:#a6e22e">pipe</span>(<span style="color:#a6e22e">dest</span>(<span style="color:#e6db74">&#39;output/&#39;</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="globs">Globs</h3>
+<blockquote>
+<p>glob 是由普通字符和 / 或通配字符組成的字符串，用于匹配文件路徑。可以利用一個或多個 glob 在文件系統中定位文件。</p>
+</blockquote>
+<ul>
+<li>主要用來表示檔案路徑</li>
+<li><code>src()</code>會用到至少一個glob去決定要用哪個檔案，或是可以傳globs array去匹配符合的(依照順序)</li>
+<li>用<code>\</code>去分割字串，<code>\\</code>是溢出字元寫法</li>
+<li>避免使用Node.js的<code>path.join</code>、<code>__dirname</code>、<code>__filename</code>、<code>process.cwd()</code> 因為會使用<code>\\</code>去組路徑</li>
+<li>在單一字串中匹配任意數量 * :<code>index.js</code>但無法匹配到<code>scripts/index.js</code> 、<code>scripts/nested/index.js</code></li>
+<li>在多個字串中匹配任意數量 **:常用在匹配目錄名稱，<code>'scripts/**/*.js'</code></li>
+<li>負的匹配(取消) !:一定要接在non-negative glob後面，前面會先把匹配的檔案找出來，後面設定取消可以排除特定路徑的
+<code>['scripts/**/*.js', '!scripts/vendor/**']</code></li>
+<li>同一個src()的globs如果有重複會自動去除，但不會處理不同的src()</li>
+</ul>
+<h3 id="使用套件">使用套件</h3>
+<ul>
+<li>npm搜尋<code>gulpplugin</code>、<code>gulpfriendly</code></li>
+<li><a href="https://gulpjs.com/plugins/"> plugin search page</a></li>
+</ul>
+<h3 id="watch-files">Watch files</h3>
+<ul>
+<li>會監控globs跟tasks，一旦有改變就會觸發</li>
+<li>監控的不能是同步</li>
+<li>watcher會在tasks建立、改變或刪除的時候執行</li>
+<li>也可以使用<code>events</code>來指定動作<code>add</code>, <code>addDir</code>, <code>change</code>, <code>unlink</code>, <code>unlinkDir</code>, <code>ready</code>, <code>error</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">watch</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;gulp&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">exports</span>.<span style="color:#66d9ef">default</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// All events will be watched
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">watch</span>(<span style="color:#e6db74">&#39;src/*.js&#39;</span>, { <span style="color:#a6e22e">events</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;all&#39;</span> }, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">cb</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// body omitted
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">cb</span>();
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>一開始建立的時候不會執行直到有發生改變，或是可以用<code>ignoreInitial</code>指定第一次就要觸發</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">watch</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;gulp&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">exports</span>.<span style="color:#66d9ef">default</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// The task will be executed upon startup
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">watch</span>(<span style="color:#e6db74">&#39;src/*.js&#39;</span>, { <span style="color:#a6e22e">ignoreInitial</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span> }, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">cb</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// body omitted
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">cb</span>();
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>同時只能處理一個task，如果有另一個改變觸發，會被放到queue裡面(可以關掉)</li>
+<li>延遲設定:task會過200ms才被觸發，可以調整秒數</li>
+</ul>
+
+        </p>
+    </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
