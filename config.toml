@@ -4,6 +4,7 @@ title = 'Steve的技術筆記'
 theme='gokarna'
 enableEmoji = true
 enableRobotsTXT = true
+googleAnalytics = "G-9EBLW1S7P3"
 
 [params]
   # URL for the avatar on homepage 首頁頭像
