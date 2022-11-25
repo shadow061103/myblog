@@ -1,7 +1,7 @@
 ---
 title: "Sql Guideline"
 date: 2022-11-25T15:51:13+08:00
-draft: true
+draft: false
 tags: ["DB"]
 type: post
 author: "Steve Lin"

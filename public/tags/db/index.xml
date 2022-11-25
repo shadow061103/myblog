@@ -6,7 +6,44 @@
     <description>Recent content in DB on Steve的技術筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 27 Oct 2022 17:09:09 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/db/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 25 Nov 2022 15:52:04 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/db/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>資料表與索引設計</title>
+      <link>https://shadow061103.github.io/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/</link>
+      <pubDate>Fri, 25 Nov 2022 15:52:04 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/</guid>
+      <description>資料表依照需求及未來可能使用的欄位設計 基於一般OLTP資料庫經常得混搭OLAP報表及分析使用，除程式的Class設計資料表欄位，但需考量非交易狀態時的其他應用而新增其他欄位， 舉例來說，訂單表結構化的資料欄位本就不少，但訂單經常會被分天或分小時使用，則可以在資料表上增添一個年月日的數字欄位並加入索引， 在查詢上則可以限制查詢的WHERE條件一定要有年月日(數字)欄位，或若有其他可分組的數據，也可增加對應的分組欄位，以下使用訂單日期 做範例
+EX: 原有的訂單表
+CREATE TABLE [dbo].[payment_order]( [id] [bigint] IDENTITY(1,1) NOT NULL, [order_id] [bigint] NOT NULL, [payer_ep_account_id] [bigint] NOT NULL, [receiver_ep_account_id] [bigint] NOT NULL, [from_collection_amount] [decimal](9, 2) NOT NULL, [from_deposit_amount] [decimal](9, 2) NOT NULL, [remaining_collection_refund_amount] [decimal](9, 2) NOT NULL, [remaining_deposit_refund_amount] [decimal](9, 2) NOT NULL, [modify_time] [datetime2](7) NOT NULL, [create_time] [datetime2](7) NOT NULL, CONSTRAINT [PK__payment___3213E83F612B5E16] PRIMARY KEY CLUSTERED ( [id] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY] ) ON [PRIMARY] GO ALTER TABLE [dbo].</description>
+    </item>
+    
+    <item>
+      <title>Sql Guideline</title>
+      <link>https://shadow061103.github.io/posts/202211/sql-guideline/</link>
+      <pubDate>Fri, 25 Nov 2022 15:51:13 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202211/sql-guideline/</guid>
+      <description>SQL guideline 詳細可參考 https://www.sqlstyle.guide/ 由於每個環境應用程度及方式不同，以下列出最少需要的部分
+2022/03/31 更新 將Table/索引相關的部分移至 資料表與索引設計 2022/04/06 新增 說明Bitwise AND用法 1.系統保留字應盡量使用全大寫字元，使用到系統函式也需使用全大寫 詳細內容可參考 https://docs.microsoft.com/en-us/sql/t-sql/language-elements/reserved-keywords-transact-sql?view=sql-server-ver15 基本最少需要將SQL的保留字使用全大寫的方式
+Mysql保留字
+ADDEXTERNALPROCEDUREALLFETCHPUBLICALTERFILERAISERRORANDFILLFACTORREADANYFORREADTEXTASFOREIGNRECONFIGUREASCFREETEXTREFERENCESAUTHORIZATIONFREETEXTTABLEREPLICATIONBACKUPFROMRESTOREBEGINFULLRESTRICTBETWEENFUNCTIONRETURNBREAKGOTOREVERTBROWSEGRANTREVOKEBULKGROUPRIGHTBYHAVINGROLLBACKCASCADEHOLDLOCKROWCOUNTCASEIDENTITYROWGUIDCOLCHECKIDENTITY_INSERTRULECHECKPOINTIDENTITYCOLSAVECLOSEIFSCHEMACLUSTEREDINSECURITYAUDITCOALESCEINDEXSELECTCOLLATEINNERSEMANTICKEYPHRASETABLECOLUMNINSERTSEMANTICSIMILARITYDETAILSTABLECOMMITINTERSECTSEMANTICSIMILARITYTABLECOMPUTEINTOSESSION_USERCONSTRAINTISSETCONTAINSJOINSETUSERCONTAINSTABLEKEYSHUTDOWNCONTINUEKILLSOMECONVERTLEFTSTATISTICSCREATELIKESYSTEM_USERCROSSLINENOTABLECURRENTLOADTABLESAMPLECURRENT_DATEMERGETEXTSIZECURRENT_TIMENATIONALTHENCURRENT_TIMESTAMPNOCHECKTOCURRENT_USERNONCLUSTEREDTOPCURSORNOTTRANDATABASENULLTRANSACTIONDBCCNULLIFTRIGGERDEALLOCATEOFTRUNCATEDECLAREOFFTRY_CONVERTDEFAULTOFFSETSTSEQUALDELETEONUNIONDENYOPENUNIQUEDESCOPENDATASOURCEUNPIVOTDISKOPENQUERYUPDATEDISTINCTOPENROWSETUPDATETEXTDISTRIBUTEDOPENXMLUSEDOUBLEOPTIONUSERDROPORVALUESDUMPORDERVARYINGELSEOUTERVIEWENDOVERWAITFORERRLVLPERCENTWHENESCAPEPIVOTWHEREEXCEPTPLANWHILEEXECPRECISIONWITHEXECUTEPRIMARYWITHIN GROUPEXISTSPRINTWRITETEXTEXITPROC 2.</description>
+    </item>
+    
+    <item>
+      <title>EF Core 5的ExecuteSqlRaw的雷</title>
+      <link>https://shadow061103.github.io/posts/202211/ef-core-5%E7%9A%84executesqlraw%E7%9A%84%E9%9B%B7/</link>
+      <pubDate>Fri, 25 Nov 2022 15:46:02 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202211/ef-core-5%E7%9A%84executesqlraw%E7%9A%84%E9%9B%B7/</guid>
+      <description>在程式裡的寫法是這樣
+var paramItems = new[]{ new MySqlParameter(&amp;#34;@ids&amp;#34;, ids) }; var sql = @&amp;#34;update table set invoice_status=1 where id in @ids;&amp;#34;; await _context.Database.ExecuteSqlRawAsync(sql, paramItems); 會拋錯誤因為MySqlParameter不支援傳list的資料
+文件說明
+錯誤訊息
+Parameter type SelectListIterator`2 is not supported; see https://fl.vu/mysql-param-type. Value: System.Linq.Enumerable+SelectListIterator`2[PXPlus.Invoice.Domain.EPIPTransferTradeAgg.EPIPTransferTrade,System.Int64] 查到的解法 使用mysql的FIND_IN_SET語法 https://stackoverflow.com/questions/5681320/add-listint-to-a-mysql-parameter
+using (var context = new EfcoretestContext()) { var trades = await context.EPIPTransferTrade.ToListAsync(); var sql = @&amp;#34;update table set invoice_status = 1 where FIND_IN_SET(id,@ids);&amp;#34;; var ids = trades.Select(c =&amp;gt; c.Id); var paras = new[] { new MySqlParameter(&amp;#34;@ids&amp;#34;,string.</description>
+    </item>
+    
     <item>
       <title>Docker建立Mysql資料庫</title>
       <link>https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/</link>

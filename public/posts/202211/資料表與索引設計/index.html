@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>資料表與索引設計</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, DB'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="資料表與索引設計">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/steve.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="資料表與索引設計">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/">
+    <meta name="twitter:image" content="/images/steve.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/steve.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>資料表與索引設計</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 25, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/db">DB</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>資料表依照需求及未來可能使用的欄位設計
+基於一般OLTP資料庫經常得混搭OLAP報表及分析使用，除程式的Class設計資料表欄位，但需考量非交易狀態時的其他應用而新增其他欄位，
+舉例來說，訂單表結構化的資料欄位本就不少，但訂單經常會被分天或分小時使用，則可以在資料表上增添一個年月日的數字欄位並加入索引，
+在查詢上則可以限制查詢的WHERE條件一定要有年月日(數字)欄位，或若有其他可分組的數據，也可增加對應的分組欄位，以下使用訂單日期
+做範例</p>
+<p>EX:
+原有的訂單表</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> [dbo].[payment_order](
+</span></span><span style="display:flex;"><span>    [id] [bigint] <span style="color:#66d9ef">IDENTITY</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [order_id] [bigint] <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [payer_ep_account_id] [bigint] <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [receiver_ep_account_id] [bigint] <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [from_collection_amount] [decimal](<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [from_deposit_amount] [decimal](<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [remaining_collection_refund_amount] [decimal](<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [remaining_deposit_refund_amount] [decimal](<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [modify_time] [datetime2](<span style="color:#ae81ff">7</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [create_time] [datetime2](<span style="color:#ae81ff">7</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">CONSTRAINT</span> [PK__payment___3213E83F612B5E16] <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> CLUSTERED
+</span></span><span style="display:flex;"><span>(
+</span></span><span style="display:flex;"><span>    [id] <span style="color:#66d9ef">ASC</span>
+</span></span><span style="display:flex;"><span>)<span style="color:#66d9ef">WITH</span> (PAD_INDEX <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, STATISTICS_NORECOMPUTE <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, IGNORE_DUP_KEY <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, ALLOW_ROW_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>, ALLOW_PAGE_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>) <span style="color:#66d9ef">ON</span> [<span style="color:#66d9ef">PRIMARY</span>]
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">ON</span> [<span style="color:#66d9ef">PRIMARY</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> [dbo].[payment_order] <span style="color:#66d9ef">ADD</span>  <span style="color:#66d9ef">CONSTRAINT</span> [DF__payment_o__order__65370702]  <span style="color:#66d9ef">DEFAULT</span> (<span style="color:#66d9ef">NULL</span>) <span style="color:#66d9ef">FOR</span> [order_id]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> [dbo].[payment_order] <span style="color:#66d9ef">ADD</span>  <span style="color:#66d9ef">CONSTRAINT</span> [DF__payment_o__payer__662B2B3B]  <span style="color:#66d9ef">DEFAULT</span> (<span style="color:#66d9ef">NULL</span>) <span style="color:#66d9ef">FOR</span> [payer_ep_account_id]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> [dbo].[payment_order] <span style="color:#66d9ef">ADD</span>  <span style="color:#66d9ef">CONSTRAINT</span> [DF__payment_o__recei__671F4F74]  <span style="color:#66d9ef">DEFAULT</span> (<span style="color:#66d9ef">NULL</span>) <span style="color:#66d9ef">FOR</span> [receiver_ep_account_id]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> NONCLUSTERED <span style="color:#66d9ef">INDEX</span> [IX_payment_order_order_id] <span style="color:#66d9ef">ON</span> [dbo].[payment_order]
+</span></span><span style="display:flex;"><span>(
+</span></span><span style="display:flex;"><span>    [order_id] <span style="color:#66d9ef">ASC</span>
+</span></span><span style="display:flex;"><span>)<span style="color:#66d9ef">WITH</span> (PAD_INDEX <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, STATISTICS_NORECOMPUTE <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, SORT_IN_TEMPDB <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, DROP_EXISTING <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, ONLINE <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, ALLOW_ROW_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>, ALLOW_PAGE_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>) <span style="color:#66d9ef">ON</span> [<span style="color:#66d9ef">PRIMARY</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span></code></pre></div><p><img src="https://imgur.com/6jpW6Io.jpg" alt="">
+調整的訂單表</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> [dbo].[payment_order_test](
+</span></span><span style="display:flex;"><span>    [id] [bigint] <span style="color:#66d9ef">IDENTITY</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [order_id] [bigint] <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [cdate] [int] <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [mdate] [int] <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [payer_ep_account_id] [bigint] <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [receiver_ep_account_id] [bigint] <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [from_collection_amount] [decimal](<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [from_deposit_amount] [decimal](<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [remaining_collection_refund_amount] [decimal](<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [remaining_deposit_refund_amount] [decimal](<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [modify_time] [datetime2](<span style="color:#ae81ff">7</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [create_time] [datetime2](<span style="color:#ae81ff">7</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">CONSTRAINT</span> [PK_payment_order_test] <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> CLUSTERED
+</span></span><span style="display:flex;"><span>(
+</span></span><span style="display:flex;"><span>    [id] <span style="color:#66d9ef">ASC</span>
+</span></span><span style="display:flex;"><span>)<span style="color:#66d9ef">WITH</span> (PAD_INDEX <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, STATISTICS_NORECOMPUTE <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, IGNORE_DUP_KEY <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, ALLOW_ROW_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>, ALLOW_PAGE_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>) <span style="color:#66d9ef">ON</span> [<span style="color:#66d9ef">PRIMARY</span>]
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">ON</span> [<span style="color:#66d9ef">PRIMARY</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> [dbo].[payment_order_test] <span style="color:#66d9ef">ADD</span>  <span style="color:#66d9ef">CONSTRAINT</span> [DF_payment_order_test_order_id]  <span style="color:#66d9ef">DEFAULT</span> (<span style="color:#66d9ef">NULL</span>) <span style="color:#66d9ef">FOR</span> [order_id]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> [dbo].[payment_order_test] <span style="color:#66d9ef">ADD</span>  <span style="color:#66d9ef">CONSTRAINT</span> [DF_payment_order_test_payer_ep_account_id]  <span style="color:#66d9ef">DEFAULT</span> (<span style="color:#66d9ef">NULL</span>) <span style="color:#66d9ef">FOR</span> [payer_ep_account_id]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> [dbo].[payment_order_test] <span style="color:#66d9ef">ADD</span>  <span style="color:#66d9ef">CONSTRAINT</span> [DF_payment_order_test_receiver_ep_account_id]  <span style="color:#66d9ef">DEFAULT</span> (<span style="color:#66d9ef">NULL</span>) <span style="color:#66d9ef">FOR</span> [receiver_ep_account_id]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> NONCLUSTERED <span style="color:#66d9ef">INDEX</span> [IDX_cdates] <span style="color:#66d9ef">ON</span> [dbo].[payment_order_test]
+</span></span><span style="display:flex;"><span>(
+</span></span><span style="display:flex;"><span>    [cdate] <span style="color:#66d9ef">ASC</span>,
+</span></span><span style="display:flex;"><span>    [mdate] <span style="color:#66d9ef">ASC</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>INCLUDE([order_id]) <span style="color:#66d9ef">WITH</span> (PAD_INDEX <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, STATISTICS_NORECOMPUTE <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, SORT_IN_TEMPDB <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, DROP_EXISTING <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, ONLINE <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, ALLOW_ROW_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>, ALLOW_PAGE_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>) <span style="color:#66d9ef">ON</span> [<span style="color:#66d9ef">PRIMARY</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> NONCLUSTERED <span style="color:#66d9ef">INDEX</span> [IDX_epaccount_receiveraccount] <span style="color:#66d9ef">ON</span> [dbo].[payment_order_test]
+</span></span><span style="display:flex;"><span>(
+</span></span><span style="display:flex;"><span>    [payer_ep_account_id] <span style="color:#66d9ef">ASC</span>,
+</span></span><span style="display:flex;"><span>    [receiver_ep_account_id] <span style="color:#66d9ef">ASC</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>INCLUDE([order_id],[cdate],[mdate],[from_collection_amount],[from_deposit_amount],[remaining_collection_refund_amount],[remaining_deposit_refund_amount],[modify_time],[create_time]) <span style="color:#66d9ef">WITH</span> (PAD_INDEX <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, STATISTICS_NORECOMPUTE <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, SORT_IN_TEMPDB <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, DROP_EXISTING <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, ONLINE <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, ALLOW_ROW_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>, ALLOW_PAGE_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>) <span style="color:#66d9ef">ON</span> [<span style="color:#66d9ef">PRIMARY</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> NONCLUSTERED <span style="color:#66d9ef">INDEX</span> [IDX_order_id] <span style="color:#66d9ef">ON</span> [dbo].[payment_order_test]
+</span></span><span style="display:flex;"><span>(
+</span></span><span style="display:flex;"><span>    [order_id] <span style="color:#66d9ef">ASC</span>
+</span></span><span style="display:flex;"><span>)<span style="color:#66d9ef">WITH</span> (PAD_INDEX <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, STATISTICS_NORECOMPUTE <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, SORT_IN_TEMPDB <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, DROP_EXISTING <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, ONLINE <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, ALLOW_ROW_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>, ALLOW_PAGE_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>) <span style="color:#66d9ef">ON</span> [<span style="color:#66d9ef">PRIMARY</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span></code></pre></div><p><img src="https://imgur.com/TlZ6YiY.jpg" alt=""></p>
+<p>以下兩表比較</p>
+<p>原訂單表查詢特定日期</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>  [order_id],
+</span></span><span style="display:flex;"><span>        [payer_ep_account_id],
+</span></span><span style="display:flex;"><span>        [receiver_ep_account_id],
+</span></span><span style="display:flex;"><span>        [from_collection_amount],
+</span></span><span style="display:flex;"><span>        [from_deposit_amount],
+</span></span><span style="display:flex;"><span>        [remaining_collection_refund_amount],
+</span></span><span style="display:flex;"><span>        [remaining_deposit_refund_amount]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[payment_order] <span style="color:#66d9ef">AS</span> a
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
+</span></span><span style="display:flex;"><span>    [create_time] <span style="color:#f92672">&gt;=</span> <span style="color:#e6db74">&#39;2022-03-17 00:00:00.000&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> [create_time] <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#39;2022-03-18 00:00:00.000&#39;</span>
+</span></span></code></pre></div><p><img src="https://imgur.com/FvrfqPr.jpg" alt=""></p>
+<p>新訂單表查詢日期</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>  [order_id],
+</span></span><span style="display:flex;"><span>        [payer_ep_account_id],
+</span></span><span style="display:flex;"><span>        [receiver_ep_account_id],
+</span></span><span style="display:flex;"><span>        [from_collection_amount],
+</span></span><span style="display:flex;"><span>        [from_deposit_amount],
+</span></span><span style="display:flex;"><span>        [remaining_collection_refund_amount],
+</span></span><span style="display:flex;"><span>        [remaining_deposit_refund_amount]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[payment_order_test] <span style="color:#66d9ef">AS</span> a
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
+</span></span><span style="display:flex;"><span>    [cdate] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">20220317</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> [cdate] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">20220318</span>
+</span></span></code></pre></div><p><img src="https://imgur.com/Qh3MlMQ.jpg" alt=""></p>
+<p>外部鍵(Foreign key)謹慎使用，由於Foreign key在判斷時是會另開session執行，在高併發交易時DB主機容易有控制外的連線數量，
+另一點是可能引發Deadlock情況發生，以下模擬兩張資料表使用了FK如何產生Deadlock
+EX:</p>
+<p>建立範例資料表及資料</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Tbl1 (id INT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> CLUSTERED, col INT)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Tbl2 (id INT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> CLUSTERED, col INT <span style="color:#66d9ef">REFERENCES</span> dbo.Tbl1(id))
+</span></span></code></pre></div><p>接著開啟一個查詢分頁執行Session 1</p>
+<p>Session 1</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">BEGIN</span> TRAN
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">INSERT</span> dbo.Tbl1 (id, col) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">999</span>)
+</span></span></code></pre></div><p>開啟另一個查詢分頁執行Session 2
+Session 2</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">BEGIN</span> TRAN
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">INSERT</span> dbo.Tbl1 (id, col) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">100</span>)
+</span></span></code></pre></div><p>此時Session 1及Session 2應該均為Transaction為完成也沒有錯誤發生的情況，目前因Transaction尚未完成而處於Blocking狀態
+由Session 1中新增一個查詢(整個Transaction的一個部分)，並未發生Deadlock狀態</p>
+<p>引發交叉寫入</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> dbo.Tbl2 (id, col) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">111</span>, <span style="color:#ae81ff">555</span>)
+</span></span></code></pre></div><p>接著Session 2中心新增一個查詢，此時引發了以下Deadlock狀況</p>
+<p>交叉鎖定引發ForeignKey及Deadlock錯誤</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> dbo.Tbl2 (id, col) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">111</span>, <span style="color:#ae81ff">2</span>)
+</span></span></code></pre></div><p><img src="https://imgur.com/5cXim0t.jpg" alt="">
+接著檢查Session 1中顯示了Foreign Key的錯誤
+<img src="https://imgur.com/sloAd3U.jpg" alt=""></p>
+<p>Datatype定義需明確理解可能範圍
+如數字類型，數字不會超過255或正負值127之間則不使用smallint類型，數字不會超過65535或正負值32767則不使用int類型，數字類型的大小會影響實際儲存空間
+請參考以下
+<img src="https://imgur.com/NtUONjP.jpg" alt="">
+如字串類型，可以定長就使用CHAR或NCHAR，若無法肯定才使用VARCHAR或NVARCHAR，
+請參考已下
+<img src="https://imgur.com/6JmjMdD.jpg" alt="">
+<img src="https://imgur.com/Xroxf4N.jpg" alt=""></p>
+<p>若有超過長度900之字串欄位則無法有效添加索引，需要達成搜尋條件需利用全文檢索引擎或是其他拆字方案，下圖顯示超過特定長度之欄位無法添加索引</p>
+<p>建立範例表</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> [dbo].[Tbl3](
+</span></span><span style="display:flex;"><span>    [id] [int] <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    [content] [varchar](<span style="color:#66d9ef">max</span>) <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">CONSTRAINT</span> [PK_Tbl3] <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> CLUSTERED
+</span></span><span style="display:flex;"><span>(
+</span></span><span style="display:flex;"><span>    [id] <span style="color:#66d9ef">ASC</span>
+</span></span><span style="display:flex;"><span>)<span style="color:#66d9ef">WITH</span> (PAD_INDEX <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, STATISTICS_NORECOMPUTE <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, IGNORE_DUP_KEY <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>, ALLOW_ROW_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>, ALLOW_PAGE_LOCKS <span style="color:#f92672">=</span> <span style="color:#66d9ef">ON</span>) <span style="color:#66d9ef">ON</span> [<span style="color:#66d9ef">PRIMARY</span>]
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">ON</span> [<span style="color:#66d9ef">PRIMARY</span>] TEXTIMAGE_ON [<span style="color:#66d9ef">PRIMARY</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span></code></pre></div><p><img src="https://imgur.com/Ye4DrGm.jpg" alt=""></p>
+<ul>
+<li>欄位盡量不要允許NULL，最佳建議是給予每個欄位一個預設值
+NULL在SQL三值邏輯(TRUE/FALSE/UNKNOWN)中屬於UNKNOWN</li>
+</ul>
+<p>可參考 <a href="https://docs.microsoft.com/zh-tw/sql/t-sql/language-elements/null-and-unknown-transact-sql?view=sql-server-ver15">https://docs.microsoft.com/zh-tw/sql/t-sql/language-elements/null-and-unknown-transact-sql?view=sql-server-ver15</a>
+欄位允許NULL時，SQL Server會使用bitmap來標註該欄位是否為允許NULL，對於執行SQL會有額外解碼bitmap的成本</p>
+<p>可參考 <a href="https://dotblogs.com.tw/ricochen/2012/01/30/67092">https://dotblogs.com.tw/ricochen/2012/01/30/67092</a></p>
+<ul>
+<li>
+<p>資料表名稱長度最大限制，最好不要太長的命名，淺顯易懂即可，並且不能與其他物件或類型同名
+SQL Server : 128字元
+MySQL : 64字元
+Oracle : 30字元</p>
+</li>
+<li>
+<p>資料表定序需與資料庫定序一致，盡量避免不同定序產生
+SQL Server : Chinese_Taiwan_Stroke_CI_AS
+MySQL : utf8mb4_0900_ai_ci  (建議使用 utf8mb4_general_ci)
+CI 指定不區分大小寫，CS 指定區分大小寫
+AI 指定不區分腔調字，AS 指定區分腔調字</p>
+</li>
+<li>
+<p>正規化設計
+建議最多到2NF
+正規化說明可參考
+<a href="https://rileylin91.github.io/2020/05/21/MSSQL-6-Normalization/">https://rileylin91.github.io/2020/05/21/MSSQL-6-Normalization/</a></p>
+</li>
+<li>
+<p>Primary Key設計
+在SQL Server的Primary Key設計上比較常見的是與叢集索引一起設定，但也有叢集索引及Primary Key是分開的例子
+MySQL則是Primark Key一定是叢集索引</p>
+</li>
+</ul>
+<ol>
+<li>每張資料表只能有一個Primary Key(叢集索引)而可以有多個Non Clustered Index</li>
+<li>Primary Key一定是升序排序且具備唯一性質及非NULL限制</li>
+<li>可以使用單一欄位或多欄位建立，但需維持由左至右或由上至下的欄位順序可能存放的值，是符合2所述條件
+可避免資料寫入時造成分頁</li>
+<li>叢集索引比非叢集索引速度更快</li>
+<li>資料儲存在叢集索引上，以SQL Server可以將叢集索引建立在不同的File Group時，則實體資料使用的空間歸屬在File Group所在的磁碟上</li>
+<li>盡量不使用uniqueidentifier來作為Primary Key
+<img src="https://imgur.com/fDEUaQw.jpg" alt=""></li>
+</ol>
+<ul>
+<li>Index設計</li>
+</ul>
+<ol>
+<li>參考資料表中的數據，備經常使用的是哪些欄位做複合式索引，並且排序依照經常被查詢使用的方式排序，可以免去查詢與法的指定排序</li>
+<li>經常被使用在範圍搜尋時使用非叢集索引，並且依照B+Tree的結構選擇適合分組的欄位，依照資料數量與選定的欄位值的可能種類用以下公式約略計算
+資料表中資料總數量 / 欄位值可能的分類 = 參考值 (其參考值越接近1越好)
+EX:
+在擁有1000筆的數據中需要分類男女性別並套用公式
+1000 / 2 = 0.002 (不建議使用)</li>
+<li>非叢集索引數量加上叢集索引最多不要超過6個，會影響寫入資料時的效能問題</li>
+<li>SQL Server非叢集索引設計上，若能以空間換取時間，則盡量把可能使用到的欄位都加進包含的資料行</li>
+<li>如果該表經常會與其他資料表做Join，則建議索引設計上需要將最經常被使用到的欄位放在越前面，且ON與WHERE條件的欄位都要列入考量</li>
+</ol>
+
+        </p>
+    </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

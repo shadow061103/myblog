@@ -1,7 +1,7 @@
 ---
 title: "EF Core 5的ExecuteSqlRaw的雷"
 date: 2022-11-25T15:46:02+08:00
-draft: true
+draft: false
 tags: ["DB"]
 type: post
 author: "Steve Lin"
