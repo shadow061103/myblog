@@ -9,7 +9,6 @@ description: ""
 slug: ""
 ---
 
-# 背景執行工作
 - 要執行的工作繼承BackgroundService
 - 實作`Task ExecuteAsync(CancellationToken stoppingToken)`
 - 設定時間`await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);`

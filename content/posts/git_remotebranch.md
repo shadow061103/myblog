@@ -7,8 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-
-# 取得遠端分支
 ### 1. Fetch all remote branches
 ```
 git fetch origin

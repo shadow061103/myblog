@@ -7,8 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-
-# 版型課程第四周筆記
 ### Layout
 > 類似 .Net MVC的share.cshtml
 ### 用gulp整合

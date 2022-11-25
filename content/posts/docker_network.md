@@ -7,7 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-# docker的網路
 ### 介紹
 - 透過Network Namespace虛擬出網路環境，提供獨立的網路設備、IP協定堆疊、IP路由表、防火牆
 - docker啟動時會在宿主機架一個docker0的虛擬網路，連接宿主機跟容器(用Weth pair)

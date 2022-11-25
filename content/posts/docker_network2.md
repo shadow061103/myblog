@@ -7,8 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-
-# docker的網路(II)
 - 基於Linux的network container裡面的Network Nampspaces
 - 透過Veth pair(Virtual Ethernet Pair)虛擬網路通道出去
 - docker利用bridge連接到宿主機的橋接器 就可以跟其他container通訊

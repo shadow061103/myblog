@@ -7,9 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-
-# gulp 環境安裝流程
-
 #### 1.安裝[Node.js](https://nodejs.org/en/)，打開終端機或命令提示字元，輸入`node -v`，安裝完成會顯示版本號
 
 #### 2.在終端機安裝gulp，繼續輸入指令 `npm i gulp@4 -g` ,輸入`gulp -v`查詢是否有回傳版本號

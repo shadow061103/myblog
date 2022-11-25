@@ -8,10 +8,6 @@ author: "Steve Lin"
 description: ""
 slug: "Csharp本事筆記"
 ---
----
-tags: C#
----
-# Csharp本事筆記
 
 ### 共變性逆變性
 - 無法在編譯時期抓出型別不相容的錯誤

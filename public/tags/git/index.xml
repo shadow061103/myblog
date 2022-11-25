@@ -13,7 +13,7 @@
       <pubDate>Thu, 27 Oct 2022 16:54:36 +0800</pubDate>
       
       <guid>https://shadow061103.github.io/posts/202210/revert-commit/</guid>
-      <description>Revert commit 情境 不小心把uat或sit分支的東西merge到開發分支 且後來又繼續commit 可以用Revert指令還原，不建議用reset，因為就算退回去 後面開發的東西還要重做
+      <description>情境 不小心把uat或sit分支的東西merge到開發分支 且後來又繼續commit 可以用Revert指令還原，不建議用reset，因為就算退回去 後面開發的東西還要重做
 1.首先要找到Merge的那個分支 再對他用revert 指定哪一個parent https://medium.com/@kurosean/%E7%B5%82%E6%96%BC%E6%90%9E%E6%87%82%E5%A6%82%E4%BD%95-revert-merge-commit-a034b9e69fef</description>
     </item>
     
@@ -23,7 +23,7 @@
       <pubDate>Thu, 27 Oct 2022 16:53:23 +0800</pubDate>
       
       <guid>https://shadow061103.github.io/posts/202210/git-merge-%E4%B8%8D%E7%9B%B4%E6%8E%A5%E5%90%88%E4%BD%B5%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
-      <description> tags: Git git merge 不直接合併的方法 git merge member --no-commit --no-ff &amp;ndash;no-commit就是不產生一個commit,資料會放到暫存區 &amp;ndash;no-ff不要fast forward 不commit的話可以git reset --merge或git merge --abort </description>
+      <description> git merge member --no-commit --no-ff &amp;ndash;no-commit就是不產生一個commit,資料會放到暫存區 &amp;ndash;no-ff不要fast forward 不commit的話可以git reset --merge或git merge --abort </description>
     </item>
     
     <item>
@@ -32,7 +32,7 @@
       <pubDate>Thu, 27 Oct 2022 16:52:43 +0800</pubDate>
       
       <guid>https://shadow061103.github.io/posts/202210/%E5%8F%96%E5%BE%97%E9%81%A0%E7%AB%AF%E5%88%86%E6%94%AF/</guid>
-      <description>取得遠端分支 1. Fetch all remote branches git fetch origin 2.List the branches available for checkout git branch -a Pull changes from a remote branch git checkout -b fix-failing-tests origin/fix-failing-tests 另一種做法 取得遠端分支git branch --remote拉到本地端新建一個追蹤分支git checkout -t origin/refactoring或是直接把origin拿掉git checkout refactoring </description>
+      <description>1. Fetch all remote branches git fetch origin 2.List the branches available for checkout git branch -a Pull changes from a remote branch git checkout -b fix-failing-tests origin/fix-failing-tests 另一種做法 取得遠端分支git branch --remote拉到本地端新建一個追蹤分支git checkout -t origin/refactoring或是直接把origin拿掉git checkout refactoring </description>
     </item>
     
     <item>
@@ -41,7 +41,7 @@
       <pubDate>Thu, 27 Oct 2022 16:51:00 +0800</pubDate>
       
       <guid>https://shadow061103.github.io/posts/202210/git-unsafe-repository%E9%8C%AF%E8%AA%A4%E8%A7%A3%E6%B1%BA/</guid>
-      <description>git unsafe repository錯誤解決 在下git指令的時候會跳出錯誤 原因是git更新的安全修正 要解決可以用它上面的指令 或是去找gitconfig(路徑:C:/[user][user name].gitconfig) 加上這一段
+      <description>在下git指令的時候會跳出錯誤 原因是git更新的安全修正 要解決可以用它上面的指令 或是去找gitconfig(路徑:C:/[user][user name].gitconfig) 加上這一段
 [safe]directory = * Git unsafe repository 錯誤與 Gitea 整合問題</description>
     </item>
     

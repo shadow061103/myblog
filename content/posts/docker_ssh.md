@@ -7,8 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-
-# SSH服務
 > 遠端操作主機的方式，docker也可以用ssh連接和存取內部容器
 - Linux下安裝OpenSSH
 - 定義在應用層和傳輸層的安全協定

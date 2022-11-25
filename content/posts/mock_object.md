@@ -7,8 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-
-# Mock測試物件
 ### 安裝套件
 `Install-Package Moq -Version 4.18.2`
 ### 用法

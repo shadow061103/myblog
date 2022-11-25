@@ -8,11 +8,6 @@ author: "Steve Lin"
 description: ""
 slug: "EFCore使用"
 ---
----
-tags: C#
----
-# EF Core使用
-
 ## 安裝
 - 下載nuget
 ```

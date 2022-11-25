@@ -7,8 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-
-# Test-Driven Development(TDD)
 > 測試驅動開發
 ### 需求
 - 透過測試（單元測試）推動整個開發的進行

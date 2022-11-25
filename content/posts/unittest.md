@@ -8,8 +8,6 @@ author: "Steve Lin"
 description: ""
 ---
 
-# 單元測試
-
 ## 定義
 - 一個測試案例只測一種情境
 - 最小的測試單位

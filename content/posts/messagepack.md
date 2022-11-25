@@ -8,11 +8,6 @@ author: "Steve Lin"
 description: ""
 slug: "MessagePack"
 ---
----
-tags: C#
----
-# MessagePack
-
 ### Nuget
 ```
 Install-Package MessagePack

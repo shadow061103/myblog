@@ -10,8 +10,6 @@ showTableOfContents: true
 slug: "保哥非同步課程"
 ---
 
-
-# 保哥非同步課程
 - thread要執行要進CPU排隊，所以不一定先start的會先跑
 - 非同步不一定是multi thread(user thread)，File.WriteAsync 會叫dreiver去處理寫檔，完成後會告知已完成
 - 會造成deadlock的情境

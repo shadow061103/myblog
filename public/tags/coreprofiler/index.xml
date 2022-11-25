@@ -8,12 +8,12 @@
     <language>zh-tw</language>
     <lastBuildDate>Thu, 20 Oct 2022 16:46:25 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/coreprofiler/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>CoreProfiler_效能監測工具</title>
+      <title>CoreProfiler效能監測工具</title>
       <link>https://shadow061103.github.io/posts/202210/coreprofiler-%E6%95%88%E8%83%BD%E7%9B%A3%E6%B8%AC%E5%B7%A5%E5%85%B7/</link>
       <pubDate>Thu, 20 Oct 2022 16:46:25 +0800</pubDate>
       
       <guid>https://shadow061103.github.io/posts/202210/coreprofiler-%E6%95%88%E8%83%BD%E7%9B%A3%E6%B8%AC%E5%B7%A5%E5%85%B7/</guid>
-      <description>CoreProfiler 效能監測工具 安裝nuget套件 CoreProfiler.Web CoreProfiler 註冊StartUp 在 Configure加上app.UseCoreProfiler(true);
+      <description>安裝nuget套件 CoreProfiler.Web CoreProfiler 註冊StartUp 在 Configure加上app.UseCoreProfiler(true);
 加上coreprofiler.json檔案 檔案屬性要改成內容-有更新才複製
 { &amp;#34;circularBufferSize&amp;#34;: 200, &amp;#34;filters&amp;#34;: [ { &amp;#34;key&amp;#34;: &amp;#34;/coreprofiler&amp;#34;, &amp;#34;value&amp;#34;: &amp;#34;/coreprofiler&amp;#34;, &amp;#34;type&amp;#34;: &amp;#34;CoreProfiler.ProfilingFilters.NameContainsProfilingFilter, CoreProfiler&amp;#34; }, { &amp;#34;key&amp;#34;: &amp;#34;static files&amp;#34;, &amp;#34;value&amp;#34;: &amp;#34;ico,jpg,js,css,svg,json,ttf,woff,woff2,eot&amp;#34;, &amp;#34;type&amp;#34;: &amp;#34;CoreProfiler.ProfilingFilters.FileExtensionProfilingFilter, CoreProfiler&amp;#34; } ] } 如何使用 在要監看的程式包起來 var stepName = $&amp;#34;{nameof(這邊是監看的類別)}.{nameof(這邊是監看的方法)}&amp;#34;; using (ProfilingSession.Current.Step(stepName)) { } 使用attribute，需要安裝套件AspectInjector.Broker [Injection(typeof(CoreProfilerAspect))] public class CoreProfilingAttribute : System.Attribute { /// &amp;lt;summary&amp;gt; /// ProfilingName. /// &amp;lt;/summary&amp;gt; /// &amp;lt;value&amp;gt;The name of the profiling.&amp;lt;/value&amp;gt; public string ProfilingName { get; set; } /// &amp;lt;summary&amp;gt; /// ProfilingStep.</description>
     </item>

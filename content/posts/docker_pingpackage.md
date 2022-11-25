@@ -8,7 +8,6 @@ author: "Steve Lin"
 description: ""
 ---
 
-# docker 安裝ping套件&proxy
 - 安裝套件
 apt-get update
 apt-get install -y iputils-ping

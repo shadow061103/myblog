@@ -7,7 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-# Docker
 
 ### 底層實作
 > 使用 Linux Kernel的 Namespace: 和 Cgroup 組合而成

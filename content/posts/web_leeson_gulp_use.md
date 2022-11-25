@@ -8,7 +8,6 @@ author: "Steve Lin"
 description: ""
 ---
 
-# gulp 使用說明
 
 ### [gulp官方文件](https://gulpjs.com/docs/en/getting-started/quick-start)
 

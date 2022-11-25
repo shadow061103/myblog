@@ -7,9 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
----
-tags: docker
----
 # docker-compose.yml
 ```
 version: "3.2"

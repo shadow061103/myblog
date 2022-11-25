@@ -9,7 +9,6 @@ description: ""
 slug: "DI注入不同實體做法"
 ---
 
-# .Net core DI注入不同實體做法
 ### 註冊DI使用Func
 - 有兩個不同class都繼承IESCaseRepository
 - 使用EnvTag做區別

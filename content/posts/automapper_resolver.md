@@ -9,8 +9,6 @@ description: ""
 slug: "AutomapperResolver無法用建構式注入解法"
 ---
 
-# Automapper Resolver無法用建構式注入解法
-
 ### 原本寫法
 ```C#
  var mapperConfiguration = new MapperConfiguration(mapperConfig =>

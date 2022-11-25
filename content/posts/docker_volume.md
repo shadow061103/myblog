@@ -7,8 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-
-# docker的資料卷Data Volume
 > 保存檔案資料的模組
 - 容器內的檔案環境是在一個臨時層上，容器停止或刪除時，檔案就不見了
 - 資料卷是掛載在容器內檔案系統的檔案或目錄，可以永久保存

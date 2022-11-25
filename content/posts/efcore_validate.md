@@ -8,8 +8,6 @@ author: "Steve Lin"
 description: ""
 slug: "EFcore模型驗證預設不檢查插入問題"
 ---
-
-# EF core模型驗證預設不檢查插入，撈資料讀取失敗
 ### 情境
 在model上的屬性設置如下
 ```C#

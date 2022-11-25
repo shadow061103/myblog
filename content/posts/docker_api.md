@@ -7,8 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-
-# docker api
 > 是restful的
 - docker remote api:用來操作映像或容器
 - docker registry api:管理遠端映像倉庫

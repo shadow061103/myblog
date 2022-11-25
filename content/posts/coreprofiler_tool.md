@@ -1,5 +1,5 @@
 ---
-title: "CoreProfiler_效能監測工具"
+title: "CoreProfiler效能監測工具"
 date: 2022-10-20T16:46:25+08:00
 draft: false
 tags: ["Csharp","coreprofiler"]
@@ -8,7 +8,6 @@ author: "Steve Lin"
 description: ""
 slug: "CoreProfiler 效能監測工具"
 ---
-# CoreProfiler 效能監測工具
 ### 安裝nuget套件
 - CoreProfiler.Web
 - CoreProfiler

@@ -7,11 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
----
-
-tags: DB
----
-# Docker建立Mysql資料庫
 ### docker建立container
 1.docker pull mysql:8
 2.docker run --name mysql_test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8

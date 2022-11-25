@@ -8,7 +8,6 @@ author: "Steve Lin"
 description: ""
 ---
 
-# dockerfile介紹
 ### 介紹
 - #開頭的是註解
 - 指令分成指令名稱，然後是args

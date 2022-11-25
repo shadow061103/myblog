@@ -7,10 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
----
-tags: C#
----
-# ASP.Net Core 註冊中文編碼
 安裝nuget套件System.Text.Encoding.CodePages
 在程式內註冊
 `Encoding.RegisterProvider(CodePagesEncodingProvider.Instance)`

@@ -9,8 +9,6 @@ description: ""
 slug: "grpc使用http2_health_check問題"
 ---
 
-# grpc使用http2 health check問題
-
 ### grpc內appsetting設定
 ```
 "Kestrel": {

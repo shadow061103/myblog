@@ -8,10 +8,6 @@ author: "Steve Lin"
 description: "Polly錯誤自動重試機制"
 slug: ""
 ---
----
-tags: C#
----
-# Polly錯誤自動重試機制
 ### 如何使用
 - 需要先安裝nuget套件 (Polly)
 - 主要結構

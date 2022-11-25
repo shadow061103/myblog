@@ -157,8 +157,7 @@
 
     <div class="post-content">
         <p>
-            <h1 id="背景執行工作">背景執行工作</h1>
-<ul>
+            <ul>
 <li>要執行的工作繼承BackgroundService</li>
 <li>實作<code>Task ExecuteAsync(CancellationToken stoppingToken)</code></li>
 <li>設定時間<code>await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);</code></li>

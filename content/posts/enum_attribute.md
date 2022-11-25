@@ -9,8 +9,6 @@ description: ""
 slug: "針對enum寫attribute並取值"
 ---
 
-# 針對enum寫attribute並取值
-
 ### 1.設定Attribute
 ```
 public class StringValueAttribute : Attribute

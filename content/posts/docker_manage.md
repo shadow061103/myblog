@@ -8,7 +8,6 @@ author: "Steve Lin"
 description: ""
 ---
 
-# docker管理工具
 ## docker compose
 - 組態預設放在docker-compose.yml檔案，也可以自訂檔名
 - windows或MacOS已經內建安裝，用`docker-compose version`查看

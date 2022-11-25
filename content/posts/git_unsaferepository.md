@@ -8,9 +8,6 @@ author: "Steve Lin"
 description: ""
 ---
 
-
-# git unsafe repository錯誤解決
-
 在下git指令的時候會跳出錯誤
 ![](https://imgur.com/N8474PA.jpg)
 原因是git更新的安全修正

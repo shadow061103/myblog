@@ -7,7 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-# Docker image
 
 ### 指令
 

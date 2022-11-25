@@ -8,7 +8,6 @@ author: "Steve Lin"
 description: ""
 ---
 
-# 用CodeMaid進行程式碼分析
 > 分析>計算方案的程式法度量
 
 ## 五種指標

@@ -1,5 +1,5 @@
 ---
-title: "OOP物件導向"
+title: "C# OOP物件導向"
 date: 2022-10-20T17:02:58+08:00
 draft: false
 tags: ["Csharp"]
@@ -9,7 +9,6 @@ description: ""
 slug: "OOP物件導向"
 ---
 
-# C# OOP物件導向
 ## 三大特性
 ### 繼承
 > 繼承者會擁有被繼承者的型別特徵

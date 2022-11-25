@@ -8,8 +8,6 @@ author: "Steve Lin"
 description: ""
 ---
 
-# 版型課程第三周筆記
-
 ## RWD自適應語法
 
 ### 依照顯示器寬度去呈現樣式

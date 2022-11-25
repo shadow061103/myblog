@@ -9,8 +9,6 @@ description: ""
 slug: "FluentValidation作法"
 ---
 
-# .Net Core FluentValidation作法
-
 ### [文件](https://docs.fluentvalidation.net/en/latest/installation.html)
 ### 安裝套件
 ```

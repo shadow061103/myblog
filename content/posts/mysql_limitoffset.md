@@ -7,7 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-# Mysql的limit、offset
 ## limit [count]
  代表限制回傳幾筆
  

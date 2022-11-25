@@ -7,8 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-
-# unit of work實作
 ```C#
  public interface IUnitOfWork : IDisposable
     {

@@ -9,8 +9,6 @@ description: ""
 ---
 
 
-# 測試mysql datetime2
-
 ### question
 用mysql db 新增欄位時用datetime2會跳錯誤訊息
 ```

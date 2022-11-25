@@ -7,8 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
-
-# docker的安全性
 ### 資源控制群組CGroup
 - 可以限制資源:分配電腦資源
 - 優先化:

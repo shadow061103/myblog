@@ -9,7 +9,6 @@ showTableOfContents: true
 slug: "big5難字處理"
 ---
 
-# big5難字處理
 
 ### 判斷轉big5後是不是?
 ```C#

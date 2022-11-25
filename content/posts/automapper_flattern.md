@@ -8,8 +8,6 @@ author: "Steve Lin"
 description: ""
 slug: "automapperflattern"
 ---
-
-# automapper flattern
 - 可以對應到Customer 下的Name
 - 來源沒有Total的話會用GetTotal()方法的值
 ```C#

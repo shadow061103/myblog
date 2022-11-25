@@ -9,9 +9,6 @@ description: ""
 ---
 
 
-
-# 版型課程第一周筆記
-
 ## css reset
 可以reset讓瀏覽器一致
 [css reset ](https://meyerweb.com/eric/tools/css/reset/)

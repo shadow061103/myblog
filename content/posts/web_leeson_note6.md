@@ -8,7 +8,6 @@ author: "Steve Lin"
 description: ""
 ---
 
-# 版型課程第六周筆記
 bootstrap是手機寫到PC
 
 ## 格線系統

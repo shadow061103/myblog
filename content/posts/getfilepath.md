@@ -8,8 +8,6 @@ author: "Steve Lin"
 description: ""
 slug: "取檔案路徑作法"
 ---
-
-# C#取檔案路徑作法
 - AppDomain.CurrentDomain.BaseDirectory 執行的應用程式在哪裡
 > D:\CorporateProject\Yungching.Webservice.Rent\Yungching.Webservice.Rent\bin\Debug\netcoreapp3.1\
 - Assembly.GetExecutingAssembly().Location 目前執行的組件在哪裡

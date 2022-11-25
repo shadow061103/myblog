@@ -8,7 +8,6 @@ author: "Steve Lin"
 description: ""
 ---
 
-# Revert commit
 情境
 不小心把uat或sit分支的東西merge到開發分支
 且後來又繼續commit

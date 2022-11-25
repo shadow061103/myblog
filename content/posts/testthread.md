@@ -8,8 +8,6 @@ author: "Steve Lin"
 description: ""
 slug: "測試Task.WhenAll執行緒"
 ---
-
-# 測試Task.WhenAll執行緒
 ```C#
 async Task Main()
 {

@@ -9,8 +9,6 @@ description: ""
 slug: "MediatR"
 ---
 
-# MediatR
-
 ### 安裝套件
 ```
 Install-Package MediatR

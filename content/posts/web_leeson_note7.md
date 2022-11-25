@@ -8,7 +8,6 @@ author: "Steve Lin"
 description: ""
 ---
 
-# 版型課程第七周筆記
 # 視差滾動
 ## Css3 animation
 - [範例](https://codepen.io/liao/pen/JjYwNVW?editors=1100)

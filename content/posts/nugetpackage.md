@@ -8,8 +8,6 @@ author: "Steve Lin"
 description: ""
 slug: "打包Nuget套件"
 ---
-
-# 打包Nuget套件
 ### 設定練習用套件來源
 - 公司練習的位置是http://package.evertrust.com.tw/feeds/Exercise
 

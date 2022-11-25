@@ -1,5 +1,5 @@
 ---
-title: "ModelValidator驗證"
+title: "ModelValidator驗證(service、repository)"
 date: 2022-10-20T17:02:03+08:00
 draft: false
 tags: ["Csharp"]
@@ -9,7 +9,6 @@ description: ""
 slug: "ModelValidator驗證"
 ---
 
-# ModelValidator驗證(service、repository)
 #### 可以在Service層或Repository層做參數驗證
 - 會使用到System.ComponentModel.DataAnnotations
 - 一樣在參數上掛驗證Attribute
