@@ -393,6 +393,11 @@ table td {
   width: 15rem;
 }
 
+.home-about .avatar img.size-self {
+  height: 15rem;
+  width: 15rem;
+}
+
 .social-icons {
   text-align: center;
 }

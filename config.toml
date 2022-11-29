@@ -8,7 +8,7 @@ googleAnalytics = "G-9EBLW1S7P3"
 
 [params]
   # URL for the avatar on homepage 首頁頭像
-  avatarURL = "/images/steve.jpg"
+  avatarURL = "/images/profile.jpg"
 
   # Choose one of size-xs, size-s, size-m, size-l & size-xl. (Default: size-m)
   avatarSize = "size-xl"
