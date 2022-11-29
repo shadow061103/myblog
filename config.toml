@@ -36,7 +36,7 @@ googleAnalytics = "G-9EBLW1S7P3"
 
   socialIcons = [
     {name = "linkedin", url = "https://www.linkedin.com/in/kuan-fu-lin-798091146/"},
-    {name = "instagram", url = "https://example.com"},
+    {name = "instagram", url = "https://www.instagram.com/kuan5341.photo/"},
     {name="github",url="https://github.com/shadow061103"},
     {name = "resume", url = "https://www.cakeresume.com/s--_dg5b864zDoms-FFAV02QA--/lin-kuanfu"},
     {name = "blog", url = "https://dotblogs.com.tw/shadowkk"},
@@ -59,9 +59,9 @@ googleAnalytics = "G-9EBLW1S7P3"
     weight = 2
 
   [[menu.main]]
-    name = "Projects"
+    name = "Favorite"
     pre = "<span data-feather='code'></span>"
-    url = "/projects/"
+    url = "/favorites/"
     weight = 3
 
   [[menu.main]]

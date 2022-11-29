@@ -214,7 +214,7 @@ SQL語法範例
 SELECT  A.[receiver_ep_account_id],
         B.[ep_account],
         COUNT(A.order_id) AS [Orders]
-FROM [pxplus_account].[dbo].[receive_order] AS A WITH (NOLOCK)
+FROM [dbo].[receive_order] AS A WITH (NOLOCK)
     INNER JOIN [dbo].[ep_account] AS B WITH (NOLOCK)
         ON A.[receiver_ep_account_id] = B.[account_id]
 WHERE
@@ -230,7 +230,7 @@ ORDER BY [receiver_ep_account_id] ASC
 SELECT  A.[receiver_ep_account_id],
         B.[ep_account],
         COUNT(A.order_id) AS [Orders]
-  FROM [pxplus_account].[dbo].[receive_order] AS A WITH (NOLOCK)
+  FROM [dbo].[receive_order] AS A WITH (NOLOCK)
     INNER JOIN [dbo].[ep_account] AS B WITH (NOLOCK)
         ON A.[receiver_ep_account_id] = B.[account_id]
  WHERE
@@ -254,7 +254,7 @@ SELECT  [id]
         ,[member_id]
         ,[account_id]
         ,[identity_no]
-FROM [dbo].[ep_account] WITH (NOLOCK)
+FROM [dbo].[account] WITH (NOLOCK)
 WHERE
     [member_id] = 2
 ;
@@ -264,7 +264,7 @@ SELECT  [id]
         ,[member_id]
         ,[account_id]
         ,[identity_no]
-FROM [dbo].[ep_account] WITH (NOLOCK)
+FROM [dbo].[account] WITH (NOLOCK)
 WHERE
     [member_id] = '2'
 ;
@@ -279,7 +279,7 @@ SELECT  TOP (100) [id]
         ,[member_id]
         ,[account_id]
         ,[identity_no]
-FROM [dbo].[ep_account] WITH (NOLOCK)
+FROM [dbo].[account] WITH (NOLOCK)
 ;
 ~~~
 
@@ -321,11 +321,11 @@ FROM (
                 ,[TransRecordSubType]
                 ,[TransStatus]
                 ,[OrderNo]
-        FROM [pxplus_paymentrecord].[dbo].[trans_record] WITH (NOLOCK)
+        FROM [dbo].[trans_record] WITH (NOLOCK)
         WHERE
             [MemberId] = 4
     ) AS A
-    INNER JOIN [pxplus_account].[dbo].[order] AS B WITH (NOLOCK)
+    INNER JOIN [dbo].[order] AS B WITH (NOLOCK)
         ON A.[OrderNo] = B.[order_no]
 ~~~
 6.
@@ -337,7 +337,7 @@ SELECT  TOP (100) [id]
         ,[member_id]
         ,[account_id]
         ,[identity_no]
-FROM [dbo].[ep_account] WITH (NOLOCK)
+FROM [dbo].[account] WITH (NOLOCK)
 ;
 ~~~
 7.
@@ -370,7 +370,7 @@ SELECT  TOP (1000)
         A.[Id]
         ,A.[MemberId]
         ,A.[OrderNo]
-FROM [pxplus_paymentrecord].[dbo].[trans_record] AS A, [pxplus_account].[dbo].[order] AS B
+FROM [dbo].[trans_record] AS A, [pxplus_account].[dbo].[order] AS B
 WHERE
     A.[OrderNo] = B.[order_no]
     AND [MemberId] = 4
@@ -381,7 +381,7 @@ SELECT  TOP (1000)
         A.[Id]
         ,A.[MemberId]
         ,A.[OrderNo]
-FROM [pxplus_paymentrecord].[dbo].[trans_record] AS A WITH (NOLOCK)
+FROM [dbo].[trans_record] AS A WITH (NOLOCK)
     INNER JOIN [pxplus_account].[dbo].[order] AS B WITH (NOLOCK)
       ON A.[OrderNo] = B.[order_no]
 WHERE
@@ -397,7 +397,7 @@ EX:
 ~~~sql
 SELECT  A.[MemberId]
         ,COUNT(A.[Id]) AS Cnt
-FROM [pxplus_paymentrecord].[dbo].[trans_record] AS A WITH (NOLOCK)
+FROM [dbo].[trans_record] AS A WITH (NOLOCK)
 WHERE
     [MemberId] = 4
 GROUP BY A.[MemberId]
@@ -407,7 +407,7 @@ GROUP BY A.[MemberId]
 ~~~sql
 SELECT  A.[MemberId]
         ,SUM(CASE WHEN A.[Id] > 0 THEN 1 ELSE 0 END) AS Cnt
-FROM [pxplus_paymentrecord].[dbo].[trans_record] AS A WITH (NOLOCK)
+FROM [dbo].[trans_record] AS A WITH (NOLOCK)
 WHERE
     [MemberId] = 4
 GROUP BY A.[MemberId]
@@ -420,7 +420,7 @@ EX:
 --未明確指定AS
 SELECT  A.[MemberId]
         ,COUNT(A.[Id]) Cnt
-FROM [pxplus_paymentrecord].[dbo].[trans_record] A WITH (NOLOCK)
+FROM [dbo].[trans_record] A WITH (NOLOCK)
 WHERE
     [MemberId] = 4
 GROUP BY A.[MemberId]
@@ -429,7 +429,7 @@ GROUP BY A.[MemberId]
 --明確使用AS
 SELECT  A.[MemberId]
         ,SUM(CASE WHEN A.[Id] > 0 THEN 1 ELSE 0 END) AS Cnt
-FROM [pxplus_paymentrecord].[dbo].[trans_record] AS A WITH (NOLOCK)
+FROM [dbo].[trans_record] AS A WITH (NOLOCK)
 WHERE
     [MemberId] = 4
 GROUP BY A.[MemberId]
@@ -495,7 +495,7 @@ WHERE
  
 --執行計劃如下圖
 ~~~
-![](https://imgur.com/9C08jNC.jpg)
+![](https://imgur.com/XnQal45.jpg)
 
 14.避免在WHERE條件上使用CASE WHEN
 此舉依條件問題有可能會影響到該查詢不走索引，且會使取資料的邏輯變的複雜不易維護
@@ -521,7 +521,7 @@ WHERE不使用CASE WHEN
 SELECT TOP (1000) [id]
       ,[order_no]
       ,[order_type]
-FROM [pxplus_account].[dbo].[order] WITH (NOLOCK)
+FROM [dbo].[order] WITH (NOLOCK)
 WHERE
     [order_type] = 1
 ;
@@ -701,7 +701,7 @@ WHERE
 --以下紅框為此段執行計劃
 
 ~~~
-![](https://imgur.com/iV9wHeM.jpg)
+![](https://imgur.com/wfGea8Q.jpg)
 
 改為不在WHERE欄位上使用函式
 ~~~sql
@@ -712,7 +712,7 @@ WHERE
 ;
 --以下紅框為此段執行計劃
 ~~~
-![](https://imgur.com/uFvk3sE.jpg)
+![](https://imgur.com/4ZZjsrU.jpg)
 使用函式有可能造成索引掃描或式不走索引且使用函式會讓DB engine將此欄位依照需求轉成必要的資料後才進行比對
 在使用了LIKE 'XXX%'之後，可以節省並降低執行成本，%放置於最後端可能可以直接使用索引搜尋
 
