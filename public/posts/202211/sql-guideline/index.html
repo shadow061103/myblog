@@ -89,7 +89,7 @@
             </div>
             
             <div class="nav-link">
-                <a href="https://shadow061103.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
             </div>
             
             <div class="nav-link">
@@ -128,7 +128,7 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a href="https://shadow061103.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                    <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
                 </li>
                 
                 <li class="nav-item">
@@ -370,7 +370,7 @@ SQL語法範例</p>
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span>  A.[receiver_ep_account_id],
 </span></span><span style="display:flex;"><span>        B.[ep_account],
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">COUNT</span>(A.order_id) <span style="color:#66d9ef">AS</span> [Orders]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [pxplus_account].[dbo].[receive_order] <span style="color:#66d9ef">AS</span> A <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[receive_order] <span style="color:#66d9ef">AS</span> A <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> [dbo].[ep_account] <span style="color:#66d9ef">AS</span> B <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">ON</span> A.[receiver_ep_account_id] <span style="color:#f92672">=</span> B.[account_id]
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
@@ -384,7 +384,7 @@ SQL語法範例</p>
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span>  A.[receiver_ep_account_id],
 </span></span><span style="display:flex;"><span>        B.[ep_account],
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">COUNT</span>(A.order_id) <span style="color:#66d9ef">AS</span> [Orders]
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FROM</span> [pxplus_account].[dbo].[receive_order] <span style="color:#66d9ef">AS</span> A <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FROM</span> [dbo].[receive_order] <span style="color:#66d9ef">AS</span> A <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> [dbo].[ep_account] <span style="color:#66d9ef">AS</span> B <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">ON</span> A.[receiver_ep_account_id] <span style="color:#f92672">=</span> B.[account_id]
 </span></span><span style="display:flex;"><span> <span style="color:#66d9ef">WHERE</span>
@@ -405,7 +405,7 @@ EX:</p>
 </span></span><span style="display:flex;"><span>        ,[member_id]
 </span></span><span style="display:flex;"><span>        ,[account_id]
 </span></span><span style="display:flex;"><span>        ,[identity_no]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[ep_account] <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[account] <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
 </span></span><span style="display:flex;"><span>    [member_id] <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
 </span></span><span style="display:flex;"><span>;
@@ -415,7 +415,7 @@ EX:</p>
 </span></span><span style="display:flex;"><span>        ,[member_id]
 </span></span><span style="display:flex;"><span>        ,[account_id]
 </span></span><span style="display:flex;"><span>        ,[identity_no]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[ep_account] <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[account] <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
 </span></span><span style="display:flex;"><span>    [member_id] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;2&#39;</span>
 </span></span><span style="display:flex;"><span>;
@@ -427,7 +427,7 @@ EX:</p>
 </span></span><span style="display:flex;"><span>        ,[member_id]
 </span></span><span style="display:flex;"><span>        ,[account_id]
 </span></span><span style="display:flex;"><span>        ,[identity_no]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[ep_account] <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[account] <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span>;
 </span></span></code></pre></div><p>MySQL取筆數</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- LIMIT n 直接取筆數
@@ -463,11 +463,11 @@ EX:</p>
 </span></span><span style="display:flex;"><span>                ,[TransRecordSubType]
 </span></span><span style="display:flex;"><span>                ,[TransStatus]
 </span></span><span style="display:flex;"><span>                ,[OrderNo]
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">FROM</span> [pxplus_paymentrecord].[dbo].[trans_record] <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">FROM</span> [dbo].[trans_record] <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">WHERE</span>
 </span></span><span style="display:flex;"><span>            [MemberId] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
 </span></span><span style="display:flex;"><span>    ) <span style="color:#66d9ef">AS</span> A
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> [pxplus_account].[dbo].[<span style="color:#66d9ef">order</span>] <span style="color:#66d9ef">AS</span> B <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> [dbo].[<span style="color:#66d9ef">order</span>] <span style="color:#66d9ef">AS</span> B <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">ON</span> A.[OrderNo] <span style="color:#f92672">=</span> B.[order_no]
 </span></span></code></pre></div><p>6.
 查詢資料時需要明確指定Nolock Hint
@@ -477,7 +477,7 @@ MSSQL Hint</p>
 </span></span><span style="display:flex;"><span>        ,[member_id]
 </span></span><span style="display:flex;"><span>        ,[account_id]
 </span></span><span style="display:flex;"><span>        ,[identity_no]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[ep_account] <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[account] <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span>;
 </span></span></code></pre></div><p>7.
 SQL語法撰寫需盡量符合SARG格式
@@ -558,7 +558,7 @@ IN 與 EXISTS使用差異</p>
 </span></span><span style="display:flex;"><span>        A.[Id]
 </span></span><span style="display:flex;"><span>        ,A.[MemberId]
 </span></span><span style="display:flex;"><span>        ,A.[OrderNo]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [pxplus_paymentrecord].[dbo].[trans_record] <span style="color:#66d9ef">AS</span> A, [pxplus_account].[dbo].[<span style="color:#66d9ef">order</span>] <span style="color:#66d9ef">AS</span> B
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[trans_record] <span style="color:#66d9ef">AS</span> A, [pxplus_account].[dbo].[<span style="color:#66d9ef">order</span>] <span style="color:#66d9ef">AS</span> B
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
 </span></span><span style="display:flex;"><span>    A.[OrderNo] <span style="color:#f92672">=</span> B.[order_no]
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> [MemberId] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
@@ -569,7 +569,7 @@ IN 與 EXISTS使用差異</p>
 </span></span><span style="display:flex;"><span>        A.[Id]
 </span></span><span style="display:flex;"><span>        ,A.[MemberId]
 </span></span><span style="display:flex;"><span>        ,A.[OrderNo]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [pxplus_paymentrecord].[dbo].[trans_record] <span style="color:#66d9ef">AS</span> A <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[trans_record] <span style="color:#66d9ef">AS</span> A <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> [pxplus_account].[dbo].[<span style="color:#66d9ef">order</span>] <span style="color:#66d9ef">AS</span> B <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">ON</span> A.[OrderNo] <span style="color:#f92672">=</span> B.[order_no]
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
@@ -582,7 +582,7 @@ EX:
 使用COUNT</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>  A.[MemberId]
 </span></span><span style="display:flex;"><span>        ,<span style="color:#66d9ef">COUNT</span>(A.[Id]) <span style="color:#66d9ef">AS</span> Cnt
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [pxplus_paymentrecord].[dbo].[trans_record] <span style="color:#66d9ef">AS</span> A <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[trans_record] <span style="color:#66d9ef">AS</span> A <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
 </span></span><span style="display:flex;"><span>    [MemberId] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> A.[MemberId]
@@ -590,7 +590,7 @@ EX:
 </span></span></code></pre></div><p>使用SUM</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>  A.[MemberId]
 </span></span><span style="display:flex;"><span>        ,<span style="color:#66d9ef">SUM</span>(<span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">WHEN</span> A.[Id] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">THEN</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">ELSE</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">END</span>) <span style="color:#66d9ef">AS</span> Cnt
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [pxplus_paymentrecord].[dbo].[trans_record] <span style="color:#66d9ef">AS</span> A <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[trans_record] <span style="color:#66d9ef">AS</span> A <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
 </span></span><span style="display:flex;"><span>    [MemberId] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> A.[MemberId]
@@ -601,7 +601,7 @@ EX:
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">--未明確指定AS
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span>  A.[MemberId]
 </span></span><span style="display:flex;"><span>        ,<span style="color:#66d9ef">COUNT</span>(A.[Id]) Cnt
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [pxplus_paymentrecord].[dbo].[trans_record] A <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[trans_record] A <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
 </span></span><span style="display:flex;"><span>    [MemberId] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> A.[MemberId]
@@ -610,7 +610,7 @@ EX:
 </span></span><span style="display:flex;"><span><span style="color:#75715e">--明確使用AS
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span>  A.[MemberId]
 </span></span><span style="display:flex;"><span>        ,<span style="color:#66d9ef">SUM</span>(<span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">WHEN</span> A.[Id] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">THEN</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">ELSE</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">END</span>) <span style="color:#66d9ef">AS</span> Cnt
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [pxplus_paymentrecord].[dbo].[trans_record] <span style="color:#66d9ef">AS</span> A <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[trans_record] <span style="color:#66d9ef">AS</span> A <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
 </span></span><span style="display:flex;"><span>    [MemberId] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> A.[MemberId]
@@ -666,7 +666,7 @@ EX:
 </span></span><span style="display:flex;"><span>;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#75715e">--執行計劃如下圖
-</span></span></span></code></pre></div><p><img src="https://imgur.com/9C08jNC.jpg" alt=""></p>
+</span></span></span></code></pre></div><p><img src="https://imgur.com/XnQal45.jpg" alt=""></p>
 <p>14.避免在WHERE條件上使用CASE WHEN
 此舉依條件問題有可能會影響到該查詢不走索引，且會使取資料的邏輯變的複雜不易維護</p>
 <p>WHERE條件使用CASE WHEN</p>
@@ -685,7 +685,7 @@ EX:
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> TOP (<span style="color:#ae81ff">1000</span>) [id]
 </span></span><span style="display:flex;"><span>      ,[order_no]
 </span></span><span style="display:flex;"><span>      ,[order_type]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [pxplus_account].[dbo].[<span style="color:#66d9ef">order</span>] <span style="color:#66d9ef">WITH</span> (NOLOCK)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [dbo].[<span style="color:#66d9ef">order</span>] <span style="color:#66d9ef">WITH</span> (NOLOCK)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
 </span></span><span style="display:flex;"><span>    [order_type] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>;
@@ -835,7 +835,7 @@ WHERE欄位上使用函式</p>
 </span></span><span style="display:flex;"><span>;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#75715e">--以下紅框為此段執行計劃
-</span></span></span></code></pre></div><p><img src="https://imgur.com/iV9wHeM.jpg" alt=""></p>
+</span></span></span></code></pre></div><p><img src="https://imgur.com/wfGea8Q.jpg" alt=""></p>
 <p>改為不在WHERE欄位上使用函式</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> [OrderNo]
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> [pxplus_paymentrecord].[dbo].[trans_record] <span style="color:#66d9ef">WITH</span> (NOLOCK)
@@ -843,7 +843,7 @@ WHERE欄位上使用函式</p>
 </span></span><span style="display:flex;"><span>    [OrderNo] <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;TX902%&#39;</span>
 </span></span><span style="display:flex;"><span>;
 </span></span><span style="display:flex;"><span><span style="color:#75715e">--以下紅框為此段執行計劃
-</span></span></span></code></pre></div><p><img src="https://imgur.com/uFvk3sE.jpg" alt="">
+</span></span></span></code></pre></div><p><img src="https://imgur.com/4ZZjsrU.jpg" alt="">
 使用函式有可能造成索引掃描或式不走索引且使用函式會讓DB engine將此欄位依照需求轉成必要的資料後才進行比對
 在使用了LIKE &lsquo;XXX%&lsquo;之後，可以節省並降低執行成本，%放置於最後端可能可以直接使用索引搜尋</p>
 <p>19.使用LEFT JOIN取代NOT IN / NOT EXISTS</p>
