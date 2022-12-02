@@ -6,7 +6,20 @@
     <description>Recent content in DB on Steve的技術筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Fri, 25 Nov 2022 15:52:04 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/db/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Dec 2022 17:43:03 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/db/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DB側錄工具&amp;Dapper</title>
+      <link>https://shadow061103.github.io/posts/202212/db%E5%81%B4%E9%8C%84%E5%B7%A5%E5%85%B7dapper/</link>
+      <pubDate>Fri, 02 Dec 2022 17:43:03 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202212/db%E5%81%B4%E9%8C%84%E5%B7%A5%E5%85%B7dapper/</guid>
+      <description>DB側錄工具 問題 在正式環境碰到dapper執行sql速度慢 經查有可能是 參數用匿名型別方式傳進去後被轉型(後來查到是cache到舊的sql) int =&amp;gt; big int 導致DB在做where查詢的時候會把欄位轉型，資料量一大就會拖慢執行速度
+翻查dapper source code dapper使用參數的方式有兩種
+用匿名型別傳入 conn.QueryFirstOrDefaultAsync&amp;lt;decimal&amp;gt;(sql, new { code, startDate, endDate }); 用DynamicParameters var param = new DynamicParameters(); param.Add(&amp;#34;@code&amp;#34;, storeCode, dbType: DbType.String); param.Add(&amp;#34;@startDate&amp;#34;, startDate, dbType: DbType.Int32); param.Add(&amp;#34;@endDate&amp;#34;, endDate, dbType: DbType.Int32); var res = await conn.QueryFirstOrDefaultAsync&amp;lt;decimal&amp;gt;(sql, param); 最後會在背後組成一段sql 執行 sp_executesql這個storeprecedude 在dapper套件內會判斷如果不是用用DynamicParameters會幫你判斷屬性型別轉成對應的sql type Dapper source code
+查詢原因 參考軟體主廚的文章 使用XEvent 分析工具或 SQL Server Profiler來分析dapper產生的語法有無差異
+SQL Server Profiler目前已經被淘汰了，但如果你之前有裝過SSMS，或許電腦裡已經有安裝，可以搜尋看有沒有 SSMS XEvent需要SSMS v17.3以上才有提供，且需要sa 完整權限才能使用 實際用法 因為權限問題，且只需要錄製sql語法跟看執行計畫 我是在docker建立一個暫時DB，把正式環境使用的table複製過去 然後開始XEvent側錄dapper執行的sql語法</description>
+    </item>
+    
     <item>
       <title>資料表與索引設計</title>
       <link>https://shadow061103.github.io/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/</link>

@@ -509,6 +509,7 @@ table td {
 .tags-list .post-tags .post-tag:hover a .tag-posts-count {
   background-color: var(--light-text-color);
   color: rgb(var(--light-primary-color));
+
 }
 
 .text-404 {
