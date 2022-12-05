@@ -11,8 +11,8 @@ description: ""
 
 ### 問題
 在正式環境碰到dapper執行sql速度慢
-經查有可能是 參數用匿名型別方式傳進去後被轉型(後來查到是cache到舊的sql)
-int => big int
+經查有可能是 參數用匿名型別方式傳進去後被轉型 ( 後來查到是cache到舊的sql )<br/>
+int => big int<br/>
 導致DB在做where查詢的時候會把欄位轉型，資料量一大就會拖慢執行速度
 
 ### 翻查dapper source code
@@ -50,10 +50,10 @@ var res = await conn.QueryFirstOrDefaultAsync<decimal>(sql, param);
 - SSMS XEvent需要SSMS v17.3以上才有提供，且需要sa 完整權限才能使用
 
 ### 實際用法
-因為權限問題，且只需要錄製sql語法跟看執行計畫
+- 因為權限問題，且只需要錄製sql語法跟看執行計畫，
 我是在docker建立一個暫時DB，把正式環境使用的table複製過去
 然後開始XEvent側錄dapper執行的sql語法
-
+- 打開XEvent並連線到資料庫，打開T-SQL
 ![](https://imgur.com/0FYvpip.jpg)
 畫面截圖
 

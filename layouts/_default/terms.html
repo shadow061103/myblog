@@ -1,0 +1,39 @@
+{{ define "main" }}
+<div class="container tags-list">
+
+    <h1 class="list-title">Tags</h1>
+    {{if eq (len $.Site.Taxonomies.tags) 0}}
+        Nothing to see here, yet 😉
+    {{else}}
+    <ul class="post-tags">
+        {{ range $.Site.Taxonomies.tags.ByCount }}
+        <li class="post-tag">
+            <a href="{{ $.Site.BaseURL }}/tags/{{ .Name | urlize }}/">
+                <div class="tag-name">{{ .Name }}</div>
+                <div class="tag-posts-count">{{ .Count }}</div>
+            </a>
+        </li>
+        {{ end }}
+    </ul>
+    <section>
+        {{ range $.Site.Taxonomies.tags.ByCount }}
+        <div class="container list-posts">
+
+            <h2  style="text-align:left;">{{ .Name }}</h2>
+        
+            {{ range (where .Pages "Params.type" "post" ).GroupByDate "2006" }}
+        
+            {{- range .Pages  -}}
+                {{- partial "list-posts.html" . -}}
+            {{ end }}
+            {{ end }}
+        
+        </div>
+        
+
+        {{ end }}
+    </section>
+    {{ end }}
+
+</div>
+{{ end }}
