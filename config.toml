@@ -5,7 +5,7 @@ theme='gokarna'
 enableEmoji = true
 enableRobotsTXT = true
 googleAnalytics = "G-9EBLW1S7P3"
-
+disqusShortname = 'steveskillblog'
 [params]
   # URL for the avatar on homepage 首頁頭像
   avatarURL = "/images/profile.jpg"
