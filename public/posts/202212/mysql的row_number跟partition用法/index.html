@@ -168,30 +168,42 @@
 
     <div class="post-content">
         <p>
-            <p>情境:
-A表會對應B表多個交易
-需要加總A表金額(B表算完的)並抓B表的第一筆的欄位名稱做顯示</p>
-<p>原始資料表
+            <p>原始範例資料表
 <img src="https://imgur.com/2FPV8E3.jpg" alt=""></p>
 <h3 id="使用row_number對資料作編號">使用row_number對資料作編號</h3>
+<blockquote>
 <p>ROW_NUMBER() OVER (&lt;partition_definition&gt; &lt;order_definition&gt;)</p>
-<h4 id="單純用order-by">單純用order by</h4>
+</blockquote>
+<ul>
+<li>單純用order by</li>
+</ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span>,
 </span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER(<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> id) <span style="color:#66d9ef">AS</span> row_numb
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> exam_results;
 </span></span></code></pre></div><p><img src="https://imgur.com/fOvsria.jpg" alt=""></p>
-<h4 id="單純用partition對資料分割類似group-by分組">單純用partition(對資料分割，類似group by分組)</h4>
+<ul>
+<li>單純用partition(對資料分割，類似group by分組)</li>
+</ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span>,
 </span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER(PARTITION <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">year</span>) <span style="color:#66d9ef">AS</span> row_numb
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> exam_results;
 </span></span></code></pre></div><p><img src="https://imgur.com/FhUjQ0k.jpg" alt=""></p>
-<h4 id="組合使用">組合使用</h4>
-<p>對年份分群並排序result</p>
+<ul>
+<li>組合使用
+對年份分群並排序result</li>
+</ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span> <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span>,
 </span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER(PARTITION <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">year</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">result</span> <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">AS</span> RowNumber
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FROM</span> exam_results;
 </span></span></code></pre></div><p><img src="https://imgur.com/T6cKDsD.jpg" alt=""></p>
-<h3 id="取分群資料的第一筆">取分群資料的第一筆</h3>
+<ul>
+<li>partition是分割資料表的方法，row_number跟window funciton都會用到
+<ul>
+<li>windows function跟group by用法有點像，但他不是只會產出一筆record，而是每一個row都會有資料，詳細用法可以看下面參考</li>
+</ul>
+</li>
+<li>取分群資料的第一筆，同等於group by</li>
+</ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> added_row_number <span style="color:#66d9ef">AS</span> (
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">SELECT</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">*</span>,
@@ -203,7 +215,11 @@ A表會對應B表多個交易
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> added_row_number
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> RowNumber <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
 </span></span></code></pre></div><p><img src="https://imgur.com/3qfi84n.jpg" alt=""></p>
-<h3 id="提供兩種解法也可以使用window-function這邊欄位跟db名稱都有調整過名稱非正式使用">提供兩種解法，也可以使用window function，這邊欄位跟DB名稱都有調整過名稱(非正式使用)</h3>
+<h3 id="正式環境碰到的問題">正式環境碰到的問題</h3>
+<p>1.PM需要產報表請RD出sql script，依照所需欄位組sql</p>
+<p>2.有payment交易總表跟trade交易兩張表，但只有trade這張表上存有商店名稱</p>
+<p>3.需要加總payment上的金額，並同時秀出trade第一筆的商店名稱</p>
+<p>提供兩種解法，也可以使用window function，這邊欄位跟DB名稱都有調整過名稱(非正式使用)</p>
 <p>group by 
 缺點是用max()或min()取得顯示欄位，有可能會不一樣</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> 
@@ -221,9 +237,6 @@ A表會對應B表多個交易
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span> r.number<span style="color:#f92672">=</span>number 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> id <span style="color:#66d9ef">desc</span> <span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span> r.create_time <span style="color:#66d9ef">between</span> <span style="color:#e6db74">&#39;2022-11-01 00:00:00&#39;</span> <span style="color:#66d9ef">and</span> <span style="color:#e6db74">&#39;2022-11-30 23:59:59&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">and</span> r.code <span style="color:#66d9ef">in</span> (<span style="color:#e6db74">&#39;123456&#39;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">and</span> r.status <span style="color:#66d9ef">between</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">and</span> <span style="color:#ae81ff">4</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">group</span> <span style="color:#66d9ef">by</span> r.code,r.name,r.brand_name;
 </span></span></code></pre></div><p>使用window funciton的FIRST_VALUE取資料，搭配sum()聚合函數</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> <span style="color:#66d9ef">result</span> <span style="color:#66d9ef">AS</span> (
@@ -242,22 +255,20 @@ A表會對應B表多個交易
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">from</span> trade
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span> r.number<span style="color:#f92672">=</span>number 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> id <span style="color:#66d9ef">desc</span> <span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span> r.create_time <span style="color:#66d9ef">between</span> <span style="color:#e6db74">&#39;2022-11-01 00:00:00&#39;</span> <span style="color:#66d9ef">and</span> <span style="color:#e6db74">&#39;2022-11-30 23:59:59&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">and</span> r.code <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;123456&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">and</span> r.status <span style="color:#66d9ef">between</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">and</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>)    
 </span></span><span style="display:flex;"><span>WINDOW w <span style="color:#66d9ef">AS</span> (PARTITION <span style="color:#66d9ef">BY</span> r.code <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> r.code <span style="color:#66d9ef">DESC</span>)
 </span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">*</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">result</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> RowNumber <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
 </span></span></code></pre></div><h3 id="參考">參考</h3>
-<p><a href="https://learnsql.com/cookbook/how-to-select-the-first-row-in-each-group-by-group/">How to Select the First Row in Each GROUP BY Group</a></p>
-<p><a href="https://www.begtut.com/mysql/mysql-row-number-function.html">語法教學</a></p>
-<p><a href="https://www.delftstack.com/zh-tw/howto/mysql/row_number-in-mysql/">MySQL 中 Row_Number() 函式的使用</a></p>
-<p><a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_first-value">Window Function Descriptions</a></p>
-<p><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">Window Function Concepts and Syntax</a></p>
+<p><a href="https://learnsql.com/cookbook/how-to-select-the-first-row-in-each-group-by-group/">How to Select the First Row in Each GROUP BY Group</a><!-- raw HTML omitted -->
+<a href="https://www.begtut.com/mysql/mysql-row-number-function.html">語法教學</a><!-- raw HTML omitted -->
+<a href="https://www.delftstack.com/zh-tw/howto/mysql/row_number-in-mysql/">MySQL 中 Row_Number() 函式的使用</a><!-- raw HTML omitted -->
+<a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_first-value">Window Function Descriptions</a><!-- raw HTML omitted -->
+<a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">Window Function Concepts and Syntax</a></p>
 
         </p>
     </div>
