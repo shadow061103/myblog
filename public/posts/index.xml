@@ -6,7 +6,19 @@
     <description>Recent content in Posts on Steve的技術筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Fri, 02 Dec 2022 17:43:03 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 06 Dec 2022 16:30:21 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mysql的row_number跟partition用法</title>
+      <link>https://shadow061103.github.io/posts/202212/mysql%E7%9A%84row_number%E8%B7%9Fpartition%E7%94%A8%E6%B3%95/</link>
+      <pubDate>Tue, 06 Dec 2022 16:30:21 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202212/mysql%E7%9A%84row_number%E8%B7%9Fpartition%E7%94%A8%E6%B3%95/</guid>
+      <description>情境: A表會對應B表多個交易 需要加總A表金額(B表算完的)並抓B表的第一筆的欄位名稱做顯示
+原始資料表 使用row_number對資料作編號 ROW_NUMBER() OVER (&amp;lt;partition_definition&amp;gt; &amp;lt;order_definition&amp;gt;)
+單純用order by SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS row_numb FROM exam_results; 單純用partition(對資料分割，類似group by分組) SELECT *, ROW_NUMBER() OVER(PARTITION BY year) AS row_numb FROM exam_results; 組合使用 對年份分群並排序result
+SELECT *, ROW_NUMBER() OVER(PARTITION BY year ORDER BY result DESC) AS RowNumber FROM exam_results; 取分群資料的第一筆 WITH added_row_number AS ( SELECT *, ROW_NUMBER() OVER(PARTITION BY year ORDER BY result DESC) AS RowNumber FROM exam_results ) SELECT * FROM added_row_number WHERE RowNumber = 1; 提供兩種解法，也可以使用window function，這邊欄位跟DB名稱都有調整過名稱(非正式使用) group by 缺點是用max()或min()取得顯示欄位，有可能會不一樣</description>
+    </item>
+    
     <item>
       <title>DB側錄工具&amp;Dapper</title>
       <link>https://shadow061103.github.io/posts/202212/db%E5%81%B4%E9%8C%84%E5%B7%A5%E5%85%B7dapper/</link>
