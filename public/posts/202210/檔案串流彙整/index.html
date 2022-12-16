@@ -186,6 +186,7 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> result=<span style="color:#66d9ef">new</span> List&lt;<span style="color:#66d9ef">string</span>&gt;();
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> path = <span style="color:#e6db74">@&#34;D:\merchantcode.txt&#34;</span>;
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">using</span> var reader = <span style="color:#66d9ef">new</span> StreamReader(path, Encoding.GetEncoding(<span style="color:#ae81ff">950</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//直接用ReadLine讀也可以</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> content = <span style="color:#66d9ef">await</span> reader.ReadToEndAsync();
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">using</span> var reader2 = <span style="color:#66d9ef">new</span> StringReader(content);
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">string</span> line;
@@ -196,7 +197,74 @@
 </span></span><span style="display:flex;"><span>	
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">//result.Dump();</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> result;
-</span></span></code></pre></div>
+</span></span></code></pre></div><h3 id="串流轉成string">串流轉成string</h3>
+<pre tabindex="0"><code> public static string ToStringContent(this Stream stream)
+        {
+            var reader = new StreamReader(stream, Encoding.GetEncoding(950), true);
+            var content = reader.ReadToEnd();
+            return content;
+        }
+</code></pre><h3 id="壓縮跟解壓縮檔案">壓縮跟解壓縮檔案</h3>
+<ul>
+<li>使用套件 <code>DotNetZip</code></li>
+</ul>
+<p>擴充方法</p>
+<pre tabindex="0"><code>public static class ZipHelper
+    {
+        public static Stream Zip(IEnumerable&lt;ZipFileModel&gt; zipFileModels, string password = &#34;&#34;)
+        {
+            var stream = new MemoryStream();
+            using var zipFile = new ZipFile(Encoding.GetEncoding(950));
+
+            //檔案是0kb或空的時密碼無作用
+            if (!string.IsNullOrEmpty(password))
+                zipFile.Password = password;
+
+            foreach (var model in zipFileModels)
+                zipFile.AddEntry(model.FileName, model.FileStream.ToMemoryStreamBytes());
+
+            zipFile.Save(stream);
+
+            return stream;
+        }
+
+        public static MemoryStream UnZip(this Stream stream, string fileName, string password = &#34;&#34;)
+        {
+            var ms = new MemoryStream();
+            using (var zipFile = ZipFile.Read(stream))
+            {
+                zipFile.Password = password;
+                zipFile[fileName].Extract(ms);
+                ms.Position = 0;
+            }
+            return ms;
+        }
+    }
+</code></pre><ul>
+<li>使用.net core的ZipFile.OpenRead
+Namespace:System.IO.Compression</li>
+</ul>
+<pre tabindex="0"><code> using (ZipArchive archive = ZipFile.OpenRead(zipPath))
+        {
+            foreach (ZipArchiveEntry entry in archive.Entries)
+            {
+                if (entry.FullName.EndsWith(&#34;.txt&#34;, StringComparison.OrdinalIgnoreCase))
+                {
+                    // Gets the full path to ensure that relative segments are removed.
+                    string destinationPath = Path.GetFullPath(Path.Combine(extractPath, entry.FullName));
+
+                    // Ordinal match is safest, case-sensitive volumes can be mounted within volumes that
+                    // are case-insensitive.
+                    if (destinationPath.StartsWith(extractPath, StringComparison.Ordinal))
+                        entry.ExtractToFile(destinationPath);
+                }
+            }
+        }
+</code></pre><p><a href="https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openread?view=net-7.0">https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openread?view=net-7.0</a></p>
+<ul>
+<li><a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.io.compression.zipfile.extracttodirectory?view=net-7.0">ExtractToDirectory</a></li>
+</ul>
+
         </p>
     </div>
     <div class="disqus markdown">
