@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>Polly錯誤自動重試機制</title>
+    <meta name="description" content="Polly錯誤自動重試機制">
+    <meta name="keywords" content='blog, gokarna, hugo, Csharp'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/polly%E9%8C%AF%E8%AA%A4%E8%87%AA%E5%8B%95%E9%87%8D%E8%A9%A6%E6%A9%9F%E5%88%B6/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Polly錯誤自動重試機制">
+    <meta property="og:description" content="Polly錯誤自動重試機制">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Polly錯誤自動重試機制">
+    <meta name="twitter:description" content="Polly錯誤自動重試機制">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/polly%E9%8C%AF%E8%AA%A4%E8%87%AA%E5%8B%95%E9%87%8D%E8%A9%A6%E6%A9%9F%E5%88%B6/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/polly%E9%8C%AF%E8%AA%A4%E8%87%AA%E5%8B%95%E9%87%8D%E8%A9%A6%E6%A9%9F%E5%88%B6/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/polly%E9%8C%AF%E8%AA%A4%E8%87%AA%E5%8B%95%E9%87%8D%E8%A9%A6%E6%A9%9F%E5%88%B6/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Polly錯誤自動重試機制</h1>
+        <small role="doc-subtitle">Polly錯誤自動重試機制</small>
+        <p class="post-date">
+            October 20, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/csharp">Csharp</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="如何使用">如何使用</h3>
+<ul>
+<li>需要先安裝nuget套件 (Polly)</li>
+<li>主要結構</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span> Policy.Handle&lt;HttpRequestException&gt;()
+</span></span><span style="display:flex;"><span>                .OrResult&lt;HttpResponseMessage&gt;(result =&gt; result.StatusCode != HttpStatusCode.OK)
+</span></span><span style="display:flex;"><span>                .Retry(<span style="color:#ae81ff">3</span>, onRetry: (exception, retryCnt) =&gt;
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    Console.WriteLine(<span style="color:#e6db74">$&#34;polly 呼叫api異常 進行第{retryCnt}次重試,error{exception.Result.StatusCode}&#34;</span>);
+</span></span><span style="display:flex;"><span>                }).Execute(DoMockRequest);
+</span></span></code></pre></div><h3 id="polly支援的策略">Polly支援的策略</h3>
+<ul>
+<li><code>Handle&lt;T&gt;</code>:故障時的處理機制，或是指定要處理什麼樣的異常,有多個的話可以用<code>Or&lt;T&gt;</code></li>
+<li><code>HandleResult&lt;T&gt;</code>:依據回傳內容進行故障處理，有多個可以用OrResult</li>
+<li>Retry:重試機制，定義發生故障時要重試的次數或指定工作</li>
+<li>WaitAndRetry:可以定義間隔秒數重試</li>
+</ul>
+<pre tabindex="0"><code>Policy
+  .Handle&lt;SomeExceptionType&gt;()
+  .WaitAndRetry(5, retryAttempt =&gt; 
+ TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) 
+  );
+</code></pre><ul>
+<li>Execute:要執行的任務</li>
+<li>Fallback (替代措施):出錯時啟用備援方案，維持營運</li>
+<li>Circuit Breaker(熔斷):一定期間錯誤次數超過上限，即先停止執行相關動作</li>
+<li>Timeout:超過一定時間就放棄</li>
+<li>Bulkhead Isolation(艙倉隔離):避免出錯請求耗用過多資源拖垮整個系統，限定作業可用資源上限(主要是限制同時執行的請求數量)，隔離其對其他系統的影響</li>
+<li>PolicyWrap:組合上述多種措施混用，彈性因應</li>
+</ul>
+<h3 id="範例">範例</h3>
+<p>把實作方法先包成Action方法，這樣就可以比較彈性
+或是直接在ExecuteAsync呼叫寫好的方法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">async</span> Task Main(<span style="color:#66d9ef">string</span>[] args)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> test = <span style="color:#66d9ef">new</span> Test();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            Func&lt;Task&lt;<span style="color:#66d9ef">bool</span>&gt;&gt; action = <span style="color:#66d9ef">async</span> () =&gt;
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                Random myObject = <span style="color:#66d9ef">new</span> Random();
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">var</span> num = myObject.Next(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">var</span> res = <span style="color:#66d9ef">await</span> test.Check(num);
+</span></span><span style="display:flex;"><span>                Console.WriteLine(res);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>            };
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> policy = Policy.Handle&lt;Exception&gt;()
+</span></span><span style="display:flex;"><span>                .WaitAndRetryAsync(<span style="color:#66d9ef">new</span>[]
+</span></span><span style="display:flex;"><span>                                    {
+</span></span><span style="display:flex;"><span>                                        TimeSpan.FromSeconds(<span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>                                        TimeSpan.FromSeconds(<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>                                        TimeSpan.FromSeconds(<span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>                                    }, (reponse, ts) =&gt;
+</span></span><span style="display:flex;"><span>                                    {
+</span></span><span style="display:flex;"><span>                                        Console.WriteLine(<span style="color:#e6db74">$&#34;間隔{ts.TotalSeconds}秒 繳費退款&#34;</span>);
+</span></span><span style="display:flex;"><span>                                    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span>
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">await</span> policy.ExecuteAsync(action);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">catch</span> (Exception ex)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                Console.WriteLine(<span style="color:#e6db74">&#34;error&#34;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            Console.ReadKey();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task&lt;<span style="color:#66d9ef">bool</span>&gt; Check(<span style="color:#66d9ef">int</span> number)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            Console.WriteLine(<span style="color:#e6db74">$&#34;input {number}&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (number == <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Exception(<span style="color:#e6db74">&#34;boomb!&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (number &lt; <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> Task.FromResult(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> divisor = <span style="color:#ae81ff">2</span>; divisor &lt;= Math.Sqrt(number); divisor++)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (number % divisor == <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> Task.FromResult(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> Task.FromResult(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h3 id="資料來源">資料來源</h3>
+<p><a href="https://marcus116.blogspot.com/2019/06/netcore-polly-retry.html">[NETCore] 使用 Polly 實現重試 (Retry) 策略</a>
+<a href="https://github.com/App-vNext/Polly">https://github.com/App-vNext/Polly</a>
+<a href="https://github.com/App-vNext/Polly/wiki">https://github.com/App-vNext/Polly/wiki</a>
+<a href="https://blog.darkthread.net/blog/polly/">黑暗執行緒</a>
+<a href="https://docs.microsoft.com/zh-tw/dotnet/architecture/microservices/implement-resilient-applications/implement-http-call-retries-exponential-backoff-polly">使用 IHttpClientFactory 和 Polly 原則實作指數輪詢的 HTTP 呼叫重試</a></p>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

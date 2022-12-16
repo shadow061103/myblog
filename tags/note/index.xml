@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>note on Steve的技術筆記</title>
+    <link>https://shadow061103.github.io/tags/note/</link>
+    <description>Recent content in note on Steve的技術筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Thu, 20 Oct 2022 16:53:24 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/note/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>非同步程式</title>
+      <link>https://shadow061103.github.io/posts/202210/%E9%9D%9E%E5%90%8C%E6%AD%A5%E7%A8%8B%E5%BC%8F/</link>
+      <pubDate>Thu, 20 Oct 2022 16:53:24 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E9%9D%9E%E5%90%8C%E6%AD%A5%E7%A8%8B%E5%BC%8F/</guid>
+      <description>同步執行的問題 需要跟使用者互動的應用程式來說，如果有某項工作要花很⻑的時間才能跑完，使用者就只能在螢幕前發呆 某個應用程式進入無窮迴圈將導致其他應用程式暫停，整個作業系統看起來就像當掉 處理序 隔離應用程式的基本單位 當使用者開啟某應用程式，作業系統會將它載入記憶體並開始執行，這個載入記憶體中運行的應用程式實體（instance），便稱為處理序 會占用一個記憶體區塊，是獨立的虛擬位址空間，包含該應用程式的程式碼及相關資源，而且此空間只有該應用程式實體能夠存取 應用程式跟OS可以透過處理序分隔，但CPU沒辦法，所以要靠執行緒 執行緒 Windows 會給每一個處理序（process）配發一個專屬的執行緒（其功能近似於CPU），而當某應用程式進入無窮迴圈，其所屬之處理序形同凍結，但其他處理序（擁有各自的執行緒）並未凍結；它們都還能夠繼續運行
+執行緒是Windows 作業系統用來虛擬化CPU 的概念 執行緒就是用來切割CPU的基本單位，可以同時執行多項工作 一個處理序可以同時跑多個執行緒 建一條thread要配置1MB的記憶體，包含執行緒核心物件、環境區塊（Thread Environment Block）、使用者模式堆疊、核心模式堆疊等等 Context Switch 切割並分配CPU運算時間給應用程式的各個執行緒 把CPU內部各暫存器的值保存至目前執行緒的內部資料結構 挑選下一個&amp;quot;幸運&amp;quot;的執行緒。若該執行緒屬於另一個處理序，則在切換之前，Windows 還必須切換虛擬位址空間，這樣CPU 才能存取到正確的程式碼和資料 從選中的執行緒之內部資料結構載入CPU暫存器的值 建立、摧毀、管理和切換執行緒都得額外消耗一些記憶體空間，所以沒必要不要多建額外的thread CLR 回收資源時，它會先暫停所有的執行緒，等到回收動作完成後才恢復 執行緒優先順序 優先順序分成32個等級，0-31 優先權越高愈能分到更多CPU時間 等級低的會發生starvation的情況，容易分不到資源，但是多核心的機器可以減少這種狀況 用處理序的優先順序類別跟執行緒的優先順序決定等級 處理序的優先順序 即時（RealTime） 可能會影響OS正常運作 高（High） I/O 執行時間短的才適用 高於標準（Above Normal） 標準（Normal） 低於標準（Below Normal） 閒置（Idle） var p=Process.GetCurrentProcess(); p.PriorityClass=ProcessPriorityClass.High; 執行緒的優先順序 閒置（Idle） 最低（Lowest 低於正常（Below Normal） 正常（Normal） 高於正常（Above Normal） 最高（Highest） 時間緊迫（Time-Critical） var t = new Thread(() =&amp;gt; { &amp;#34;aaa&amp;#34;.Dump();}); t.Priority=ThreadPriority.Highest; 名詞解釋 並行（concurrency）：一次處理多件工作。例如：使用者一邊輸入文字，應用程式在背後一邊執行拼字檢查 多執行緒（multithreading）：特別指以多執行緒的方式來實現並行（concurrency） 平行處理（parallel processing）：把工作切分成多個小單位，並分別交給多條執行緒來同時執行 非同步處理（asynchronous processing）：是並行（concurrency）的一種形式，但不必然（甚至會避免）使用執行緒，而是採用「承諾」（promise ）或回呼事件（callback event）的方式來達到並行的效果 非同步工作會在將來某個時間執行完畢，執行這些工作的時候不會擋住當前的執行緒，也就是說呼叫非同步工作的執行緒仍然可以繼續執行其它工作，等非同步工作完成會透過callback event/promise/ 專屬執行緒dedicated thread 直接建立一條執行緒專門執行某件工作</description>
+    </item>
+    
+  </channel>
+</rss>

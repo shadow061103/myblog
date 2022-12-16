@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>保哥非同步課程</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, Csharp, 課程筆記'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/%E4%BF%9D%E5%93%A5%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%AA%B2%E7%A8%8B/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="保哥非同步課程">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="保哥非同步課程">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/%E4%BF%9D%E5%93%A5%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%AA%B2%E7%A8%8B/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/%E4%BF%9D%E5%93%A5%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%AA%B2%E7%A8%8B/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/%E4%BF%9D%E5%93%A5%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%AA%B2%E7%A8%8B/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>保哥非同步課程</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 20, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/csharp">Csharp</a></li>
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/%E8%AA%B2%E7%A8%8B%E7%AD%86%E8%A8%98">課程筆記</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <ul>
+<li>thread要執行要進CPU排隊，所以不一定先start的會先跑</li>
+<li>非同步不一定是multi thread(user thread)，File.WriteAsync 會叫dreiver去處理寫檔，完成後會告知已完成</li>
+<li>會造成deadlock的情境
+<ul>
+<li>用windowform、WPF有內建syncronizecontext</li>
+<li>宣告方法是有用async、await關鍵字</li>
+<li>呼叫非同步方法的時候用.Result() 或wait()</li>
+</ul>
+</li>
+<li>.Wait()跟.Result會block thread，不會還回去，只有用await才會還</li>
+<li>沒有等待的動作，就不會有把執行緒還回去的動作</li>
+<li>CPU bound的工作可以用Task.Run()去實作，這種方式會去thread pool拉一條新的thread,IO bound 的用async await就可以</li>
+<li>thread pool會動態長大，如果電腦8核16的邏輯處理單元，一開始只會分配16個thread，把thread用完還會一直分配，但是用.Result會block thread，就會等到有Thread可以用的時候才會繼續往下做</li>
+<li>.net core把HttpContext.Current刪掉了,要改成注入的方式</li>
+</ul>
+<h3 id="task的完成狀態">Task的完成狀態</h3>
+<ul>
+<li>IsCompleted 這個值表示工作是否已經完成執行（無論成功或失敗都叫完成）</li>
+<li>IsCompletedSuccessfully這個值表示工作是否已經完成執行（只有成功才會為true）</li>
+<li>IsCanceled這個值表示工作是否因取消才完成執行</li>
+<li>IsFaulted這個值表示工作是否因未處理的例外狀況才完成執行</li>
+</ul>
+<h3 id="taskstatus屬性列舉">Task.Status屬性列舉</h3>
+<ul>
+<li>Canceled	6
+工作確認取消動作，不論是因為工作在語彙基元處於信號狀態時使用自己的 CancellationToken 擲回 OperationCanceledException，或是工作的 CancellationToken 信號在工作開始執行之前便已存在。 如需詳細資訊，請參閱工作取消。</li>
+<li>Created	0
+工作已初始化但尚未排程。</li>
+<li>Faulted	7
+工作因未處理的例外狀況而完成。</li>
+<li>RanToCompletion	5
+工作已成功完成執行。</li>
+<li>Running	3
+工作正在執行，但尚未完成。</li>
+<li>WaitingForActivation	1
+工作正在等候由 .NET 基礎結構從內部啟動並排程。</li>
+<li>WaitingForChildrenToComplete	4
+工作已完成執行，而且在暗中等候附加的子工作完成。</li>
+<li>WaitingToRun	2
+工作已排定執行，但尚未開始執行。
+<a href="https://docs.microsoft.com/zh-tw/dotnet/api/system.threading.tasks.taskstatus?view=net-6.0#system-threading-tasks-taskstatus-faulted">參考</a>
+<img src="https://imgur.com/euVRRIq.jpg" alt=""></li>
+</ul>
+<h3 id="會封鎖執行緒的等候方法">會封鎖執行緒的等候方法</h3>
+<h4 id="沒有回傳值">沒有回傳值</h4>
+<ul>
+<li>MethodAsync().Wait() 封鎖並等待MethodAsync 方法執行完成</li>
+<li>Task.WaitAll(Task[]) 封鎖並等候所有Task 工作完成</li>
+<li>Task.WaitAny(Task[]) 封鎖並等候任一Task 工作完成</li>
+</ul>
+<h4 id="有回傳值">有回傳值</h4>
+<ul>
+<li>MethodAsync().Result 封鎖並等待MethodAsync 方法執行完成後的回傳值</li>
+</ul>
+<h3 id="前景執行緒foreground-thread">前景執行緒(Foreground Thread)</h3>
+<ul>
+<li>所有前景執行緒必須全部結束執行，否則處理程序無法結束執行</li>
+<li>無論是否還有背景執行緒在執行，沒有前景執行緒在跑，該處理程序就一定會結束</li>
+<li>new Thread() 預設就是前景執行緒</li>
+</ul>
+<h3 id="背景執行緒background-thread">背景執行緒(Background Thread)</h3>
+<ul>
+<li>new Task() 預設就是背景執行緒</li>
+<li>從執行緒集區(Thread Pool)取得的執行緒，一定是背景執行緒</li>
+<li>Task.Run 從執行緒集區取得一個執行緒，因此是背景執行緒</li>
+<li>NET 處理程序(Process)啟動後，僅會有一個前景執行緒</li>
+<li>每個執行程序都可以產生出許多前景執行緒或背景執行緒</li>
+</ul>
+<h3 id="非同步的異常狀況發生整理">非同步的異常狀況發生整理</h3>
+<ul>
+<li>使用async void 會捕捉不到異常</li>
+</ul>
+<h4 id="thread">thread</h4>
+<p>執行緒可以拋出例外，但是無法捕捉到，因此會造成應用程式關閉</p>
+<h4 id="task">Task</h4>
+<ul>
+<li>沒有透過「等待」的Task 當例外發生時，並不會向外拋出例外
+<ul>
+<li>直接回傳Task 的呼叫方式，等同於「沒有等待」的非同步呼叫，自然也無法透過try/catch 捕捉到例外</li>
+</ul>
+</li>
+<li>有透過「等待」機制處理的Task 才有機會透過try/catch 捕捉例外
+<img src="https://imgur.com/xn5RSef.jpg" alt=""></li>
+</ul>
+<h3 id="非同步工作取消">非同步工作取消</h3>
+<ul>
+<li>使用CancellationTokenSource 使用CancellationTokenSource.Token 這個屬性取得CancellationToken</li>
+<li>CancellationToken.IsCancellationRequested</li>
+<li>CancellationToken.ThrowIfCancellationRequested
+收到取消訊號，會拋出OperationCanceledException</li>
+<li>可以設定取消時間</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>CancellationTokenSource ctsTimeout = <span style="color:#66d9ef">new</span> CancellationTokenSource();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ctsTimeout.CancelAfter(<span style="color:#ae81ff">8000</span>);
+</span></span></code></pre></div><ul>
+<li>組合多個CancellationTokenSource，如果有其中一個取消，都會進到取消狀態</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span> CancellationTokenSource ctsUser = <span style="color:#66d9ef">new</span> CancellationTokenSource();
+</span></span><span style="display:flex;"><span>CancellationTokenSource ctsTimeout = <span style="color:#66d9ef">new</span> CancellationTokenSource();
+</span></span><span style="display:flex;"><span>CancellationTokenSource combinationCTS = CancellationTokenSource.CreateLinkedTokenSource(ctsUser.Token, ctsTimeout.Token);
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">傳入</span>combinationCTS.Token
+</span></span></code></pre></div><h3 id="偵錯平行應用程式檢視單一執行續的呼叫堆疊">偵錯平行應用程式檢視單一執行續的呼叫堆疊</h3>
+<ul>
+<li>[偵錯] [視窗] [執行緒]</li>
+<li>[偵錯] [視窗] [呼叫堆疊]</li>
+<li>按兩下[執行緒] 視窗中的執行緒，使它成為目前執行緒。
+<ul>
+<li>目前執行緒具有黃色箭號。</li>
+<li>當您變更目前執行緒時，它的呼叫堆疊會出現在[呼叫堆疊] 視窗中</li>
+</ul>
+</li>
+</ul>
+<h3 id="sleep跟delay差異">Sleep跟Delay差異</h3>
+<ul>
+<li>Thread.Sleep 會造成當時執行緒被封鎖(例如，UI執行緒無法執行任何指令，造成螢幕UI 控制項無法正常更新)</li>
+<li>Task.Delay 因為使用非同步等候方式，所以當時的執行緒是不會被封鎖的，螢幕UI 控制項可以正常更新</li>
+</ul>
+<p><a href="https://www.huanlintalk.com/2016/01/asyc-deadlock-in-aspbet.html">https://www.huanlintalk.com/2016/01/asyc-deadlock-in-aspbet.html</a></p>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#task的完成狀態">Task的完成狀態</a></li>
+            <li><a href="#taskstatus屬性列舉">Task.Status屬性列舉</a></li>
+            <li><a href="#會封鎖執行緒的等候方法">會封鎖執行緒的等候方法</a>
+              <ul>
+                <li><a href="#沒有回傳值">沒有回傳值</a></li>
+                <li><a href="#有回傳值">有回傳值</a></li>
+              </ul>
+            </li>
+            <li><a href="#前景執行緒foreground-thread">前景執行緒(Foreground Thread)</a></li>
+            <li><a href="#背景執行緒background-thread">背景執行緒(Background Thread)</a></li>
+            <li><a href="#非同步的異常狀況發生整理">非同步的異常狀況發生整理</a>
+              <ul>
+                <li><a href="#thread">thread</a></li>
+                <li><a href="#task">Task</a></li>
+              </ul>
+            </li>
+            <li><a href="#非同步工作取消">非同步工作取消</a></li>
+            <li><a href="#偵錯平行應用程式檢視單一執行續的呼叫堆疊">偵錯平行應用程式檢視單一執行續的呼叫堆疊</a></li>
+            <li><a href="#sleep跟delay差異">Sleep跟Delay差異</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

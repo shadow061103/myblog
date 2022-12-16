@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>C# OOP物件導向</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, Csharp'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/oop%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="C# OOP物件導向">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="C# OOP物件導向">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/oop%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/oop%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/oop%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>C# OOP物件導向</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 20, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/csharp">Csharp</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h2 id="三大特性">三大特性</h2>
+<h3 id="繼承">繼承</h3>
+<blockquote>
+<p>繼承者會擁有被繼承者的型別特徵</p>
+</blockquote>
+<ul>
+<li>繼承一個上層類別 (只能一個)</li>
+<li>實做介面 (可以多個)</li>
+</ul>
+<h3 id="封裝">封裝</h3>
+<ul>
+<li>隱藏不必要為外界所知的資訊</li>
+<li>隱藏行為的變化</li>
+<li>隔離出物件的內部與外部，就是定義「物件的邊界」，以及定義出「外部可視部分」</li>
+<li>將外部使用端不需要瞭解的物件內部資訊給封裝起來，也就是「封裝物件的實作細節」</li>
+<li>將物件內部的變化封裝起來，也就是「封裝變化」</li>
+</ul>
+<h3 id="多型">多型</h3>
+<blockquote>
+<p>父類別指標指向子類別物件</p>
+</blockquote>
+<ul>
+<li>廣義多型 (universal polymorphism)
+<ul>
+<li>繼承式多型 (inclusion):一般常見的</li>
+<li>參數式多型 (parametric):以參數型式，讓類別可以達到動態變化的方法(EX 泛型)</li>
+</ul>
+</li>
+<li>特設多型 (ad hoc polymorphism)
+<ul>
+<li>多載 (overloading):表示使用同一個名稱但不同的參數清單，定義多個版本的程序</li>
+<li>強制同型 (coercions):會用到boxing跟unboxing EX (int)num</li>
+</ul>
+</li>
+</ul>
+<h2 id="型別">型別</h2>
+<h3 id="參考型別">參考型別</h3>
+<blockquote>
+<p>變數內容則是儲存指向物件的參考(指標)，存在 Heap</p>
+</blockquote>
+<ul>
+<li>介面</li>
+<li>類別</li>
+<li>委派</li>
+</ul>
+<h3 id="實質型別">實質型別</h3>
+<blockquote>
+<p>變數內容就是物件本身，存在於 Stack
+變數與物件是一對一的關係
+一定會繼承 System.ValueType</p>
+</blockquote>
+<ul>
+<li>結構</li>
+<li>列舉</li>
+</ul>
+<h3 id="boxing-與-unboxing">Boxing 與 UnBoxing</h3>
+<ul>
+<li>實質型別與參考型別之間的轉換</li>
+<li>造成效能耗損</li>
+</ul>
+<h3 id="存取修飾字">存取修飾字</h3>
+<ul>
+<li>private (預設)</li>
+<li>internal</li>
+<li>protected</li>
+<li>protected internal</li>
+<li>public</li>
+</ul>
+<h3 id="其他修飾字">其他修飾字</h3>
+<ul>
+<li>abstract抽象
+<ul>
+<li>類別 : 表示抽象類別，不具有公開建構式</li>
+<li>成員 : 表示為抽象成員，實做不完整，方法不提供實作， 非抽象衍生類別必須覆寫此方法，隱含virtual</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">int</span> Add(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test1</span> : Test
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">int</span> Add(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> a + b;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><ul>
+<li>sealed
+<ul>
+<li>類別 : 表示密封類別，此類別無法再被繼承</li>
+<li>成員 : 當套用至成員時，sealed 修飾詞必須一律和override 搭配使用，其衍生類別將無法再覆寫此成員</li>
+</ul>
+</li>
+<li>virtual虛擬:允許在衍生類別中覆寫此成員，可以有實作</li>
+<li>new遮蔽:明確隱藏繼承自基底類別的成員，或稱為遮蔽</li>
+<li>override:覆寫基底類別的虛擬(virtual) 成員
+<ul>
+<li>被覆寫的基底方法必須是虛擬、抽象或覆寫的執行個體方法(不能靜態或非虛擬、密封方法)</li>
+</ul>
+</li>
+</ul>
+<h3 id="實質型別傳值址">實質型別傳值/址</h3>
+<ul>
+<li>傳值:取出變數複製一份到方法中，變數位址不同，變數是儲存內容值</li>
+<li>傳址:方法參數要加上ref，變數位址相同</li>
+</ul>
+<h3 id="參考型別傳值址">參考型別傳值/址</h3>
+<ul>
+<li>傳值:取出變數值傳遞到方法中，變數位址不同，只能改變原來傳進去變數的值，改變位址就不是原本變數</li>
+<li>傳址:取出變數的位址傳給方法，變數是儲存位址，改變值或new一個會改變原本變數</li>
+</ul>
+<h3 id="多載">多載</h3>
+<blockquote>
+<p>同樣的方法名稱,不同的參數清單</p>
+</blockquote>
+<h3 id="靜態類別">靜態類別</h3>
+<ul>
+<li>只包含靜態成員</li>
+<li>無法產生實體</li>
+<li>一定是密封的, 無法被繼承</li>
+<li>基底類別只能是 Object Type</li>
+<li>沒有執行個體建構函式</li>
+</ul>
+<h3 id="靜態建構式">靜態建構式</h3>
+<ul>
+<li>靜態建構函式可以用來初始化任何靜態資料，或執行只需執行一次的特定動作。 在建立第一個執行個體或參考任何靜態成員之前，會自動呼叫靜態建構函式。</li>
+<li>靜態建構函式並<strong>不使用存取修飾詞，也沒有參數</strong></li>
+<li>在建立第一個執行個體或參考任何靜態成員之前，就會自動呼叫靜態建構函式以初始化類別</li>
+<li>不能直接呼叫靜態建構函式</li>
+<li>使用者無法控制程式中靜態建構函式執行的時間</li>
+<li>靜態建構函式通常用在當類別使用記錄檔，而建構函式被用來將項目寫入該檔案</li>
+<li>如果靜態建構函式擲回例外狀況，執行階段將不會再一次叫用它，且在您的程式執行的應用程式定義域存留期中，型別都將保持未初始化狀態</li>
+</ul>
+<h3 id="靜態成員">靜態成員</h3>
+<ul>
+<li>除非透過執行個體, 否則靜態成員是無法直接存取執行個體成員</li>
+<li>靜態方法能多載但不能覆寫</li>
+<li>C# 不支援靜態區域變數</li>
+<li>靜態方法與執行個體方法的選擇</li>
+</ul>
+<h3 id="共變逆變不變">共變逆變不變</h3>
+<ul>
+<li>共變性:用基底類別取代衍生類別</li>
+<li>逆變性:用衍生類別取代基底類別</li>
+</ul>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

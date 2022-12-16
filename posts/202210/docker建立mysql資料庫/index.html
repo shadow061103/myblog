@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>Docker建立Mysql資料庫</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, DB, docker'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Docker建立Mysql資料庫">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Docker建立Mysql資料庫">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Docker建立Mysql資料庫</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 27, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/db">DB</a></li>
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/docker">docker</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="docker建立container">docker建立container</h3>
+<p>1.docker pull mysql:8
+2.docker run &ndash;name mysql_test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8
+3.可以用mysql workbench登入 127.0.0.1:3306</p>
+<h3 id="下指令進入mysql-client">下指令進入mysql client</h3>
+<p>1.docker exec -it <!-- raw HTML omitted --> bash 進入互動模式
+2.<code>mysql -h localhost -u root -p</code> 進入client 就可以下指令</p>
+<p><a href="https://hub.docker.com/_/mysql">https://hub.docker.com/_/mysql</a></p>
+<h3 id="練習">練習</h3>
+<p><a href="https://ithelp.ithome.com.tw/articles/10271229">[面試][資料庫]關聯式資料庫要如何設計避免超賣？</a></p>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

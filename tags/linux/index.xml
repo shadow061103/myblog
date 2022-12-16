@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on Steve的技術筆記</title>
+    <link>https://shadow061103.github.io/tags/linux/</link>
+    <description>Recent content in linux on Steve的技術筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Mon, 24 Oct 2022 15:39:33 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SSH服務</title>
+      <link>https://shadow061103.github.io/posts/202210/ssh%E6%9C%8D%E5%8B%99/</link>
+      <pubDate>Mon, 24 Oct 2022 15:39:33 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/ssh%E6%9C%8D%E5%8B%99/</guid>
+      <description>遠端操作主機的方式，docker也可以用ssh連接和存取內部容器
+Linux下安裝OpenSSH 定義在應用層和傳輸層的安全協定 相較於FTP,Telnet更安全 Linux安裝SSH sudo apt-get purge openssh-server sudo apt-get install openssh-server sudo service sshd start sudo service ssh status /lib/systemd/systemd-sysv-install enable ssh 預設會裝到/usr/sbin下 啟動方式是守護狀態 要用-D轉到前台運行 sudo /usr/sbin/sshd -D 啟動程式後會監聽port 22，就可以接收用戶端請求了 windows用戶端程式是PuTTY
+指令 登入 ssh user@host -p可以指定port ssh host 不指定登入使用者 應用情境 把一些設定檔放在資料卷容器 然後起一個SSH的容器去操作這個資料卷容器
+docker create --name config -v /etc/nginx alpine echo Nginx Configuration docker create --name code -v /var/web alpine echo Root docker create --name web --volumes-from code --volumes-from config -p 80:80 -p 443:443 nginx:1.</description>
+    </item>
+    
+  </channel>
+</rss>

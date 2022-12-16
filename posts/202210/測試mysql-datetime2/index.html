@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>測試mysql datetime2</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, DB'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="測試mysql datetime2">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="測試mysql datetime2">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>測試mysql datetime2</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 27, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/db">DB</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="question">question</h3>
+<p>用mysql db 新增欄位時用datetime2會跳錯誤訊息</p>
+<pre tabindex="0"><code>System.ArgumentOutOfRangeException: Index and length must refer to a location within the string. (Parameter &#39;length&#39;)
+   at System.String.Substring(Int32 startIndex, Int32 length)
+   at MySql.Data.Types.MySqlBinary.MySql.Data.Types.IMySqlValue.WriteValue(MySqlPacket packet, Boolean binary, Object val, Int32 length)
+   at MySql.Data.MySqlClient.MySqlParameter.Serialize(MySqlPacket packet, Boolean binary, MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex)
+   at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at MySql.Data.MySqlClient.Statement.BindParameters()
+   at MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at System.Data.Common.DbCommand.ExecuteNonQueryAsync(CancellationToken cancellationToken)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.ExecuteImplAsync(IDbConnection cnn, CommandDefinition command, Object param) in /_/Dapper/SqlMapper.Async.cs:line 646
+   at Program.&lt;Main&gt;$(String[] args) in C:\Users\KuanFu\source\repos\ConsoleApp7\ConsoleApp7\Program.cs:line 19
+</code></pre><h3 id="docker安裝db">docker安裝DB</h3>
+<pre tabindex="0"><code>docker run --rm -d -e SA_PASSWORD=P@ssw0rd -e ACCEPT_EULA=Y -ti -p 1433:1433  mcr.microsoft.com/mssql/server:2019-latest
+
+docker run --name sql2 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=Dev127336 -d mysql:8
+</code></pre><h3 id="program">program</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> System.Data.SqlClient;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> Dapper;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> MySql.Data.MySqlClient;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Console.WriteLine(<span style="color:#e6db74">&#34;Hello, World!&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> connectstr = <span style="color:#e6db74">&#34;Data Source=127.0.0.1,1433;Initial Catalog=Test;Persist Security Info=True;User ID=sa;Password=P@ssw0rd;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;TrustServerCertificate=True&#34;</span>;
+</span></span><span style="display:flex;"><span>connectstr = <span style="color:#e6db74">&#34;Data Source=127.0.0.1,3306;Initial Catalog=Test;Persist Security Info=True;User ID=root;Password=Dev127336;Pooling=False;Connect Timeout=60;&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> connection = <span style="color:#66d9ef">new</span> MySqlConnection(connectstr))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> sql = <span style="color:#e6db74">&#34;insert into [MyTable] (Date) values (@Date);&#34;</span>;
+</span></span><span style="display:flex;"><span>        sql = <span style="color:#e6db74">&#34;INSERT INTO `Test`.`MyTable` (`Date`) VALUES (@Date);&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> parameter = <span style="color:#66d9ef">new</span> DynamicParameters();
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">//這邊可以改成Datetime2</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//parameter.Add(&#34;@Date&#34;, $&#34;{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}&#34;, System.Data.DbType.DateTime2);</span>
+</span></span><span style="display:flex;"><span>        parameter.Add(<span style="color:#e6db74">&#34;@Date&#34;</span>, DateTime.Now, System.Data.DbType.DateTime);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">await</span> connection.ExecuteAsync(sql, parameter);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">catch</span> (Exception ex)
+</span></span><span style="display:flex;"><span>{ 
+</span></span><span style="display:flex;"><span>    Console.WriteLine(ex.ToString());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Console.ReadKey();
+</span></span></code></pre></div><h3 id="結論">結論</h3>
+<p>mysql 沒有datetime2型別可以用
+應該是誤用</p>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>SSH服務</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, docker, ssh, linux'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/ssh%E6%9C%8D%E5%8B%99/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SSH服務">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SSH服務">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/ssh%E6%9C%8D%E5%8B%99/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/ssh%E6%9C%8D%E5%8B%99/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/ssh%E6%9C%8D%E5%8B%99/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>SSH服務</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 24, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/docker">docker</a></li>
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/ssh">ssh</a></li>
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/linux">linux</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>遠端操作主機的方式，docker也可以用ssh連接和存取內部容器</p>
+</blockquote>
+<ul>
+<li>Linux下安裝OpenSSH</li>
+<li>定義在應用層和傳輸層的安全協定</li>
+<li>相較於FTP,Telnet更安全</li>
+</ul>
+<h3 id="linux安裝ssh">Linux安裝SSH</h3>
+<pre tabindex="0"><code>sudo apt-get purge openssh-server
+sudo apt-get install openssh-server
+sudo service sshd start
+sudo service ssh status 
+/lib/systemd/systemd-sysv-install enable ssh
+預設會裝到/usr/sbin下
+啟動方式是守護狀態 要用-D轉到前台運行
+sudo /usr/sbin/sshd -D
+</code></pre><p>啟動程式後會監聽port 22，就可以接收用戶端請求了
+windows用戶端程式是PuTTY</p>
+<h3 id="指令">指令</h3>
+<ul>
+<li>登入
+<ul>
+<li><code>ssh user@host</code> -p可以指定port</li>
+<li><code>ssh host</code> 不指定登入使用者</li>
+</ul>
+</li>
+</ul>
+<h3 id="應用情境">應用情境</h3>
+<p>把一些設定檔放在資料卷容器
+然後起一個SSH的容器去操作這個資料卷容器</p>
+<pre tabindex="0"><code>docker create --name config -v /etc/nginx alpine echo Nginx Configuration
+docker create --name code -v /var/web alpine echo Root
+docker create --name web --volumes-from code --volumes-from config -p 80:80 -p 443:443 nginx:1.10
+docker pull rastasheep/ubuntu-sshd
+docker run -d -P --name sshd --volumes-from code --volumes-from config rastasheep/ubuntu-sshd
+
+//查詢配置的port 
+docker port sshd 22
+//然後就可以用本地端工具連了
+ssh root@host -p 12345  //密碼是root
+</code></pre><h3 id="建構ssh服務映象">建構SSH服務映象</h3>
+<ul>
+<li>commit的方式</li>
+</ul>
+<pre tabindex="0"><code>進去安裝ssh軟體
+docker run -it ubuntu:16.04 /bin/bash
+#apt-get update &amp;&amp; apt-get install -y openssh-server
+//建立登入用的帳密
+# mkdir /var/run/sshd
+# groupadd wgroup
+# useradd -g wgroup wuser
+# passwd wuser
+//root帳號的配置 預設是不能密碼登入
+# more /etc/ssh/sshd_config | grep PermitRootLogin
+//sed更改組態 變可以密碼登入
+# sed -i &#39;s/PermitRootLogin prohibit-password/PermitRootLogin yes/&#39; /etc/ssh/sshd_config
+# sed &#39;s@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g&#39; -i /etc/pam.d/sshd
+#exit
+docker commit -m &#39;SSH Server&#39; 3c10fae1bbcd ymdot/sshd
+//提交成image
+docker images
+docker run -d -p 10022:22 ymdot/sshd /usr/sbin/sshd -D
+啟動完就可以登進去看
+</code></pre><p>測完這個container執行起來會直接退出，沒辦法運行
+用dockerfile才可以</p>
+<h3 id="官方dokerfile">官方Dokerfile</h3>
+<pre tabindex="0"><code>FROM ubuntu:16.04
+  
+RUN apt-get update &amp;&amp; apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+RUN echo &#39;root:screencast&#39; | chpasswd
+RUN sed -i &#39;s/PermitRootLogin prohibit-password/PermitRootLogin yes/&#39; /etc/ssh/sshd_config
+  
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed &#39;s@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g&#39; -i /etc/pam.d/sshd
+  
+ENV NOTVISIBLE &#34;in users profile&#34;
+RUN echo &#34;export VISIBLE=now&#34; &gt;&gt; /etc/profile
+  
+EXPOSE 22
+CMD [&#34;/usr/sbin/sshd&#34;, &#34;-D&#34;]
+</code></pre><ul>
+<li>用<code>docker build -t ubuntu_sshd .</code> 建image</li>
+<li>記得root:screencast 密碼要改掉</li>
+<li><code>docker run -d -p 49154:22 -v /home/user/data:/mnt/data --name my_server ubuntu_sshd</code>
+<ul>
+<li>-d (detach) 讓container 生成後不要占用 terminal。</li>
+<li>-p 指定主機上的 port 49154  接上 container 的 port 22，實際暴露的 port 除了不要覆蓋到原本主機的 port 22 外，可以自行選定，基於安全性原則一定要改。</li>
+<li>-v 將主機上的資料夾 /home/user/data mount 到 container 的 /mnt/data 上。</li>
+<li>–name 命名這個虛擬機的名稱 my_server `</li>
+</ul>
+</li>
+<li>ssh root@[host] -p 49154(host主機IP)</li>
+</ul>
+<p><a href="https://www.itread01.com/p/125355.html">https://www.itread01.com/p/125355.html</a></p>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

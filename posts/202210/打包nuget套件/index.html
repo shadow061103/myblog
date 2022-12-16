@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>打包Nuget套件</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, Csharp'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/%E6%89%93%E5%8C%85nuget%E5%A5%97%E4%BB%B6/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="打包Nuget套件">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="打包Nuget套件">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/%E6%89%93%E5%8C%85nuget%E5%A5%97%E4%BB%B6/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/%E6%89%93%E5%8C%85nuget%E5%A5%97%E4%BB%B6/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/%E6%89%93%E5%8C%85nuget%E5%A5%97%E4%BB%B6/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>打包Nuget套件</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 20, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/csharp">Csharp</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="設定練習用套件來源">設定練習用套件來源</h3>
+<ul>
+<li>公司練習的位置是http://package.evertrust.com.tw/feeds/Exercise</li>
+</ul>
+<h3 id="開發環境設定">開發環境設定</h3>
+<ul>
+<li>安裝node.js
+<ul>
+<li><a href="https://nodejs.org/en/">https://nodejs.org/en/</a> 下載安裝檔案</li>
+</ul>
+</li>
+<li>設定npm
+<ul>
+<li><code>npm config set registry=&quot;http://package.evertrust.com.tw/npm/registry</code></li>
+<li><code>npm config set strict-ssl=false</code></li>
+</ul>
+</li>
+<li>安裝nuget命令列
+<ul>
+<li><code>npm install nuget-cli -g</code></li>
+</ul>
+</li>
+<li>下載nuget.exe
+<ul>
+<li><a href="https://www.nuget.org/downloads">download</a></li>
+<li>把nuget.exe.檔案路徑加到環境變數PATH，重開cmd就可以用了</li>
+</ul>
+</li>
+</ul>
+<h2 id="使用nuget-package-explorer製作套件">使用NuGet Package Explorer製作套件</h2>
+<ul>
+<li>下載並開啟<a href="https://www.microsoft.com/zh-tw/p/nuget-package-explorer/9wzdncrdmdm3?activetab=pivot:overviewtab">NuGet Package Explorer</a></li>
+<li>Create a new package
+<img src="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer/raw/main/images/screenshots/CommonTasks.png" alt=""></li>
+<li>編輯Package metadata(id、version、description&hellip;)
+<img src="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer/raw/main/images/screenshots/EditMetadata.png" alt=""></li>
+</ul>
+<pre tabindex="0"><code>&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;
+&lt;package xmlns=&#34;http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd&#34;&gt;
+  &lt;metadata&gt;
+    &lt;id&gt;EvertrustStrongLibrary-g5341&lt;/id&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+    &lt;title&gt;EvertrustStrongLibrary-g5341&lt;/title&gt;
+    &lt;authors&gt;G5341&lt;/authors&gt;
+    &lt;owners&gt;Evertrust&lt;/owners&gt;
+    &lt;requireLicenseAcceptance&gt;false&lt;/requireLicenseAcceptance&gt;
+    &lt;description&gt;My package description.&lt;/description&gt;
+  &lt;/metadata&gt;
+&lt;/package&gt;
+</code></pre><ul>
+<li>Add Lib Folder新增資料夾</li>
+<li>因為專案版本是 .net standard所以增加一個netstandard2.0資料夾</li>
+<li>把專案編譯好的dll放進netstandard2.0資料夾中</li>
+<li>按儲存 檔名會是{Id}.{Version}.nupkg
+<ul>
+<li><code>EvertrustStrongLibrary-g5341.1.0.0.nupkg</code></li>
+</ul>
+</li>
+<li>最後上傳package server
+<ul>
+<li>打開 <a href="http://package.evertrust.com.tw/feeds/Exercise">http://package.evertrust.com.tw/feeds/Exercise</a></li>
+<li>add package</li>
+</ul>
+</li>
+</ul>
+<h2 id="使用command製作套件">使用command製作套件</h2>
+<ul>
+<li>打開套件管理主控台或在專案目錄下打開cmd，把nuget更新到最新版本，下指令 <code>nuget update -self</code></li>
+<li>切到專案目錄下，建立nuspec <code>nuget spec</code>，再把檔案加到專案中，記得要先在專案裡面調整metadata不然NuGet Package Explorer打不開</li>
+<li>使用Nuget Package Explorer編輯剛建好的nuspec
+<ul>
+<li>編輯Metadata</li>
+<li>清除所有content</li>
+<li>用save Matadata As存檔，檔名選原來那個覆蓋過去<code>EvertrustStrongLibrary.nuspec</code></li>
+</ul>
+</li>
+<li>接著在.csproj的資料夾下指令
+<ul>
+<li>封裝<code>nuget pack .\EvertrustStrongLibrary.csproj</code></li>
+<li>會產出&rsquo;EvertrustStrongLibrary-g5341.1.0.1.nupkg'</li>
+</ul>
+</li>
+<li>封裝&amp;上傳<code>nuget push EvertrustStrongLibrary-g1359.1.0.1.nupkg ffPrdXiAi22vjcBrRhQ4NOVuFDkxGtUd -source http://package.evertrust.com.tw/nuget/Exercise</code></li>
+</ul>
+<h3 id="封裝比較">封裝比較</h3>
+<ul>
+<li>Nuget Package Explorer
+<ul>
+<li>簡單易用</li>
+<li>版本更新無版控，無法整合CI</li>
+</ul>
+</li>
+<li>Command
+<ul>
+<li>門檻高</li>
+<li>有版控，整合CI</li>
+</ul>
+</li>
+</ul>
+<h3 id="上傳比較">上傳比較</h3>
+<ul>
+<li>Web上傳
+<ul>
+<li>簡單易用</li>
+</ul>
+</li>
+<li>Command
+<ul>
+<li>門檻高</li>
+</ul>
+</li>
+</ul>
+<h3 id="發行套件到-nugetorghttpswwwnugetorg">發行套件到 <a href="https://www.nuget.org/">nuget.org</a></h3>
+<ul>
+<li><a href="https://docs.microsoft.com/zh-tw/nuget/nuget-org/publish-a-package">微軟官方文件</a></li>
+<li>.net standard的專案，專案屬性套件設定好版本號之後，要勾選<em>在建置時產生nuget套件</em>，產生出要推送用的.nupkg檔案</li>
+<li>要注意套件識別碼不能跟預設命名空間一樣，不然會出現<code>package id is not available</code>的錯誤</li>
+<li>package推上去之後要等幾分鐘才會出現在列表，因為要進行檢查跟編制索引
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/nuget/nuget-org/publish-a-package#package-validation-and-indexing">說明</a></li>
+</ul>
+</li>
+<li>可以在<code>nuget.org</code> 點upload上傳nupkg檔案(要注意不能刪除 只能選擇不能被搜尋 <a href="https://docs.microsoft.com/zh-tw/nuget/nuget-org/policies/deleting-packages">刪除政策</a>)</li>
+</ul>
+<h4 id="指令">指令</h4>
+<ul>
+<li>dotnet nuget publish
+<ul>
+<li><code>dotnet nuget push YourPackage.nupkg --api-key &lt;your_API_key&gt; --source https://api.nuget.org/v3/index.json</code></li>
+</ul>
+</li>
+<li>使用nuget push發行
+<ul>
+<li><code>nuget setApiKey &lt;your_API_key&gt;</code> 之後不用再設定</li>
+<li><code>nuget push YourPackage.nupkg -Source https://api.nuget.org/v3/index.json</code></li>
+</ul>
+</li>
+</ul>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

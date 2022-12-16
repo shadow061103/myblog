@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>用CodeMaid進行程式碼分析</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, 單元測試'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/%E7%94%A8codemaid%E9%80%B2%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%88%86%E6%9E%90/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="用CodeMaid進行程式碼分析">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="用CodeMaid進行程式碼分析">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/%E7%94%A8codemaid%E9%80%B2%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%88%86%E6%9E%90/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/%E7%94%A8codemaid%E9%80%B2%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%88%86%E6%9E%90/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/%E7%94%A8codemaid%E9%80%B2%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%88%86%E6%9E%90/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>用CodeMaid進行程式碼分析</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 24, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6">單元測試</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>分析&gt;計算方案的程式法度量</p>
+</blockquote>
+<h2 id="五種指標">五種指標</h2>
+<ul>
+<li>可維護性指標 (Maintainbility Index)</li>
+<li>循環複雜度 (Cyclomatic Complexity)</li>
+<li>繼承深度 (Depth of Inheritance)</li>
+<li>類別結合程度 (Class Coupling)</li>
+<li>程式碼行數 (Lines of Code)</li>
+</ul>
+<h3 id="可維護性指標">可維護性指標</h3>
+<ul>
+<li>算出介於 0 到 100 之間的指數值，代表維護程式碼的相對難易程度。 值愈高表示可維護性愈佳</li>
+<li>綠色等級介於 20 和 100 之間，表示程式碼的可維護性良好。</li>
+<li>黃色等級介於 10 和 19 之間，表示程式碼的可維護性適中。</li>
+<li>紅色等級是介於 0 和 9 之間的等級，表示可維護性低。</li>
+</ul>
+<h3 id="循環複雜度">循環複雜度</h3>
+<ul>
+<li>測量程式碼在結構上的複雜程度。建立此複雜度的方式是計算程式流程中不同程式碼路徑的數目</li>
+<li>要越低越好，方法不超過10或15</li>
+</ul>
+<h3 id="繼承深度">繼承深度</h3>
+<ul>
+<li>指出延伸到類別 (Class) 階層的根 (Root) 的類別定義數目。 階層愈深，可能愈難找出定義與/或重新定義特定方法和欄位的位置</li>
+<li>越低越好</li>
+</ul>
+<h3 id="類別結合程度">類別結合程度</h3>
+<ul>
+<li>透過參數、區域變數、傳回型別、方法呼叫、泛型或樣板具現化、基底型別、介面實作、外部型別上定義的欄位以及屬性修飾等，測量特殊類別的結合程度</li>
+<li>良好的軟體設計應指定聚結性 (Cohesion) 高但結合程度 (Coupling) 低的型別和方法。</li>
+</ul>
+<h3 id="程式碼行數">程式碼行數</h3>
+<ul>
+<li>指出程式碼中行數的約略值。 這個數目是以 IL 程式碼為依據，因此不是原始程式碼檔案中精確的行數</li>
+<li>如果數目非常大，表示型別或方法嘗試執行的工作可能過多，而應該分割工作，也表示該型別或方法可能難以維護</li>
+</ul>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

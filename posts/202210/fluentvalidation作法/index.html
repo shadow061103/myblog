@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>FluentValidation作法</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, Csharp'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/fluentvalidation%E4%BD%9C%E6%B3%95/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="FluentValidation作法">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FluentValidation作法">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/fluentvalidation%E4%BD%9C%E6%B3%95/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/fluentvalidation%E4%BD%9C%E6%B3%95/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/fluentvalidation%E4%BD%9C%E6%B3%95/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>FluentValidation作法</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 20, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/csharp">Csharp</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="文件httpsdocsfluentvalidationnetenlatestinstallationhtml"><a href="https://docs.fluentvalidation.net/en/latest/installation.html">文件</a></h3>
+<h3 id="安裝套件">安裝套件</h3>
+<pre tabindex="0"><code>Install-Package FluentValidation.AspNetCore
+</code></pre><h3 id="startupcs設定">startUp.cs設定</h3>
+<p>會去偵測組件所在位置所有繼承AbstractValidator的類別</p>
+<pre tabindex="0"><code> services.AddControllers(options =&gt;
+            { 
+            })
+                .AddJsonOptions(options =&gt; options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
+                .AddFluentValidation(fv =&gt; fv.RegisterValidatorsFromAssemblyContaining&lt;Startup&gt;());
+</code></pre><p>參考這篇<a href="https://dotblogs.com.tw/shadowkk/2019/07/23/140127">文章</a>
+後面需加上把model validator的驗證關掉</p>
+<pre tabindex="0"><code> services.Configure&lt;ApiBehaviorOptions&gt;(options =&gt;
+            {
+               options.SuppressModelStateInvalidFilter = true;
+            });
+</code></pre><p>還有另一個解法是用<a href="https://stackoverflow.com/questions/46374994/correct-way-to-disable-model-validation-in-asp-net-core-2-mvc">stackoverflow</a>的作法，但其實會有問題
+踩到的雷是[FromBody]不會有問題，但用[HttppGet]打api還是會驗證
+要依照<a href="https://github.com/dotnet/aspnetcore/issues/30938">連結</a>的做法去調整</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NullObjectModelValidator</span> : IObjectModelValidator
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Validate(ActionContext actionContext,
+</span></span><span style="display:flex;"><span>            ValidationStateDictionary validationState, <span style="color:#66d9ef">string</span> prefix, <span style="color:#66d9ef">object</span> model)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> entry <span style="color:#66d9ef">in</span> actionContext.ModelState.Values)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// or ModelValidationState.Valid</span>
+</span></span><span style="display:flex;"><span>                entry.ValidationState = ModelValidationState.Skipped;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h3 id="寫validator">寫Validator</h3>
+<p>原則上可以參考文件寫法，有很多客製跟條件寫法</p>
+<pre tabindex="0"><code>public class AddMessageParameterValidator : AbstractValidator&lt;AddMessageParameter&gt;
+    {
+        public AddMessageParameterValidator()
+        {
+            
+
+            RuleFor(c =&gt; c.Phone)
+                .NotNull()
+                .WithName(&#34;手機號碼&#34;)
+                .WithMessage(&#34;請輸入{PropertyName}&#34;)
+                .NotEmpty()
+                .WithMessage(&#34;請輸入{PropertyName}&#34;)
+                .Must(phone =&gt; Regex.IsMatch(phone ?? &#34;&#34;, @&#34;^[\d]{10}$&#34;))
+                .WithMessage(&#34;{PropertyName}格式不正確&#34;);
+
+            RuleFor(c =&gt; c.Name)
+                .NotNull()
+                .WithName(&#34;姓名&#34;)
+                .WithMessage(&#34;請輸入{PropertyName}&#34;)
+                .NotEmpty()
+                .WithMessage(&#34;請輸入{PropertyName}&#34;)
+                .Must(name =&gt; Regex.IsMatch(name ?? &#34;&#34;, @&#34;^[^\W_]+$&#34;)) //排除特殊字元
+                .WithMessage(&#34;姓名格式不正確&#34;);
+
+            RuleFor(c =&gt; c.RentId)
+                .NotNull()
+                .WithName(&#34;物件編號&#34;)
+                .WithMessage(&#34;請輸入{PropertyName}&#34;)
+                .NotEmpty()
+                .WithMessage(&#34;請輸入{PropertyName}&#34;);
+
+            RuleFor(c =&gt; c.IPAddress)
+                .Must(ip =&gt; Regex.IsMatch(ip ?? &#34;&#34;, @&#34;\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}&#34;))
+                .When(c =&gt; string.IsNullOrEmpty(c.IPAddress) is false)
+                .WithName(&#34;IP&#34;)
+                .WithMessage(&#34;{PropertyName}格式有誤&#34;);
+        }
+    }
+</code></pre><h3 id="驗證的actionfilter">驗證的ActionFilter</h3>
+<p>回傳格式依照專案規則訂定</p>
+<pre tabindex="0"><code>public class CustomValidatorAttribute : ActionFilterAttribute
+    {
+        private readonly Type _validatorType;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&#34;CustomValidatorAttribute&#34;/&gt; class.
+        /// &lt;/summary&gt;
+        /// &lt;param name=&#34;validatorType&#34;&gt;Type of the validator.&lt;/param&gt;
+        public CustomValidatorAttribute(Type validatorType)
+        {
+            this._validatorType = validatorType;
+        }
+
+        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        {
+            var parameters = context.ActionArguments;
+            if (parameters.Count &lt;= 0)
+            {
+                await base.OnActionExecutionAsync(context, next);
+            }
+
+            var parameter = parameters.FirstOrDefault();
+            if (parameter.Value == null)
+            {
+                context.Result = new BadRequestObjectResult(&#34;未輸入 Parameter&#34;);
+            }
+             var validator = context.HttpContext.RequestServices.GetService(this._validatorType) as IValidator;
+            //var validator = Activator.CreateInstance(this._validatorType) as IValidator;
+            var validationContext = new ValidationContext&lt;object&gt;(parameter.Value);
+            var validationResult = await validator.ValidateAsync(validationContext);
+
+            if (validationResult.IsValid.Equals(false))
+            {
+                var error = validationResult.Errors.FirstOrDefault();
+                var failResult = new FailResultViewModel
+                {
+                    Method = $&#34;{context.HttpContext.Request.Path} - {context.HttpContext.Request.Method}&#34;,
+                    Status = &#34;ValidationError&#34;,
+                    Error = new FailInformation
+                    {
+                        ErrorCode = 30001,
+                        Message = &#34;輸入資料驗證錯誤&#34;,
+                        Description = error.ErrorMessage
+                    }
+                };
+
+                context.Result = new BadRequestObjectResult(failResult);
+            }
+
+            await base.OnActionExecutionAsync(context, next);
+        }
+    }
+</code></pre>
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

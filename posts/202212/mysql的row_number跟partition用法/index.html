@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>mysql的row_number跟partition用法</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, DB'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202212/mysql%E7%9A%84row_number%E8%B7%9Fpartition%E7%94%A8%E6%B3%95/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="mysql的row_number跟partition用法">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="mysql的row_number跟partition用法">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202212/mysql%E7%9A%84row_number%E8%B7%9Fpartition%E7%94%A8%E6%B3%95/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202212/mysql%E7%9A%84row_number%E8%B7%9Fpartition%E7%94%A8%E6%B3%95/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202212/mysql%E7%9A%84row_number%E8%B7%9Fpartition%E7%94%A8%E6%B3%95/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>mysql的row_number跟partition用法</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            December 6, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/db">DB</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>原始範例資料表
+<img src="https://imgur.com/2FPV8E3.jpg" alt=""></p>
+<h3 id="使用row_number對資料作編號">使用row_number對資料作編號</h3>
+<blockquote>
+<p>ROW_NUMBER() OVER (&lt;partition_definition&gt; &lt;order_definition&gt;)</p>
+</blockquote>
+<ul>
+<li>單純用order by</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span>,
+</span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER(<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> id) <span style="color:#66d9ef">AS</span> row_numb
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> exam_results;
+</span></span></code></pre></div><p><img src="https://imgur.com/fOvsria.jpg" alt=""></p>
+<ul>
+<li>單純用partition(對資料分割，類似group by分組)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span>,
+</span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER(PARTITION <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">year</span>) <span style="color:#66d9ef">AS</span> row_numb
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> exam_results;
+</span></span></code></pre></div><p><img src="https://imgur.com/FhUjQ0k.jpg" alt=""></p>
+<ul>
+<li>組合使用
+對年份分群並排序result</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span> <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span>,
+</span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER(PARTITION <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">year</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">result</span> <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">AS</span> RowNumber
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FROM</span> exam_results;
+</span></span></code></pre></div><p><img src="https://imgur.com/T6cKDsD.jpg" alt=""></p>
+<ul>
+<li>partition是分割資料表的方法，row_number跟window funciton都會用到
+<ul>
+<li>windows function跟group by用法有點像，但他不是只會產出一筆record，而是每一個row都會有資料，詳細用法可以看下面參考</li>
+</ul>
+</li>
+<li>取分群資料的第一筆，同等於group by</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> added_row_number <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">*</span>,
+</span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER(PARTITION <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">year</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">result</span> <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">AS</span> RowNumber
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FROM</span> exam_results
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> added_row_number
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> RowNumber <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span></code></pre></div><p><img src="https://imgur.com/3qfi84n.jpg" alt=""></p>
+<h3 id="正式環境碰到的問題">正式環境碰到的問題</h3>
+<p>1.PM需要產報表請RD出sql script，依照所需欄位組sql</p>
+<p>2.有payment交易總表跟trade交易兩張表，但只有trade這張表上存有商店名稱</p>
+<p>3.需要加總payment上的金額，並同時秀出trade第一筆的商店名稱</p>
+<p>提供兩種解法，也可以使用window function，這邊欄位跟DB名稱都有調整過名稱(非正式使用)</p>
+<p>group by
+缺點是用max()或min()取得顯示欄位，有可能會不一樣</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> 
+</span></span><span style="display:flex;"><span>r.code,
+</span></span><span style="display:flex;"><span>r.name,
+</span></span><span style="display:flex;"><span>r.brand_name,
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">min</span>(m.store_name),
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">sum</span>(r.amount),
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">sum</span>(r.fee)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">from</span> payment <span style="color:#66d9ef">as</span> r
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">join</span> trade <span style="color:#66d9ef">as</span> m 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">on</span> m.id <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">select</span> id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">from</span> trade
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span> r.number<span style="color:#f92672">=</span>number 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> id <span style="color:#66d9ef">desc</span> <span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">group</span> <span style="color:#66d9ef">by</span> r.code,r.name,r.brand_name;
+</span></span></code></pre></div><p>使用window funciton的FIRST_VALUE取資料，搭配sum()聚合函數</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> <span style="color:#66d9ef">result</span> <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">select</span> 
+</span></span><span style="display:flex;"><span> FIRST_VALUE(r.code)  OVER w <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">&#39;code&#39;</span>,
+</span></span><span style="display:flex;"><span> FIRST_VALUE(r.name)  OVER w <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">&#39;name&#39;</span>,
+</span></span><span style="display:flex;"><span> FIRST_VALUE(r.brand_name)  OVER w <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">&#39;brand_name&#39;</span>,
+</span></span><span style="display:flex;"><span>FIRST_VALUE(m.store_name) OVER w <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">&#39;store_name&#39;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">sum</span>(r.amount) OVER w <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">&#39;amount&#39;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">sum</span>(r.fee) OVER w <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">&#39;fee&#39;</span>,
+</span></span><span style="display:flex;"><span>ROW_NUMBER() OVER w <span style="color:#66d9ef">AS</span> RowNumber
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">from</span> payment <span style="color:#66d9ef">as</span> r
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">join</span> trade <span style="color:#66d9ef">as</span> m 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">on</span> m.id <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">select</span> id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">from</span> trade
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span> r.number<span style="color:#f92672">=</span>number 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> id <span style="color:#66d9ef">desc</span> <span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>)    
+</span></span><span style="display:flex;"><span>WINDOW w <span style="color:#66d9ef">AS</span> (PARTITION <span style="color:#66d9ef">BY</span> r.code <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> r.code <span style="color:#66d9ef">DESC</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">result</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> RowNumber <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span></code></pre></div><h3 id="參考">參考</h3>
+<p><a href="https://learnsql.com/cookbook/how-to-select-the-first-row-in-each-group-by-group/">How to Select the First Row in Each GROUP BY Group</a></p>
+<p><a href="https://www.begtut.com/mysql/mysql-row-number-function.html">語法教學</a></p>
+<p><a href="https://www.delftstack.com/zh-tw/howto/mysql/row_number-in-mysql/">MySQL 中 Row_Number() 函式的使用</a></p>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_first-value">Window Function Descriptions</a></p>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">Window Function Concepts and Syntax</a></p>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

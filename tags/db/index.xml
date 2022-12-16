@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DB on Steve的技術筆記</title>
+    <link>https://shadow061103.github.io/tags/db/</link>
+    <description>Recent content in DB on Steve的技術筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Tue, 06 Dec 2022 16:30:21 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/db/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mysql的row_number跟partition用法</title>
+      <link>https://shadow061103.github.io/posts/202212/mysql%E7%9A%84row_number%E8%B7%9Fpartition%E7%94%A8%E6%B3%95/</link>
+      <pubDate>Tue, 06 Dec 2022 16:30:21 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202212/mysql%E7%9A%84row_number%E8%B7%9Fpartition%E7%94%A8%E6%B3%95/</guid>
+      <description>原始範例資料表 使用row_number對資料作編號 ROW_NUMBER() OVER (&amp;lt;partition_definition&amp;gt; &amp;lt;order_definition&amp;gt;)
+單純用order by SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS row_numb FROM exam_results; 單純用partition(對資料分割，類似group by分組) SELECT *, ROW_NUMBER() OVER(PARTITION BY year) AS row_numb FROM exam_results; 組合使用 對年份分群並排序result SELECT *, ROW_NUMBER() OVER(PARTITION BY year ORDER BY result DESC) AS RowNumber FROM exam_results; partition是分割資料表的方法，row_number跟window funciton都會用到 windows function跟group by用法有點像，但他不是只會產出一筆record，而是每一個row都會有資料，詳細用法可以看下面參考 取分群資料的第一筆，同等於group by WITH added_row_number AS ( SELECT *, ROW_NUMBER() OVER(PARTITION BY year ORDER BY result DESC) AS RowNumber FROM exam_results ) SELECT * FROM added_row_number WHERE RowNumber = 1; 正式環境碰到的問題 1.</description>
+    </item>
+    
+    <item>
+      <title>DB側錄工具&amp;Dapper</title>
+      <link>https://shadow061103.github.io/posts/202212/db%E5%81%B4%E9%8C%84%E5%B7%A5%E5%85%B7dapper/</link>
+      <pubDate>Fri, 02 Dec 2022 17:43:03 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202212/db%E5%81%B4%E9%8C%84%E5%B7%A5%E5%85%B7dapper/</guid>
+      <description>DB側錄工具 問題 在正式環境碰到dapper執行sql速度慢 經查有可能是 參數用匿名型別方式傳進去後被轉型 ( 後來查到是cache到舊的sql ) int =&amp;gt; big int 導致DB在做where查詢的時候會把欄位轉型，資料量一大就會拖慢執行速度
+翻查dapper source code dapper使用參數的方式有兩種
+用匿名型別傳入 conn.QueryFirstOrDefaultAsync&amp;lt;decimal&amp;gt;(sql, new { code, startDate, endDate }); 用DynamicParameters var param = new DynamicParameters(); param.Add(&amp;#34;@code&amp;#34;, storeCode, dbType: DbType.String); param.Add(&amp;#34;@startDate&amp;#34;, startDate, dbType: DbType.Int32); param.Add(&amp;#34;@endDate&amp;#34;, endDate, dbType: DbType.Int32); var res = await conn.QueryFirstOrDefaultAsync&amp;lt;decimal&amp;gt;(sql, param); 最後會在背後組成一段sql 執行 sp_executesql這個storeprecedude 在dapper套件內會判斷如果不是用用DynamicParameters會幫你判斷屬性型別轉成對應的sql type Dapper source code
+查詢原因 參考軟體主廚的文章 使用XEvent 分析工具或 SQL Server Profiler來分析dapper產生的語法有無差異
+SQL Server Profiler目前已經被淘汰了，但如果你之前有裝過SSMS，或許電腦裡已經有安裝，可以搜尋看有沒有 SSMS XEvent需要SSMS v17.3以上才有提供，且需要sa 完整權限才能使用 實際用法 因為權限問題，且只需要錄製sql語法跟看執行計畫， 我是在docker建立一個暫時DB，把正式環境使用的table複製過去 然後開始XEvent側錄dapper執行的sql語法 打開XEvent並連線到資料庫，打開T-SQL 畫面截圖 參考 料理佳餚Dapper用起來很友善，但是預設的參數型別對執行計劃不太友善</description>
+    </item>
+    
+    <item>
+      <title>資料表與索引設計</title>
+      <link>https://shadow061103.github.io/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/</link>
+      <pubDate>Fri, 25 Nov 2022 15:52:04 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/</guid>
+      <description>資料表依照需求及未來可能使用的欄位設計 基於一般OLTP資料庫經常得混搭OLAP報表及分析使用，除程式的Class設計資料表欄位，但需考量非交易狀態時的其他應用而新增其他欄位， 舉例來說，訂單表結構化的資料欄位本就不少，但訂單經常會被分天或分小時使用，則可以在資料表上增添一個年月日的數字欄位並加入索引， 在查詢上則可以限制查詢的WHERE條件一定要有年月日(數字)欄位，或若有其他可分組的數據，也可增加對應的分組欄位，以下使用訂單日期 做範例
+EX: 原有的訂單表
+CREATE TABLE [dbo].[payment_order]( [id] [bigint] IDENTITY(1,1) NOT NULL, [order_id] [bigint] NOT NULL, [payer_ep_account_id] [bigint] NOT NULL, [receiver_ep_account_id] [bigint] NOT NULL, [from_collection_amount] [decimal](9, 2) NOT NULL, [from_deposit_amount] [decimal](9, 2) NOT NULL, [remaining_collection_refund_amount] [decimal](9, 2) NOT NULL, [remaining_deposit_refund_amount] [decimal](9, 2) NOT NULL, [modify_time] [datetime2](7) NOT NULL, [create_time] [datetime2](7) NOT NULL, CONSTRAINT [PK__payment___3213E83F612B5E16] PRIMARY KEY CLUSTERED ( [id] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY] ) ON [PRIMARY] GO ALTER TABLE [dbo].</description>
+    </item>
+    
+    <item>
+      <title>Sql Guideline</title>
+      <link>https://shadow061103.github.io/posts/202211/sql-guideline/</link>
+      <pubDate>Fri, 25 Nov 2022 15:51:13 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202211/sql-guideline/</guid>
+      <description>SQL guideline 詳細可參考 https://www.sqlstyle.guide/ 由於每個環境應用程度及方式不同，以下列出最少需要的部分
+2022/03/31 更新 將Table/索引相關的部分移至 資料表與索引設計 2022/04/06 新增 說明Bitwise AND用法 1.系統保留字應盡量使用全大寫字元，使用到系統函式也需使用全大寫 詳細內容可參考 https://docs.microsoft.com/en-us/sql/t-sql/language-elements/reserved-keywords-transact-sql?view=sql-server-ver15 基本最少需要將SQL的保留字使用全大寫的方式
+Mysql保留字
+ADD EXTERNAL PROCEDURE ALL FETCH PUBLIC ALTER FILE RAISERROR AND FILLFACTOR READ ANY FOR READTEXT AS FOREIGN RECONFIGURE ASC FREETEXT REFERENCES AUTHORIZATION FREETEXTTABLE REPLICATION BACKUP FROM RESTORE BEGIN FULL RESTRICT BETWEEN FUNCTION RETURN BREAK GOTO REVERT BROWSE GRANT REVOKE BULK GROUP RIGHT BY HAVING ROLLBACK CASCADE HOLDLOCK ROWCOUNT CASE IDENTITY ROWGUIDCOL CHECK IDENTITY_INSERT RULE CHECKPOINT IDENTITYCOL SAVE CLOSE IF SCHEMA CLUSTERED IN SECURITYAUDIT COALESCE INDEX SELECT COLLATE INNER SEMANTICKEYPHRASETABLE COLUMN INSERT SEMANTICSIMILARITYDETAILSTABLE COMMIT INTERSECT SEMANTICSIMILARITYTABLE COMPUTE INTO SESSION_USER CONSTRAINT IS SET CONTAINS JOIN SETUSER CONTAINSTABLE KEY SHUTDOWN CONTINUE KILL SOME CONVERT LEFT STATISTICS CREATE LIKE SYSTEM_USER CROSS LINENO TABLE CURRENT LOAD TABLESAMPLE CURRENT_DATE MERGE TEXTSIZE CURRENT_TIME NATIONAL THEN CURRENT_TIMESTAMP NOCHECK TO CURRENT_USER NONCLUSTERED TOP CURSOR NOT TRAN DATABASE NULL TRANSACTION DBCC NULLIF TRIGGER DEALLOCATE OF TRUNCATE DECLARE OFF TRY_CONVERT DEFAULT OFFSETS TSEQUAL DELETE ON UNION DENY OPEN UNIQUE DESC OPENDATASOURCE UNPIVOT DISK OPENQUERY UPDATE DISTINCT OPENROWSET UPDATETEXT DISTRIBUTED OPENXML USE DOUBLE OPTION USER DROP OR VALUES DUMP ORDER VARYING ELSE OUTER VIEW END OVER WAITFOR ERRLVL PERCENT WHEN ESCAPE PIVOT WHERE EXCEPT PLAN WHILE EXEC PRECISION WITH EXECUTE PRIMARY WITHIN GROUP EXISTS PRINT WRITETEXT EXIT PROC 使用空格和縮排來增強可讀性 EX: SQL語法範例</description>
+    </item>
+    
+    <item>
+      <title>EF Core 5的ExecuteSqlRaw的雷</title>
+      <link>https://shadow061103.github.io/posts/202211/ef-core-5%E7%9A%84executesqlraw%E7%9A%84%E9%9B%B7/</link>
+      <pubDate>Fri, 25 Nov 2022 15:46:02 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202211/ef-core-5%E7%9A%84executesqlraw%E7%9A%84%E9%9B%B7/</guid>
+      <description>在程式裡的寫法是這樣
+var paramItems = new[]{ new MySqlParameter(&amp;#34;@ids&amp;#34;, ids) }; var sql = @&amp;#34;update table set invoice_status=1 where id in @ids;&amp;#34;; await _context.Database.ExecuteSqlRawAsync(sql, paramItems); 會拋錯誤因為MySqlParameter不支援傳list的資料
+文件說明
+錯誤訊息
+Parameter type SelectListIterator`2 is not supported; see https://fl.vu/mysql-param-type. Value: System.Linq.Enumerable+SelectListIterator`2[PXPlus.Invoice.Domain.EPIPTransferTradeAgg.EPIPTransferTrade,System.Int64] 查到的解法 使用mysql的FIND_IN_SET語法 https://stackoverflow.com/questions/5681320/add-listint-to-a-mysql-parameter
+using (var context = new EfcoretestContext()) { var trades = await context.EPIPTransferTrade.ToListAsync(); var sql = @&amp;#34;update table set invoice_status = 1 where FIND_IN_SET(id,@ids);&amp;#34;; var ids = trades.Select(c =&amp;gt; c.Id); var paras = new[] { new MySqlParameter(&amp;#34;@ids&amp;#34;,string.</description>
+    </item>
+    
+    <item>
+      <title>Docker建立Mysql資料庫</title>
+      <link>https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/</link>
+      <pubDate>Thu, 27 Oct 2022 17:09:09 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/</guid>
+      <description>docker建立container 1.docker pull mysql:8 2.docker run &amp;ndash;name mysql_test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8 3.可以用mysql workbench登入 127.0.0.1:3306
+下指令進入mysql client 1.docker exec -it bash 進入互動模式 2.mysql -h localhost -u root -p 進入client 就可以下指令
+https://hub.docker.com/_/mysql
+練習 [面試][資料庫]關聯式資料庫要如何設計避免超賣？</description>
+    </item>
+    
+    <item>
+      <title>Mysql的limit、offset</title>
+      <link>https://shadow061103.github.io/posts/202210/mysql%E7%9A%84limitoffset/</link>
+      <pubDate>Thu, 27 Oct 2022 17:08:21 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/mysql%E7%9A%84limitoffset/</guid>
+      <description>limit [count] 代表限制回傳幾筆
+limit [index,count] index是從0開始算 limit 2,4表示從第3筆開始回傳4筆 可以想成是跳過index筆取count筆
+limit [cnt1] offset [cnt2] 跳過cnt2筆取cnt1筆 跟上面有點類似</description>
+    </item>
+    
+    <item>
+      <title>測試mysql datetime2</title>
+      <link>https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/</link>
+      <pubDate>Thu, 27 Oct 2022 17:07:35 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/</guid>
+      <description>question 用mysql db 新增欄位時用datetime2會跳錯誤訊息
+System.ArgumentOutOfRangeException: Index and length must refer to a location within the string. (Parameter &amp;#39;length&amp;#39;) at System.String.Substring(Int32 startIndex, Int32 length) at MySql.Data.Types.MySqlBinary.MySql.Data.Types.IMySqlValue.WriteValue(MySqlPacket packet, Boolean binary, Object val, Int32 length) at MySql.Data.MySqlClient.MySqlParameter.Serialize(MySqlPacket packet, Boolean binary, MySqlConnectionStringBuilder settings) at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex) at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet) at MySql.Data.MySqlClient.Statement.BindParameters() at MySql.Data.MySqlClient.PreparableStatement.Execute() at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior) at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader() at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery() at System.Data.Common.DbCommand.ExecuteNonQueryAsync(CancellationToken cancellationToken) --- End of stack trace from previous location --- at Dapper.</description>
+    </item>
+    
+  </channel>
+</rss>

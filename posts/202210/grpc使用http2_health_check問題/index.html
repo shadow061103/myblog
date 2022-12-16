@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>grpc使用http2_health_check問題</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, Csharp'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/posts/202210/grpc%E4%BD%BF%E7%94%A8http2_health_check%E5%95%8F%E9%A1%8C/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="grpc使用http2_health_check問題">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="grpc使用http2_health_check問題">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/posts/202210/grpc%E4%BD%BF%E7%94%A8http2_health_check%E5%95%8F%E9%A1%8C/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/posts/202210/grpc%E4%BD%BF%E7%94%A8http2_health_check%E5%95%8F%E9%A1%8C/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/posts/202210/grpc%E4%BD%BF%E7%94%A8http2_health_check%E5%95%8F%E9%A1%8C/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io//css/dark.css">
+
+    <script src="https://shadow061103.github.io//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/">
+                <img src="https://shadow061103.github.io//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>grpc使用http2_health_check問題</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 20, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/tags/csharp">Csharp</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="grpc內appsetting設定">grpc內appsetting設定</h3>
+<pre tabindex="0"><code>&#34;Kestrel&#34;: {
+        &#34;EndPoints&#34;: {
+            &#34;Grpc&#34;: {
+                &#34;Url&#34;: &#34;http://+:4270&#34;,
+                &#34;Protocols&#34;: &#34;Http2&#34;
+            }
+        }
+    }
+</code></pre><p>http/2支援可以用http或https
+但是因為瀏覽器的http/2只支援https
+所以health check只能用https才連的到
+可以用curl指令去打grpc的endpoint</p>
+<h3 id="curl">curl</h3>
+<p>預設安裝git會安裝的版本，預設是不支援http/2的
+路徑在C:\Program Files\Git\mingw64\bin<br>
+<img src="https://imgur.com/pfdfulL.jpg" alt=""></p>
+<p><code>curl --http2 http://localhost:5000/health</code>
+<code>curl --http2-prior-knowledge -X GET http://192.168.249.122:7202/backend/health</code></p>
+<p>要去這邊抓最新版本
+<a href="https://curl.se/windows/">https://curl.se/windows/</a>
+然後解壓縮檔案，在/bin裡面有curl.exe檔案
+把這路徑加到環境變數，再移到system32上面
+<img src="https://imgur.com/XiRaK2E.jpg" alt="">
+新版的會支援http/2
+<a href="https://stackoverflow.com/questions/51008686/whats-meaning-of-insecure-connection-in-grpc">https://stackoverflow.com/questions/51008686/whats-meaning-of-insecure-connection-in-grpc</a></p>
+<h3 id="信任憑證">信任憑證</h3>
+<p><code>dotnet dev-certs https --trust</code>
+<a href="https://docs.microsoft.com/zh-tw/aspnet/core/security/enforcing-ssl?view=aspnetcore-6.0&amp;tabs=visual-studio#trust-the-aspnet-core-https-development-certificate-on-windows-and-macos">https://docs.microsoft.com/zh-tw/aspnet/core/security/enforcing-ssl?view=aspnetcore-6.0&amp;tabs=visual-studio#trust-the-aspnet-core-https-development-certificate-on-windows-and-macos</a>
+<a href="https://medium.com/%E7%A8%8B%E5%BC%8F%E8%A3%A1%E6%9C%89%E8%9F%B2/windows-%E4%B8%BB%E6%A9%9F%E5%A6%82%E4%BD%95%E5%95%9F%E7%94%A8-tls-1-2-d72825f791b9">https://medium.com/%E7%A8%8B%E5%BC%8F%E8%A3%A1%E6%9C%89%E8%9F%B2/windows-%E4%B8%BB%E6%A9%9F%E5%A6%82%E4%BD%95%E5%95%9F%E7%94%A8-tls-1-2-d72825f791b9</a></p>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
