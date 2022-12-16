@@ -2,9 +2,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Favorite on Steve的技術筆記</title>
-    <link>https://shadow061103.github.io/favorites/</link>
+    <link>https://lucumt.info/favorites/</link>
     <description>Recent content in Favorite on Steve的技術筆記</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-tw</language><atom:link href="https://shadow061103.github.io/favorites/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-tw</language><atom:link href="https://lucumt.info/favorites/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

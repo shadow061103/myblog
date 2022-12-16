@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>big5 on Steve的技術筆記</title>
-    <link>https://shadow061103.github.io/tags/big5/</link>
+    <link>https://lucumt.info/tags/big5/</link>
     <description>Recent content in big5 on Steve的技術筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Tue, 18 Oct 2022 11:14:55 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/big5/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 Oct 2022 11:14:55 +0800</lastBuildDate><atom:link href="https://lucumt.info/tags/big5/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>big5難字處理</title>
-      <link>https://shadow061103.github.io/posts/202210/big5%E9%9B%A3%E5%AD%97%E8%99%95%E7%90%86/</link>
+      <link>https://lucumt.info/posts/202210/big5%E9%9B%A3%E5%AD%97%E8%99%95%E7%90%86/</link>
       <pubDate>Tue, 18 Oct 2022 11:14:55 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/big5%E9%9B%A3%E5%AD%97%E8%99%95%E7%90%86/</guid>
+      <guid>https://lucumt.info/posts/202210/big5%E9%9B%A3%E5%AD%97%E8%99%95%E7%90%86/</guid>
       <description>判斷轉big5後是不是? public bool IsBelongHardWord(char str) { var big5 = Encoding.GetEncoding(&amp;#34;big5&amp;#34;); var cInBig5 = big5.GetString(big5.GetBytes(new[] { str })); return str != &amp;#39;?&amp;#39; &amp;amp;&amp;amp; cInBig5 == &amp;#34;?&amp;#34;; } StringInfo的解法 上面解法不適用&amp;quot;𨫎&amp;quot;、&amp;ldquo;𩗴&amp;rdquo; 這種組合字，因為會被拆成2個char Encoding.RegisterProvider(CodePagesEncodingProvider.Instance); string s = &amp;#34;𨫎𩗴嫑堃瀞abc一二三&amp;#34;; TextElementEnumerator charEnum = StringInfo.GetTextElementEnumerator(s); while (charEnum.MoveNext()) { var str = charEnum.GetTextElement(); var encode = Encoding.GetEncoding(950); var big5 = encode.GetString(encode.GetBytes(str)); ($&amp;#34;{str} 難字{str != big5}&amp;#34;).Dump(); } 參考 https://www.huanlintalk.com/2009/12/unicode-character-and-ranma-12.html</description>
     </item>
     

@@ -2,37 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>單元測試 on Steve的技術筆記</title>
-    <link>https://shadow061103.github.io/tags/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</link>
+    <link>https://lucumt.info/tags/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</link>
     <description>Recent content in 單元測試 on Steve的技術筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Mon, 24 Oct 2022 15:55:06 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 24 Oct 2022 15:55:06 +0800</lastBuildDate><atom:link href="https://lucumt.info/tags/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mock測試物件</title>
-      <link>https://shadow061103.github.io/posts/202210/mock%E6%B8%AC%E8%A9%A6%E7%89%A9%E4%BB%B6/</link>
+      <link>https://lucumt.info/posts/202210/mock%E6%B8%AC%E8%A9%A6%E7%89%A9%E4%BB%B6/</link>
       <pubDate>Mon, 24 Oct 2022 15:55:06 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/mock%E6%B8%AC%E8%A9%A6%E7%89%A9%E4%BB%B6/</guid>
+      <guid>https://lucumt.info/posts/202210/mock%E6%B8%AC%E8%A9%A6%E7%89%A9%E4%BB%B6/</guid>
       <description>安裝套件 Install-Package Moq -Version 4.18.2
 用法 var cal=new Mock&amp;lt;ICaculator&amp;gt;(); cal.Setup(x=&amp;gt;x.Add(It.IsAny&amp;lt;int&amp;gt;(),It.IsAny&amp;lt;int&amp;gt;())).Returns(3); cal.Object.Add(1,2).Dump(); ASP.NET MVC 單元測試系列 (3)：瞭解 Mock 假物件 ( moq )</description>
     </item>
     
     <item>
       <title>用CodeMaid進行程式碼分析</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%94%A8codemaid%E9%80%B2%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%88%86%E6%9E%90/</link>
+      <link>https://lucumt.info/posts/202210/%E7%94%A8codemaid%E9%80%B2%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%88%86%E6%9E%90/</link>
       <pubDate>Mon, 24 Oct 2022 15:51:51 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%94%A8codemaid%E9%80%B2%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%88%86%E6%9E%90/</guid>
+      <guid>https://lucumt.info/posts/202210/%E7%94%A8codemaid%E9%80%B2%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%88%86%E6%9E%90/</guid>
       <description> 分析&amp;gt;計算方案的程式法度量
 五種指標 可維護性指標 (Maintainbility Index) 循環複雜度 (Cyclomatic Complexity) 繼承深度 (Depth of Inheritance) 類別結合程度 (Class Coupling) 程式碼行數 (Lines of Code) 可維護性指標 算出介於 0 到 100 之間的指數值，代表維護程式碼的相對難易程度。 值愈高表示可維護性愈佳 綠色等級介於 20 和 100 之間，表示程式碼的可維護性良好。 黃色等級介於 10 和 19 之間，表示程式碼的可維護性適中。 紅色等級是介於 0 和 9 之間的等級，表示可維護性低。 循環複雜度 測量程式碼在結構上的複雜程度。建立此複雜度的方式是計算程式流程中不同程式碼路徑的數目 要越低越好，方法不超過10或15 繼承深度 指出延伸到類別 (Class) 階層的根 (Root) 的類別定義數目。 階層愈深，可能愈難找出定義與/或重新定義特定方法和欄位的位置 越低越好 類別結合程度 透過參數、區域變數、傳回型別、方法呼叫、泛型或樣板具現化、基底型別、介面實作、外部型別上定義的欄位以及屬性修飾等，測量特殊類別的結合程度 良好的軟體設計應指定聚結性 (Cohesion) 高但結合程度 (Coupling) 低的型別和方法。 程式碼行數 指出程式碼中行數的約略值。 這個數目是以 IL 程式碼為依據，因此不是原始程式碼檔案中精確的行數 如果數目非常大，表示型別或方法嘗試執行的工作可能過多，而應該分割工作，也表示該型別或方法可能難以維護 </description>
     </item>
     
     <item>
       <title>Test-Driven Development(TDD)</title>
-      <link>https://shadow061103.github.io/posts/202210/test-driven-developmenttdd/</link>
+      <link>https://lucumt.info/posts/202210/test-driven-developmenttdd/</link>
       <pubDate>Mon, 24 Oct 2022 15:51:14 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/test-driven-developmenttdd/</guid>
+      <guid>https://lucumt.info/posts/202210/test-driven-developmenttdd/</guid>
       <description>測試驅動開發
 需求 透過測試（單元測試）推動整個開發的進行 在撰寫程式碼之前，先透過測試案例的撰寫，確定外部如何使用物件，包含了功能、類別、方法的確定。 以需求為出發點，開發符合需求的程式， 避免過度設計（Over Design） 開發流程 1.定義目前要完成的功能（確定需求） 2.撰寫測試案例。撰寫的過程應針對意圖進行命名，思考需要得到什麼結果，要得到這樣的結果會需要提供什麼資訊。 3.編譯測試程式不通過。 4.撰寫對應測試程式的功能程式碼。 5.讓測試通過。 6.對程式碼進行重構，並確保測試可以通過。 7.依照同樣的循環，完成所有的功能開發。
 三原則 1.You are not allowed to write any production code unless it is to make a failing unit test pass. (除非這能讓失敗的單元測試通過， 否則不允許去編寫任何的產品代碼。) 2.You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures. (只允許編寫剛好能夠導致失敗的單元測試。) 3.You are not allowed to write any more production code than is sufficient to pass the one failing unit test.</description>
@@ -40,10 +40,10 @@
     
     <item>
       <title>單元測試</title>
-      <link>https://shadow061103.github.io/posts/202210/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</link>
+      <link>https://lucumt.info/posts/202210/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</link>
       <pubDate>Mon, 24 Oct 2022 15:50:08 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</guid>
+      <guid>https://lucumt.info/posts/202210/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</guid>
       <description>定義 一個測試案例只測一種情境 最小的測試單位 不跟外部資源相依 沒有邏輯判斷 測試案例之間的相依性為0 特性FIRST Fast：快速。每個單元測試的執行時間應該要很短。 Independent：獨立。單元測試不與外部資源相依，單元測試之間也不能夠相依，要能夠單獨針對測試目標進行測試。 Repeatable：可重複。所有的單元測試都可重複被執行，且不影響預期的結果。 Self-Validating：自我驗證（可反應驗證結果）。單元測試執行不論成功或失敗，都應該要能夠從測試報告裡直接瞭解其意義或失敗的原因。 Timely：及時。單元測試應該在產品程式碼完成的當下就可以驗證執行結果是否符合預期。 驗證方式 驗證測試目標物件的方法回傳值是否符合預期 驗證測試目標物件的狀態改變是否符合預期 驗證測試目標物件與相依物件的互動是否符合預期 3A原則 Arrange 初始化目標物件 初始化方法參數 建立模擬物件行為 設定環境變數期望結果 Act 實際呼叫測試目標物件的方法 Assert 驗證政目標是否如預期運作 測試方法的命名 被測試方法名稱+測試場景描述+預期行為 可以用中文 受測對象:可使用target或sut(system under test) 預期結果 - expected 實際執行結果 - actual 範例:ToInt_傳入為正整數的物件_應傳回正確的正整數 快捷鍵 testc建立測試類別 testm 建立測試方法 Ctrl+R, T: 執行單一測試 Ctrl+R, A: 執行所有測試（開發時最常使用） Ctrl+R, Ctrl+T: 偵錯單一測試（測試失敗時，最常使用） Ctrl+R, Ctrl+A: 偵錯所有測試 測試相關標籤Attribute [TestClass()] [TestMethod()] [Owenr(“User_Name”)] [TestCategory(“Calculator”)] [TestProperty(“Calculator”, “Add”)] [Ignore] 建立群組 可以依據類別、持續期間、執行結果、TestCategory內容、測試專案區分群組 也可以建立播放清單 Assert類別 Assert.AreEqual(expected, actual); Assert.AreNotEqual(expected, actual); Assert.</description>
     </item>
     
