@@ -7,10 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
----
-tags: Redis
----
-# Redis進階用法
 ### Transaction
 - 全執行或全部執行(ACID)
 - 先用`multi`告訴redis要執行事務的指令,會先進到queue等待

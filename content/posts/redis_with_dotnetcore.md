@@ -7,10 +7,6 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
----
-tags: Redis
----
-# .Net Core的Redis
 ### 套件
 - `StackExchange.Redis`,
 - `Microsoft.Extensions.Caching.StackExchangeRedis`

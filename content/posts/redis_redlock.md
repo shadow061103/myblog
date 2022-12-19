@@ -7,10 +7,7 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
----
-tags: Redis
----
-# Redis分布式鎖
+
 
 ### 安裝套件
 StackExchange.Redis

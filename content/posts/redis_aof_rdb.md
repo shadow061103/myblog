@@ -7,10 +7,7 @@ type: post
 author: "Steve Lin"
 description: ""
 ---
----
-tags: Redis
----
-# Redis管理與持久化
+
 ## 持久化方式
 ### RDB持久化
 - 可以用save設定怎樣啟動snapshot
