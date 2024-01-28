@@ -1,4 +1,4 @@
-baseURL = 'https://kuanfu.site/'
+baseURL = 'https://shadow061103.github.io/myblog/'
 languageCode = 'zh-tw'
 title = 'Steve的技術筆記'
 theme='gokarna'
