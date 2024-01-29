@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>redis on Steve的技術筆記</title>
+    <link>https://shadow061103.github.io/myblog/tags/redis/</link>
+    <description>Recent content in redis on Steve的技術筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Mon, 19 Dec 2022 15:36:54 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/myblog/tags/redis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Redis管理與持久化</title>
+      <link>https://shadow061103.github.io/myblog/posts/202212/redis%E7%AE%A1%E7%90%86%E8%88%87%E6%8C%81%E4%B9%85%E5%8C%96/</link>
+      <pubDate>Mon, 19 Dec 2022 15:36:54 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/myblog/posts/202212/redis%E7%AE%A1%E7%90%86%E8%88%87%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
+      <description>持久化方式 RDB持久化 可以用save設定怎樣啟動snapshot save 900 1900秒內有一個key被更改就進行snapshot snapshot文件儲存在目錄的dump.rdb文件裡，可以配置dir跟dbfilename參數指定snapshot儲存路徑跟文件名稱，redis啟動後會重新載入dump.rdb的資料到記憶體中恢復資料 過程 可以手動發送save或bgsave讓redis進行snapshot，save是透過main thread進行會阻塞其他操作，bgsave是fork子執行緒進行操作(也有可能會阻塞) 跟AOF比恢復資料比較快 用子執行緒操作，對redis server效能影響比較小 如果server當機，RDB會造成某個時間內資料遺失 AOF持久化 append only file
+預設沒開啟，可以透過appendonly yes開啟 執行每個更改資料的指令都會寫到AOF文件 AO文件跟RDB的位置一樣，預設是appendonly.aof，可以用appendfilename appendonly.aof修改 如果AOF記載太多冗餘命令，可以執行AOF重寫 auto-aof-rewrite-percentage 100:AOF文件超過上次重寫的百分比會再次重寫，如果沒重寫過會以啟動時的AOF文件大小當依據 auto-aof-rewrite-min-size 64mb: 限制允許重寫的最小AO文件大小 bgrewriteaof可以手動執行重寫 no-appendfsync-on-rewrite no預設不重寫aof檔案 每次啟動會把AOF文件的命令載入記憶體，速度比RDB慢 每次指令寫到AOF文件的時候不會馬上寫到硬碟，而是先寫到硬碟快取，每30秒執行一次同步操作，但如果同步失敗就會損失資料 appendfsync always|everysec(預設)|no always:客戶端的每一個寫操作都儲存到aof檔案當，這種策略很安全，但是每個寫請注都有IO操作，所以也很慢 everysec:預設寫入策略，每秒寫入一次aof檔案，因此，最多可能會丟失1s的資料 no:redis server不負責寫入aof，而是交由作業系統來處理什麼時候寫入aof檔案。更快，但也最不安全，不推薦使用 如果只是把redis當作快取用，可以不考慮持久化 redis複製replication 一台的資料更新後可以同步到其他server 分成master-slave，主數據庫可以讀寫操作，寫操作的時候會把資料同步到slave，從數據庫一般只負責讀 slave只需要在配置文件加入slaveof 主數據庫IP port，master不用任何設定 可以改從數據庫的配置文件，slave-read-only改成no，讓從數據庫可以寫，但是更新資料不會同步，而且主數據庫更新會覆蓋掉從數據庫的資料 主數據庫redis-server從機監聽6379redis-server --port 6378 --slaveof 127.0.0.1 6379也可以運行時使用slaveof 127.0.0.1 6379 流程 slave向master發送SYNC命令 master接收到命令後，開始保存snapshot(RDB持久化)，把保存期間接收到的命令保存起來 snapshot完成後會把文件跟所有命令發送給slave slave接收到後會載入文件跟收到的命令 slave在同步時還可以接收其他client的命令，可以設定slave-serve-stale-data為no，讓同步完成前的命令都回傳錯誤 slave也可以有自己的slave(多個) 安全機制 redis server要限制不能被所有人讀取，要設置防火牆 redis可以設定密碼，client每次連到redis都要發送，設定requirepass 可以重新命名指令，就可以保證只有自己可以用,rename-command 管理工具 耗時命令日誌:執行的指令超過時間限制會記錄，可以設定配置文件的slowlog-log-slower-than，單位是微秒(1000000微秒=1秒)，預設值是10000，日誌是記錄在記憶體，可以設定slowlog-max-len來限制紀錄筆數 組成:log唯一ID,命令執行的UNIX時間,命令耗時時間,命令跟參數 slowlog get 命令監控:monitor,每個指令都會印出來，但很影響效能，所以只建議debug使用 127.</description>
+    </item>
+    
+    <item>
+      <title>Redis進階用法</title>
+      <link>https://shadow061103.github.io/myblog/posts/202212/redis%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95/</link>
+      <pubDate>Mon, 19 Dec 2022 15:24:31 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/myblog/posts/202212/redis%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95/</guid>
+      <description>Transaction 全執行或全部執行(ACID) 先用multi告訴redis要執行事務的指令,會先進到queue等待 exec才會全部執行,回傳值是依照指令順序 沒有rollback機制 127.0.0.1:6379&amp;gt; multiOK127.0.0.1:6379(TX)&amp;gt; sadd user:1:following 2QUEUED127.0.0.1:6379(TX)&amp;gt; sadd user:2:followers 1QUEUED127.0.0.1:6379(TX)&amp;gt; exec1) (integer) 12) (integer) 1127.0.0.1:6379&amp;gt; 有語法錯誤就不會執行 127.0.0.1:6379&amp;gt; multiOK127.0.0.1:6379(TX)&amp;gt; set key valueQUEUED127.0.0.1:6379(TX)&amp;gt; set key(error) ERR wrong number of arguments for &amp;#39;set&amp;#39; command127.0.0.1:6379(TX)&amp;gt; errorcommand key(error) ERR unknown command `errorcommand`, with args beginning with: `key`,127.0.0.1:6379(TX)&amp;gt; exec(error) EXECABORT Transaction discarded because of previous errors.</description>
+    </item>
+    
+    <item>
+      <title>DotNet Core的Redis</title>
+      <link>https://shadow061103.github.io/myblog/posts/202212/dotnet-core%E7%9A%84redis/</link>
+      <pubDate>Mon, 19 Dec 2022 15:12:10 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/myblog/posts/202212/dotnet-core%E7%9A%84redis/</guid>
+      <description>套件 StackExchange.Redis, Microsoft.Extensions.Caching.StackExchangeRedis DI注入 這邊用docker起的redis 有包含 .net core提供的分散式快取，跟套件的多路複用用法 /// &amp;lt;summary&amp;gt; /// Redis連線 /// &amp;lt;/summary&amp;gt; public static class RedisCacheServiceCollectionExtensions { public static IServiceCollection AddRedisCache(this IServiceCollection services) { services.AddSingleton&amp;lt;IConnectionMultiplexer&amp;gt;(sp =&amp;gt; { return ConnectionMultiplexer.Connect(services.GetGetConfigString()); }); //distributed cache 以下兩種擇一使用 //方法一 services.AddOptions&amp;lt;RedisCacheOptions&amp;gt;() .Configure&amp;lt;IServiceProvider&amp;gt;((options, sp) =&amp;gt; { options.Configuration = services.GetGetConfigString(); options.InstanceName = &amp;#34;&amp;#34;; }); services.AddSingleton&amp;lt;IDistributedCache, RedisCache&amp;gt;(); //方法二 //services.AddStackExchangeRedisCache(options =&amp;gt; //{ // options.Configuration = services.GetGetConfigString(); // options.InstanceName = &amp;#34;&amp;#34;; //}); return services; } private static string GetGetConfigString(this IServiceCollection services) { return &amp;#34;127.</description>
+    </item>
+    
+    <item>
+      <title>Redis基本指令與安裝</title>
+      <link>https://shadow061103.github.io/myblog/posts/202212/redis%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4%E8%88%87%E5%AE%89%E8%A3%9D/</link>
+      <pubDate>Mon, 19 Dec 2022 15:04:32 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/myblog/posts/202212/redis%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4%E8%88%87%E5%AE%89%E8%A3%9D/</guid>
+      <description>特性 儲存結構 字串 散列類型Hash 列表類型List 集合類型Set 有序集合類型Sorted List 數據持久化，一般都在記憶體，也可以存到硬碟 可以用來作快取、隊列系統 可以設置TTL(time to live)，到期後會自動消失 單執行緒 支援publish/subscribe 可以限定資料占用的最大記憶體空間，達到限制後可以自動淘汰不需要的key 安裝Redis 次版本號偶數的是穩定版，奇數是非穩定版 使用docker安裝 docker pull redisdocker run --name redis-lab -p 6379:6379 -d redis//確認containerdocker ps//測試 進bash 或是用docker desktop進入docker exec -it e819 bash//進bash之後輸入redis-cli# redis-cli127.0.0.1:6379&amp;gt; pingPONG有回應就代表正常 在windows安裝 啟動Redis 可執行文件(應該是工具的意思) redis-server Redis服務器redis-cli 客戶端命令列redis-benchmark 性能測試工具redis-check-aof AOF文件修復工具redis-check-dump RDB文件檢查工具 直接啟動 進去bash後執行redis-server 但docker已經有用6379了 所以這邊是給非docker使用的 然後再執行redis-server --port 6379 透過redis_init_script執行(在Production環境用) 停止Redis redis-cli SHUTDOWN 收到指令會先斷掉連線，執行持久化工作後退出</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>Redis管理與持久化</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, redis'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/myblog/posts/202212/redis%E7%AE%A1%E7%90%86%E8%88%87%E6%8C%81%E4%B9%85%E5%8C%96/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Redis管理與持久化">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Redis管理與持久化">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/myblog/posts/202212/redis%E7%AE%A1%E7%90%86%E8%88%87%E6%8C%81%E4%B9%85%E5%8C%96/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/myblog/posts/202212/redis%E7%AE%A1%E7%90%86%E8%88%87%E6%8C%81%E4%B9%85%E5%8C%96/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/myblog/posts/202212/redis%E7%AE%A1%E7%90%86%E8%88%87%E6%8C%81%E4%B9%85%E5%8C%96/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io/myblog//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io/myblog//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io/myblog//css/dark.css">
+
+    <script src="https://shadow061103.github.io/myblog//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io/myblog//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io/myblog//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/myblog/">
+                <img src="https://shadow061103.github.io/myblog//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/myblog/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Redis管理與持久化</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            December 19, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/myblog/tags/redis">redis</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h2 id="持久化方式">持久化方式</h2>
+<h3 id="rdb持久化">RDB持久化</h3>
+<ul>
+<li>可以用save設定怎樣啟動snapshot
+<code>save 900 1</code>900秒內有一個key被更改就進行snapshot</li>
+<li>snapshot文件儲存在目錄的dump.rdb文件裡，可以配置dir跟dbfilename參數指定snapshot儲存路徑跟文件名稱，redis啟動後會重新載入dump.rdb的資料到記憶體中恢復資料</li>
+<li><a href="https://www.gushiciku.cn/pl/pmbW/zh-tw">過程</a></li>
+<li>可以手動發送<code>save</code>或<code>bgsave</code>讓redis進行snapshot，save是透過main thread進行會<em>阻塞其他操作</em>，bgsave是fork子執行緒進行操作(也有可能會阻塞)</li>
+<li>跟AOF比恢復資料比較快</li>
+<li>用子執行緒操作，對redis server效能影響比較小</li>
+<li>如果server當機，RDB會造成某個時間內資料遺失</li>
+</ul>
+<h3 id="aof持久化">AOF持久化</h3>
+<blockquote>
+<p>append only file</p>
+</blockquote>
+<ul>
+<li>預設沒開啟，可以透過<code>appendonly yes</code>開啟</li>
+<li>執行每個更改資料的指令都會寫到AOF文件</li>
+<li>AO文件跟RDB的位置一樣，預設是appendonly.aof，可以用<code>appendfilename appendonly.aof</code>修改</li>
+<li>如果AOF記載太多冗餘命令，可以執行AOF重寫
+<ul>
+<li><code>auto-aof-rewrite-percentage 100</code>:AOF文件超過上次重寫的百分比會再次重寫，如果沒重寫過會以啟動時的AOF文件大小當依據</li>
+<li><code>auto-aof-rewrite-min-size 64mb</code>: 限制允許重寫的最小AO文件大小</li>
+<li><code>bgrewriteaof</code>可以手動執行重寫</li>
+<li><code>no-appendfsync-on-rewrite no</code>預設不重寫aof檔案</li>
+</ul>
+</li>
+<li>每次啟動會把AOF文件的命令載入記憶體，速度比RDB慢</li>
+<li>每次指令寫到AOF文件的時候不會馬上寫到硬碟，而是先寫到硬碟快取，每30秒執行一次同步操作，但如果同步失敗就會損失資料
+<ul>
+<li><code>appendfsync always|everysec(預設)|no</code>
+<ul>
+<li>always:客戶端的每一個寫操作都儲存到aof檔案當，這種策略很安全，但是每個寫請注都有IO操作，所以也很慢</li>
+<li>everysec:預設寫入策略，每秒寫入一次aof檔案，因此，最多可能會丟失1s的資料</li>
+<li>no:redis server不負責寫入aof，而是交由作業系統來處理什麼時候寫入aof檔案。更快，但也最不安全，不推薦使用</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="如果只是把redis當作快取用可以不考慮持久化">如果只是把redis當作快取用，可以不考慮持久化</h4>
+<h3 id="redis複製replication">redis複製replication</h3>
+<ul>
+<li>一台的資料更新後可以同步到其他server</li>
+<li>分成master-slave，主數據庫可以讀寫操作，寫操作的時候會把資料同步到slave，從數據庫一般只負責讀</li>
+<li>slave只需要在配置文件加入<code>slaveof 主數據庫IP port</code>，master不用任何設定</li>
+<li>可以改從數據庫的配置文件，<code>slave-read-only</code>改成no，讓從數據庫可以寫，但是更新資料不會同步，而且主數據庫更新會覆蓋掉從數據庫的資料</li>
+</ul>
+<pre tabindex="0"><code>主數據庫
+redis-server
+
+從機監聽6379
+redis-server --port 6378 --slaveof 127.0.0.1 6379
+
+也可以運行時使用
+slaveof 127.0.0.1 6379
+</code></pre><ul>
+<li>流程
+<ul>
+<li>slave向master發送SYNC命令</li>
+<li>master接收到命令後，開始保存snapshot(RDB持久化)，把保存期間接收到的命令保存起來</li>
+<li>snapshot完成後會把文件跟所有命令發送給slave</li>
+<li>slave接收到後會載入文件跟收到的命令</li>
+</ul>
+</li>
+<li>slave在同步時還可以接收其他client的命令，可以設定<code>slave-serve-stale-data</code>為no，讓同步完成前的命令都回傳錯誤</li>
+<li>slave也可以有自己的slave(多個)</li>
+</ul>
+<h3 id="安全機制">安全機制</h3>
+<ul>
+<li>redis server要限制不能被所有人讀取，要設置防火牆</li>
+<li>redis可以設定密碼，client每次連到redis都要發送，設定<code>requirepass</code></li>
+<li>可以重新命名指令，就可以保證只有自己可以用,<code>rename-command</code></li>
+</ul>
+<h3 id="管理工具">管理工具</h3>
+<ul>
+<li>耗時命令日誌:執行的指令超過時間限制會記錄，可以設定配置文件的<code>slowlog-log-slower-than</code>，單位是微秒(1000000微秒=1秒)，預設值是10000，日誌是記錄在記憶體，可以設定<code>slowlog-max-len</code>來限制紀錄筆數
+<ul>
+<li>組成:log唯一ID,命令執行的UNIX時間,命令耗時時間,命令跟參數</li>
+</ul>
+</li>
+</ul>
+<pre tabindex="0"><code>slowlog get
+</code></pre><ul>
+<li>命令監控:<code>monitor</code>,每個指令都會印出來，但很影響效能，所以只建議debug使用</li>
+</ul>
+<pre tabindex="0"><code>127.0.0.1:6379&gt; monitor
+OK
+1626156001.628433 [0 127.0.0.1:46324] &#34;set&#34; &#34;foo&#34; &#34;bar&#34;
+</code></pre><ul>
+<li>Rdbtools:可以把snapshot文件解析成json檔案</li>
+</ul>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2024 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>dotnet-dump analyze分析</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, Csharp'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/myblog/posts/202301/dotnet-dump-analyze%E5%88%86%E6%9E%90/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="dotnet-dump analyze分析">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="dotnet-dump analyze分析">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/myblog/posts/202301/dotnet-dump-analyze%E5%88%86%E6%9E%90/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/myblog/posts/202301/dotnet-dump-analyze%E5%88%86%E6%9E%90/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/myblog/posts/202301/dotnet-dump-analyze%E5%88%86%E6%9E%90/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io/myblog//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io/myblog//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io/myblog//css/dark.css">
+
+    <script src="https://shadow061103.github.io/myblog//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io/myblog//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io/myblog//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/myblog/">
+                <img src="https://shadow061103.github.io/myblog//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/myblog/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>dotnet-dump analyze分析</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            January 5, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/myblog/tags/csharp">Csharp</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h2 id="測試步驟使用微軟專案實現要測試情境">測試步驟(使用微軟專案實現要測試情境)</h2>
+<h3 id="建立docker-container">建立docker container</h3>
+<p><a href="https://github.com/dotnet/samples/tree/main/core/diagnostics/DiagnosticScenarios">範例專案</a></p>
+<ul>
+<li>用svn把專案clone下來
+<code>svn co https://github.com/dotnet/samples/trunk/core/diagnostics/DiagnosticScenarios</code></li>
+<li>先建置再release</li>
+</ul>
+<pre tabindex="0"><code>dotnet clean
+dotnet restore
+dotnet build -c Release
+</code></pre><p>範例專案可能需要調整csproj檔案如下，原本的版本號會build不過</p>
+<pre tabindex="0"><code>&lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;net6.0&lt;/TargetFramework&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&#34;Microsoft.AspNetCore.Mvc.NewtonsoftJson&#34; Version=&#34;6.0.1&#34; /&gt;
+  &lt;/ItemGroup&gt;
+</code></pre><ul>
+<li>新增Dockerfile在專案目錄</li>
+</ul>
+<pre tabindex="0"><code>FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+
+COPY  bin/Release/net6.0 .
+
+ENTRYPOINT [&#34;dotnet&#34;, &#34;DiagnosticScenarios.dll&#34;]
+</code></pre><ul>
+<li>
+<p>建docker image
+<code>docker build -t dumptest .</code></p>
+</li>
+<li>
+<p>run container
+<code>docker run --name diagnostic --privileged=true -p 888:80 -d dumptest</code>
+privileged是要給容器許可權
+<a href="https://docs.docker.com/engine/reference/commandline/run/#full-container-capabilities---privileged">docker privileged</a></p>
+</li>
+<li>
+<p>連網址檢查container有沒有成功
+http://localhost:888/api/values</p>
+</li>
+</ul>
+<h3 id="生成dump檔案">生成dump檔案</h3>
+<ul>
+<li>用專案提供的api測試鎖死跟記憶體耗用問題
+http://localhost:888/api/diagscenario/deadlock
+http://localhost:888/api/diagscenario/memleak/101024</li>
+<li>建立dump檔案
+透過find找到netcore自帶的createdump工具；
+執行createdump路徑 PID命令建立dump檔案
+(如果容器內只有一個應用，一般PID預設為1，也可以使用top命令來檢視PID)
+找到之後就退出contaner</li>
+</ul>
+<pre tabindex="0"><code>PS C:\Users\steve&gt; docker exec -it diagnostic bash
+root@b4a4d3879eb0:/app# find / -name createdump
+/usr/share/dotnet/shared/Microsoft.NETCore.App/6.0.12/createdump
+root@b4a4d3879eb0:/app# /usr/share/dotnet/shared/Microsoft.NETCore.App/6.0.12/createdump 1
+[createdump] Gathering state for process 1 dotnet
+[createdump] Writing minidump with heap to file /tmp/coredump.1
+[createdump] Written 2909171712 bytes (710247 pages) to core file
+[createdump] Target process is alive
+[createdump] Dump successfully written
+</code></pre><ul>
+<li>把coredump.1檔案copy出來到本地資料夾</li>
+</ul>
+<pre tabindex="0"><code>docker cp b4a4d3879eb0:/tmp/coredump.1 C:\github\DiagnosticScenarios
+</code></pre><h3 id="分析dump檔案">分析dump檔案</h3>
+<p>dotnet-dump工具依賴dotnet的sdk，如果本機安裝了sdk可以直接在宿主機中分析
+或是可以pull一個sdk的image，建立一個臨時環境用於分析
+這邊使用第二種作法</p>
+<ul>
+<li>建立測試container，要把dump檔案copy進去，或是用volume掛載資料夾
+<code>docker run --rm -it -v C:/github/tmp:/tmp/coredump mcr.microsoft.com/dotnet/sdk:6.0</code></li>
+<li>建好容器之後須安裝dotnet-dump工具
+<code>dotnet tool install -g dotnet-dump</code></li>
+</ul>
+<pre tabindex="0"><code>root@e881fccccede:/# dotnet tool install -g dotnet-dump
+Tools directory &#39;/root/.dotnet/tools&#39; is not currently on the PATH environment variable.
+If you are using bash, you can add it to your profile by running the following command:
+
+cat &lt;&lt; \EOF &gt;&gt; ~/.bash_profile
+# Add .NET Core SDK tools
+export PATH=&#34;$PATH:/root/.dotnet/tools&#34;
+EOF
+
+You can add it to the current session by running the following command:
+
+export PATH=&#34;$PATH:/root/.dotnet/tools&#34;
+
+You can invoke the tool using the following command: dotnet-dump
+Tool &#39;dotnet-dump&#39; (version &#39;6.0.351802&#39;) was successfully installed.
+root@e881fccccede:/# export PATH=&#34;$PATH:/root/.dotnet/tools&#34;
+</code></pre><ul>
+<li>進去dump的資料夾就可以做分析了
+下指令<code>dotnet-dump analyze coredump.1</code></li>
+</ul>
+<pre tabindex="0"><code class="language-root@e881fccccede:/#" data-lang="root@e881fccccede:/#">root@e881fccccede:/tmp/coredump# dotnet-dump analyze coredump.1
+Loading core dump: coredump.1 ...
+Ready to process analysis commands. Type &#39;help&#39; to list available commands or &#39;help [command]&#39; to get detailed help on a command.
+Type &#39;quit&#39; or &#39;exit&#39; to exit the session.
+&gt;
+</code></pre><p><a href="https://learn.microsoft.com/zh-tw/dotnet/architecture/microservices/net-core-net-framework-containers/official-net-docker-images">微軟docker image</a><!-- raw HTML omitted -->
+<a href="https://iter01.com/580653.html">參考文件</a><!-- raw HTML omitted -->
+<a href="https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-dump#dotnet-dump-analyze">dotnet dump</a><!-- raw HTML omitted -->
+<a href="http://jinyazhou.com/dot_net_core_dump_analyse.html">.NET Core dump 分析</a></p>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2024 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

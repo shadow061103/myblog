@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>課程筆記 on Steve的技術筆記</title>
-    <link>https://shadow061103.github.io/tags/%E8%AA%B2%E7%A8%8B%E7%AD%86%E8%A8%98/</link>
+    <link>https://shadow061103.github.io/myblog/tags/%E8%AA%B2%E7%A8%8B%E7%AD%86%E8%A8%98/</link>
     <description>Recent content in 課程筆記 on Steve的技術筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 20 Oct 2022 16:48:10 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/%E8%AA%B2%E7%A8%8B%E7%AD%86%E8%A8%98/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 20 Oct 2022 16:48:10 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/myblog/tags/%E8%AA%B2%E7%A8%8B%E7%AD%86%E8%A8%98/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>保哥非同步課程</title>
-      <link>https://shadow061103.github.io/posts/202210/%E4%BF%9D%E5%93%A5%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%AA%B2%E7%A8%8B/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E4%BF%9D%E5%93%A5%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%AA%B2%E7%A8%8B/</link>
       <pubDate>Thu, 20 Oct 2022 16:48:10 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E4%BF%9D%E5%93%A5%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%AA%B2%E7%A8%8B/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E4%BF%9D%E5%93%A5%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%AA%B2%E7%A8%8B/</guid>
       <description>thread要執行要進CPU排隊，所以不一定先start的會先跑 非同步不一定是multi thread(user thread)，File.WriteAsync 會叫dreiver去處理寫檔，完成後會告知已完成 會造成deadlock的情境 用windowform、WPF有內建syncronizecontext 宣告方法是有用async、await關鍵字 呼叫非同步方法的時候用.Result() 或wait() .Wait()跟.Result會block thread，不會還回去，只有用await才會還 沒有等待的動作，就不會有把執行緒還回去的動作 CPU bound的工作可以用Task.Run()去實作，這種方式會去thread pool拉一條新的thread,IO bound 的用async await就可以 thread pool會動態長大，如果電腦8核16的邏輯處理單元，一開始只會分配16個thread，把thread用完還會一直分配，但是用.Result會block thread，就會等到有Thread可以用的時候才會繼續往下做 .net core把HttpContext.Current刪掉了,要改成注入的方式 Task的完成狀態 IsCompleted 這個值表示工作是否已經完成執行（無論成功或失敗都叫完成） IsCompletedSuccessfully這個值表示工作是否已經完成執行（只有成功才會為true） IsCanceled這個值表示工作是否因取消才完成執行 IsFaulted這個值表示工作是否因未處理的例外狀況才完成執行 Task.Status屬性列舉 Canceled	6	工作確認取消動作，不論是因為工作在語彙基元處於信號狀態時使用自己的 CancellationToken 擲回 OperationCanceledException，或是工作的 CancellationToken 信號在工作開始執行之前便已存在。 如需詳細資訊，請參閱工作取消。 Created	0 工作已初始化但尚未排程。 Faulted	7	工作因未處理的例外狀況而完成。 RanToCompletion	5	工作已成功完成執行。 Running	3	工作正在執行，但尚未完成。 WaitingForActivation	1	工作正在等候由 .NET 基礎結構從內部啟動並排程。 WaitingForChildrenToComplete	4	工作已完成執行，而且在暗中等候附加的子工作完成。 WaitingToRun	2	工作已排定執行，但尚未開始執行。 參考 會封鎖執行緒的等候方法 沒有回傳值 MethodAsync().Wait() 封鎖並等待MethodAsync 方法執行完成 Task.</description>
     </item>
     

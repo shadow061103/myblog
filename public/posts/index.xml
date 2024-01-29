@@ -2,27 +2,94 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Steve的技術筆記</title>
-    <link>https://shadow061103.github.io/posts/</link>
+    <link>https://shadow061103.github.io/myblog/posts/</link>
     <description>Recent content in Posts on Steve的技術筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Tue, 06 Dec 2022 16:30:21 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 05 Jan 2023 14:06:47 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/myblog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>dotnet-dump analyze分析</title>
+      <link>https://shadow061103.github.io/myblog/posts/202301/dotnet-dump-analyze%E5%88%86%E6%9E%90/</link>
+      <pubDate>Thu, 05 Jan 2023 14:06:47 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/myblog/posts/202301/dotnet-dump-analyze%E5%88%86%E6%9E%90/</guid>
+      <description>測試步驟(使用微軟專案實現要測試情境) 建立docker container 範例專案
+用svn把專案clone下來 svn co https://github.com/dotnet/samples/trunk/core/diagnostics/DiagnosticScenarios 先建置再release dotnet cleandotnet restoredotnet build -c Release 範例專案可能需要調整csproj檔案如下，原本的版本號會build不過
+&amp;lt;PropertyGroup&amp;gt;&amp;lt;TargetFramework&amp;gt;net6.0&amp;lt;/TargetFramework&amp;gt;&amp;lt;/PropertyGroup&amp;gt;&amp;lt;ItemGroup&amp;gt;&amp;lt;PackageReference Include=&amp;#34;Microsoft.AspNetCore.Mvc.NewtonsoftJson&amp;#34; Version=&amp;#34;6.0.1&amp;#34; /&amp;gt;&amp;lt;/ItemGroup&amp;gt; 新增Dockerfile在專案目錄 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS baseWORKDIR /appEXPOSE 80COPY bin/Release/net6.0 .ENTRYPOINT [&amp;#34;dotnet&amp;#34;, &amp;#34;DiagnosticScenarios.dll&amp;#34;] 建docker image docker build -t dumptest .
+run container docker run --name diagnostic --privileged=true -p 888:80 -d dumptest privileged是要給容器許可權 docker privileged
+連網址檢查container有沒有成功 http://localhost:888/api/values
+生成dump檔案 用專案提供的api測試鎖死跟記憶體耗用問題 http://localhost:888/api/diagscenario/deadlock http://localhost:888/api/diagscenario/memleak/101024 建立dump檔案 透過find找到netcore自帶的createdump工具； 執行createdump路徑 PID命令建立dump檔案 (如果容器內只有一個應用，一般PID預設為1，也可以使用top命令來檢視PID) 找到之後就退出contaner PS C:\Users\steve&amp;gt; docker exec -it diagnostic bashroot@b4a4d3879eb0:/app# find / -name createdump/usr/share/dotnet/shared/Microsoft.</description>
+    </item>
+    
+    <item>
+      <title>Redis管理與持久化</title>
+      <link>https://shadow061103.github.io/myblog/posts/202212/redis%E7%AE%A1%E7%90%86%E8%88%87%E6%8C%81%E4%B9%85%E5%8C%96/</link>
+      <pubDate>Mon, 19 Dec 2022 15:36:54 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/myblog/posts/202212/redis%E7%AE%A1%E7%90%86%E8%88%87%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
+      <description>持久化方式 RDB持久化 可以用save設定怎樣啟動snapshot save 900 1900秒內有一個key被更改就進行snapshot snapshot文件儲存在目錄的dump.rdb文件裡，可以配置dir跟dbfilename參數指定snapshot儲存路徑跟文件名稱，redis啟動後會重新載入dump.rdb的資料到記憶體中恢復資料 過程 可以手動發送save或bgsave讓redis進行snapshot，save是透過main thread進行會阻塞其他操作，bgsave是fork子執行緒進行操作(也有可能會阻塞) 跟AOF比恢復資料比較快 用子執行緒操作，對redis server效能影響比較小 如果server當機，RDB會造成某個時間內資料遺失 AOF持久化 append only file
+預設沒開啟，可以透過appendonly yes開啟 執行每個更改資料的指令都會寫到AOF文件 AO文件跟RDB的位置一樣，預設是appendonly.aof，可以用appendfilename appendonly.aof修改 如果AOF記載太多冗餘命令，可以執行AOF重寫 auto-aof-rewrite-percentage 100:AOF文件超過上次重寫的百分比會再次重寫，如果沒重寫過會以啟動時的AOF文件大小當依據 auto-aof-rewrite-min-size 64mb: 限制允許重寫的最小AO文件大小 bgrewriteaof可以手動執行重寫 no-appendfsync-on-rewrite no預設不重寫aof檔案 每次啟動會把AOF文件的命令載入記憶體，速度比RDB慢 每次指令寫到AOF文件的時候不會馬上寫到硬碟，而是先寫到硬碟快取，每30秒執行一次同步操作，但如果同步失敗就會損失資料 appendfsync always|everysec(預設)|no always:客戶端的每一個寫操作都儲存到aof檔案當，這種策略很安全，但是每個寫請注都有IO操作，所以也很慢 everysec:預設寫入策略，每秒寫入一次aof檔案，因此，最多可能會丟失1s的資料 no:redis server不負責寫入aof，而是交由作業系統來處理什麼時候寫入aof檔案。更快，但也最不安全，不推薦使用 如果只是把redis當作快取用，可以不考慮持久化 redis複製replication 一台的資料更新後可以同步到其他server 分成master-slave，主數據庫可以讀寫操作，寫操作的時候會把資料同步到slave，從數據庫一般只負責讀 slave只需要在配置文件加入slaveof 主數據庫IP port，master不用任何設定 可以改從數據庫的配置文件，slave-read-only改成no，讓從數據庫可以寫，但是更新資料不會同步，而且主數據庫更新會覆蓋掉從數據庫的資料 主數據庫redis-server從機監聽6379redis-server --port 6378 --slaveof 127.0.0.1 6379也可以運行時使用slaveof 127.0.0.1 6379 流程 slave向master發送SYNC命令 master接收到命令後，開始保存snapshot(RDB持久化)，把保存期間接收到的命令保存起來 snapshot完成後會把文件跟所有命令發送給slave slave接收到後會載入文件跟收到的命令 slave在同步時還可以接收其他client的命令，可以設定slave-serve-stale-data為no，讓同步完成前的命令都回傳錯誤 slave也可以有自己的slave(多個) 安全機制 redis server要限制不能被所有人讀取，要設置防火牆 redis可以設定密碼，client每次連到redis都要發送，設定requirepass 可以重新命名指令，就可以保證只有自己可以用,rename-command 管理工具 耗時命令日誌:執行的指令超過時間限制會記錄，可以設定配置文件的slowlog-log-slower-than，單位是微秒(1000000微秒=1秒)，預設值是10000，日誌是記錄在記憶體，可以設定slowlog-max-len來限制紀錄筆數 組成:log唯一ID,命令執行的UNIX時間,命令耗時時間,命令跟參數 slowlog get 命令監控:monitor,每個指令都會印出來，但很影響效能，所以只建議debug使用 127.</description>
+    </item>
+    
+    <item>
+      <title>Redis進階用法</title>
+      <link>https://shadow061103.github.io/myblog/posts/202212/redis%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95/</link>
+      <pubDate>Mon, 19 Dec 2022 15:24:31 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/myblog/posts/202212/redis%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95/</guid>
+      <description>Transaction 全執行或全部執行(ACID) 先用multi告訴redis要執行事務的指令,會先進到queue等待 exec才會全部執行,回傳值是依照指令順序 沒有rollback機制 127.0.0.1:6379&amp;gt; multiOK127.0.0.1:6379(TX)&amp;gt; sadd user:1:following 2QUEUED127.0.0.1:6379(TX)&amp;gt; sadd user:2:followers 1QUEUED127.0.0.1:6379(TX)&amp;gt; exec1) (integer) 12) (integer) 1127.0.0.1:6379&amp;gt; 有語法錯誤就不會執行 127.0.0.1:6379&amp;gt; multiOK127.0.0.1:6379(TX)&amp;gt; set key valueQUEUED127.0.0.1:6379(TX)&amp;gt; set key(error) ERR wrong number of arguments for &amp;#39;set&amp;#39; command127.0.0.1:6379(TX)&amp;gt; errorcommand key(error) ERR unknown command `errorcommand`, with args beginning with: `key`,127.0.0.1:6379(TX)&amp;gt; exec(error) EXECABORT Transaction discarded because of previous errors.</description>
+    </item>
+    
+    <item>
+      <title>DotNet Core的Redis</title>
+      <link>https://shadow061103.github.io/myblog/posts/202212/dotnet-core%E7%9A%84redis/</link>
+      <pubDate>Mon, 19 Dec 2022 15:12:10 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/myblog/posts/202212/dotnet-core%E7%9A%84redis/</guid>
+      <description>套件 StackExchange.Redis, Microsoft.Extensions.Caching.StackExchangeRedis DI注入 這邊用docker起的redis 有包含 .net core提供的分散式快取，跟套件的多路複用用法 /// &amp;lt;summary&amp;gt; /// Redis連線 /// &amp;lt;/summary&amp;gt; public static class RedisCacheServiceCollectionExtensions { public static IServiceCollection AddRedisCache(this IServiceCollection services) { services.AddSingleton&amp;lt;IConnectionMultiplexer&amp;gt;(sp =&amp;gt; { return ConnectionMultiplexer.Connect(services.GetGetConfigString()); }); //distributed cache 以下兩種擇一使用 //方法一 services.AddOptions&amp;lt;RedisCacheOptions&amp;gt;() .Configure&amp;lt;IServiceProvider&amp;gt;((options, sp) =&amp;gt; { options.Configuration = services.GetGetConfigString(); options.InstanceName = &amp;#34;&amp;#34;; }); services.AddSingleton&amp;lt;IDistributedCache, RedisCache&amp;gt;(); //方法二 //services.AddStackExchangeRedisCache(options =&amp;gt; //{ // options.Configuration = services.GetGetConfigString(); // options.InstanceName = &amp;#34;&amp;#34;; //}); return services; } private static string GetGetConfigString(this IServiceCollection services) { return &amp;#34;127.</description>
+    </item>
+    
+    <item>
+      <title>Redis基本指令與安裝</title>
+      <link>https://shadow061103.github.io/myblog/posts/202212/redis%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4%E8%88%87%E5%AE%89%E8%A3%9D/</link>
+      <pubDate>Mon, 19 Dec 2022 15:04:32 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/myblog/posts/202212/redis%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4%E8%88%87%E5%AE%89%E8%A3%9D/</guid>
+      <description>特性 儲存結構 字串 散列類型Hash 列表類型List 集合類型Set 有序集合類型Sorted List 數據持久化，一般都在記憶體，也可以存到硬碟 可以用來作快取、隊列系統 可以設置TTL(time to live)，到期後會自動消失 單執行緒 支援publish/subscribe 可以限定資料占用的最大記憶體空間，達到限制後可以自動淘汰不需要的key 安裝Redis 次版本號偶數的是穩定版，奇數是非穩定版 使用docker安裝 docker pull redisdocker run --name redis-lab -p 6379:6379 -d redis//確認containerdocker ps//測試 進bash 或是用docker desktop進入docker exec -it e819 bash//進bash之後輸入redis-cli# redis-cli127.0.0.1:6379&amp;gt; pingPONG有回應就代表正常 在windows安裝 啟動Redis 可執行文件(應該是工具的意思) redis-server Redis服務器redis-cli 客戶端命令列redis-benchmark 性能測試工具redis-check-aof AOF文件修復工具redis-check-dump RDB文件檢查工具 直接啟動 進去bash後執行redis-server 但docker已經有用6379了 所以這邊是給非docker使用的 然後再執行redis-server --port 6379 透過redis_init_script執行(在Production環境用) 停止Redis redis-cli SHUTDOWN 收到指令會先斷掉連線，執行持久化工作後退出</description>
+    </item>
+    
+    <item>
+      <title>hugo自動佈署發佈文章</title>
+      <link>https://shadow061103.github.io/myblog/posts/202212/hugo%E8%87%AA%E5%8B%95%E4%BD%88%E7%BD%B2%E7%99%BC%E4%BD%88%E6%96%87%E7%AB%A0/</link>
+      <pubDate>Fri, 16 Dec 2022 17:24:30 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/myblog/posts/202212/hugo%E8%87%AA%E5%8B%95%E4%BD%88%E7%BD%B2%E7%99%BC%E4%BD%88%E6%96%87%E7%AB%A0/</guid>
+      <description>原先要手動用hugo publish指令發佈後，再用git推上去才能發佈 現在使用github內建的github action的workflow就可以自動發佈
+實際做法 我不是照文章方式做的，文章的測試都無法佈署上去
+1.點進去repo裡面的Action頁籤可以看到Pages的類別
+2.找到hugo後按configure
+3.會在.github/workflows新增一個hugo.yml檔案
+4.新增完後commit
+5.以後每次push都會觸發github page的佈署
+# Sample workflow for building and deploying a Hugo site to GitHub Pagesname: Deploy Hugo site to Pageson:# Runs on pushes targeting the default branchpush:branches: [&amp;#34;master&amp;#34;]# Allows you to run this workflow manually from the Actions tabworkflow_dispatch:# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pagespermissions:contents: readpages: writeid-token: write# Allow one concurrent deploymentconcurrency:group: &amp;#34;pages&amp;#34;cancel-in-progress: true# Default to bashdefaults:run:shell: bashjobs:# Build jobbuild:runs-on: ubuntu-latestenv:HUGO_VERSION: 0.</description>
+    </item>
+    
     <item>
       <title>mysql的row_number跟partition用法</title>
-      <link>https://shadow061103.github.io/posts/202212/mysql%E7%9A%84row_number%E8%B7%9Fpartition%E7%94%A8%E6%B3%95/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202212/mysql%E7%9A%84row_number%E8%B7%9Fpartition%E7%94%A8%E6%B3%95/</link>
       <pubDate>Tue, 06 Dec 2022 16:30:21 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202212/mysql%E7%9A%84row_number%E8%B7%9Fpartition%E7%94%A8%E6%B3%95/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202212/mysql%E7%9A%84row_number%E8%B7%9Fpartition%E7%94%A8%E6%B3%95/</guid>
       <description>原始範例資料表 使用row_number對資料作編號 ROW_NUMBER() OVER (&amp;lt;partition_definition&amp;gt; &amp;lt;order_definition&amp;gt;)
 單純用order by SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS row_numb FROM exam_results; 單純用partition(對資料分割，類似group by分組) SELECT *, ROW_NUMBER() OVER(PARTITION BY year) AS row_numb FROM exam_results; 組合使用 對年份分群並排序result SELECT *, ROW_NUMBER() OVER(PARTITION BY year ORDER BY result DESC) AS RowNumber FROM exam_results; partition是分割資料表的方法，row_number跟window funciton都會用到 windows function跟group by用法有點像，但他不是只會產出一筆record，而是每一個row都會有資料，詳細用法可以看下面參考 取分群資料的第一筆，同等於group by WITH added_row_number AS ( SELECT *, ROW_NUMBER() OVER(PARTITION BY year ORDER BY result DESC) AS RowNumber FROM exam_results ) SELECT * FROM added_row_number WHERE RowNumber = 1; 正式環境碰到的問題 1.</description>
     </item>
     
     <item>
       <title>DB側錄工具&amp;Dapper</title>
-      <link>https://shadow061103.github.io/posts/202212/db%E5%81%B4%E9%8C%84%E5%B7%A5%E5%85%B7dapper/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202212/db%E5%81%B4%E9%8C%84%E5%B7%A5%E5%85%B7dapper/</link>
       <pubDate>Fri, 02 Dec 2022 17:43:03 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202212/db%E5%81%B4%E9%8C%84%E5%B7%A5%E5%85%B7dapper/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202212/db%E5%81%B4%E9%8C%84%E5%B7%A5%E5%85%B7dapper/</guid>
       <description>DB側錄工具 問題 在正式環境碰到dapper執行sql速度慢 經查有可能是 參數用匿名型別方式傳進去後被轉型 ( 後來查到是cache到舊的sql ) int =&amp;gt; big int 導致DB在做where查詢的時候會把欄位轉型，資料量一大就會拖慢執行速度
 翻查dapper source code dapper使用參數的方式有兩種
 用匿名型別傳入 conn.QueryFirstOrDefaultAsync&amp;lt;decimal&amp;gt;(sql, new { code, startDate, endDate }); 用DynamicParameters var param = new DynamicParameters(); param.Add(&amp;#34;@code&amp;#34;, storeCode, dbType: DbType.String); param.Add(&amp;#34;@startDate&amp;#34;, startDate, dbType: DbType.Int32); param.Add(&amp;#34;@endDate&amp;#34;, endDate, dbType: DbType.Int32); var res = await conn.QueryFirstOrDefaultAsync&amp;lt;decimal&amp;gt;(sql, param); 最後會在背後組成一段sql 執行 sp_executesql這個storeprecedude 在dapper套件內會判斷如果不是用用DynamicParameters會幫你判斷屬性型別轉成對應的sql type Dapper source code
@@ -32,10 +99,10 @@ SQL Server Profiler目前已經被淘汰了，但如果你之前有裝過SSMS，
     
     <item>
       <title>資料表與索引設計</title>
-      <link>https://shadow061103.github.io/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/</link>
       <pubDate>Fri, 25 Nov 2022 15:52:04 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202211/%E8%B3%87%E6%96%99%E8%A1%A8%E8%88%87%E7%B4%A2%E5%BC%95%E8%A8%AD%E8%A8%88/</guid>
       <description>資料表依照需求及未來可能使用的欄位設計 基於一般OLTP資料庫經常得混搭OLAP報表及分析使用，除程式的Class設計資料表欄位，但需考量非交易狀態時的其他應用而新增其他欄位， 舉例來說，訂單表結構化的資料欄位本就不少，但訂單經常會被分天或分小時使用，則可以在資料表上增添一個年月日的數字欄位並加入索引， 在查詢上則可以限制查詢的WHERE條件一定要有年月日(數字)欄位，或若有其他可分組的數據，也可增加對應的分組欄位，以下使用訂單日期 做範例
 EX: 原有的訂單表
 CREATE TABLE [dbo].[payment_order]( [id] [bigint] IDENTITY(1,1) NOT NULL, [order_id] [bigint] NOT NULL, [payer_ep_account_id] [bigint] NOT NULL, [receiver_ep_account_id] [bigint] NOT NULL, [from_collection_amount] [decimal](9, 2) NOT NULL, [from_deposit_amount] [decimal](9, 2) NOT NULL, [remaining_collection_refund_amount] [decimal](9, 2) NOT NULL, [remaining_deposit_refund_amount] [decimal](9, 2) NOT NULL, [modify_time] [datetime2](7) NOT NULL, [create_time] [datetime2](7) NOT NULL, CONSTRAINT [PK__payment___3213E83F612B5E16] PRIMARY KEY CLUSTERED ( [id] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY] ) ON [PRIMARY] GO ALTER TABLE [dbo].</description>
@@ -43,10 +110,10 @@ CREATE TABLE [dbo].[payment_order]( [id] [bigint] IDENTITY(1,1) NOT NULL, [order
     
     <item>
       <title>Sql Guideline</title>
-      <link>https://shadow061103.github.io/posts/202211/sql-guideline/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202211/sql-guideline/</link>
       <pubDate>Fri, 25 Nov 2022 15:51:13 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202211/sql-guideline/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202211/sql-guideline/</guid>
       <description>SQL guideline 詳細可參考 https://www.sqlstyle.guide/ 由於每個環境應用程度及方式不同，以下列出最少需要的部分
 2022/03/31 更新 將Table/索引相關的部分移至 資料表與索引設計 2022/04/06 新增 說明Bitwise AND用法 1.系統保留字應盡量使用全大寫字元，使用到系統函式也需使用全大寫 詳細內容可參考 https://docs.microsoft.com/en-us/sql/t-sql/language-elements/reserved-keywords-transact-sql?view=sql-server-ver15 基本最少需要將SQL的保留字使用全大寫的方式
 Mysql保留字
@@ -55,10 +122,10 @@ ADDEXTERNALPROCEDUREALLFETCHPUBLICALTERFILERAISERRORANDFILLFACTORREAD
     
     <item>
       <title>EF Core 5的ExecuteSqlRaw的雷</title>
-      <link>https://shadow061103.github.io/posts/202211/ef-core-5%E7%9A%84executesqlraw%E7%9A%84%E9%9B%B7/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202211/ef-core-5%E7%9A%84executesqlraw%E7%9A%84%E9%9B%B7/</link>
       <pubDate>Fri, 25 Nov 2022 15:46:02 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202211/ef-core-5%E7%9A%84executesqlraw%E7%9A%84%E9%9B%B7/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202211/ef-core-5%E7%9A%84executesqlraw%E7%9A%84%E9%9B%B7/</guid>
       <description>在程式裡的寫法是這樣
 var paramItems = new[]{ new MySqlParameter(&amp;#34;@ids&amp;#34;, ids) }; var sql = @&amp;#34;update table set invoice_status=1 where id in @ids;&amp;#34;; await _context.Database.ExecuteSqlRawAsync(sql, paramItems); 會拋錯誤因為MySqlParameter不支援傳list的資料
 文件說明
@@ -69,29 +136,29 @@ using (var context = new EfcoretestContext()) { var trades = await context.EPIPT
     
     <item>
       <title>gulp 使用說明</title>
-      <link>https://shadow061103.github.io/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:36 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/</guid>
       <description>gulp官方文件 gulpfile gulpfile就是gulpfile.js的簡稱，用gulp的指定的時後會自動載入 裡面會放相關api EX:src(), dest(), series(),parallel() 可用其他語言寫再轉譯 TypeScript,命名gulpfile.ts跟安裝ts-node module. Babel,命名 gulpfile.babel.js跟安裝the @babel/register module. 當檔案太大時可以寫在不同檔案，再import進來，資料夾名稱要命名成gulpfile.js(包含index.js) Gulp Task 非同步的js function
 public tasks:從gulpfile輸出，可以用gulp指令啟動 private tasks:for內部使用，常用的方法有series()、parallel() 外部使用者不能獨立使用 const { series } = require(&amp;#39;gulp&amp;#39;); // The `clean` function is not exported so it can be considered a private task. // It can still be used within the `series()` composition. function clean(cb) { // body omitted cb(); } // The `build` function is exported so it is public and can be run with the `gulp` command.</description>
     </item>
     
     <item>
       <title>環境安裝流程</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:31 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/</guid>
       <description>1.安裝Node.js，打開終端機或命令提示字元，輸入node -v，安裝完成會顯示版本號 2.在終端機安裝gulp，繼續輸入指令 npm i gulp@4 -g ,輸入gulp -v查詢是否有回傳版本號 3.下載此資料夾並解壓縮 4.移動到該資料夾 5.輸入指令 npm install 安裝插件，這是安裝專案內package.json列出的需要元件 npm install gulp -g 會在全域下安裝gulp 6.輸入指令gulp執行 7.若步驟6執行成功，會打開瀏覽器，看到指定畫面 指令列表 gulp - 執行開發模式(會開啟模擬瀏覽器並監聽相關檔案) gulp build - 執行編譯模式(不會開啟瀏覽器) gulp clean - 清除 dist 資料夾 gulp deploy - 將 dist 資料夾部署至 GitHub Pages npm install gulp-cli -g 才能使用gulp指令 </description>
     </item>
     
     <item>
       <title>版型課程第八周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AB%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AB%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:20 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AB%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AB%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>盡量用元件跟util組合，少用card li{}這種寫法 scss同類性質高的時候再拆資料夾 命名盡量一致化，小駝峰，用下底線或-會讓人誤解是子模組
 7+1 scss ###　BEM
 __區塊 元素 &amp;ndash;修飾符:樣式呈現 </description>
@@ -99,19 +166,19 @@ __區塊 元素 &amp;ndash;修飾符:樣式呈現 </description>
     
     <item>
       <title>版型課程第七周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%83%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%83%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:18 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%83%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%83%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>視差滾動 Css3 animation 範例 用keyframes去自訂動畫效果 from開始 to結束 @keyframes example { from {left:0px; top:0px;} to {left:200px; top:0px;} } div { /* 要執行的 animation 名稱 */ animation-name: example; /* 執行過程秒數 */ animation-duration: 10s; } 查瀏覽器兼容效果can I use 也可以設定比例 %數代表時間比例 @keyframes example { 0% {background-color:pink; left:0px; top:0px;} 25% {background-color:yellow; left:200px; top:0px;} 50% {background-color:blue; left:200px; top:200px;} 75% {background-color:green; left:0px; top:200px;} 100% {background-color:red; left:0px; top:50px;} } /* The element to apply the animation to */ div { width: 100px; height: 100px; position: relative; background-color: red; animation-name: example; animation-duration: 4s; /* 晚幾秒發動 */ animation-delay: 2s; /* 要重複跑幾次，或者是用 infinite 一直持續跑 */ animation-iteration-count: infinite; /* 停留在哪個影格 forwards、backwards、both */ /* animation-fill-mode: backwards; */ /* forwards 停留在最後一個位置 backwards: 留在第一個位置 both 擁有前兩者功能 */ } Animate.</description>
     </item>
     
     <item>
       <title>版型課程第六周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AD%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AD%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:15 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AD%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AD%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>bootstrap是手機寫到PC
 格線系統 避免寫一些奇怪數字 俗稱magic number
 .col-1{ width:60px; } .col-2{ width:120px; } 格線系統關鍵字：column(欄)、gutter(間距) 左右會用margin推 960 grid 要符合1024*768解析度 通常會有12欄(比較好整除) 沒格線系統就會用magic number bootstrap是用padding推gutter的值 column內不能多用padding跟margin，因為寬度會超過%數 row裡面再包column，因為元素才會對齊 沒用格線系統只有局部區塊好看，用的話一致性高有規律 class=row的第一層只能放col bootstrap的斷點設計 文件位置 依照裝置大小去置換class 常見錯誤，在 .col 增加寬度 常見錯誤，在格線系統調整左右 margin 與 padding 常見觀念：可以加上下 的 margin 與 padding 常見觀念：最外層至少補一個 container 常見觀念：整體格線邏輯是一致
@@ -120,10 +187,10 @@ __區塊 元素 &amp;ndash;修飾符:樣式呈現 </description>
     
     <item>
       <title>版型課程第五周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%94%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%94%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:12 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%94%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%94%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>表單三要素 form input submit 使用id差別 為了使用者體驗 input使用id標註，用label for指定，只要點到label就會自動focus在input上 &amp;lt;label for=&amp;quot;Email&amp;quot;&amp;gt;請輸入email:&amp;lt;/label&amp;gt;
 select選單 彈跳樣式跟顏色不要改，每個瀏覽器的樣式也不一樣，除非用div+js自幹 可以用套件 可能下載過慢，太大包 流量比例:7成圖片、2成css跟js、1成文檔 disable的標籤資料不會送到後端，readonly的會 css reset 差異 meyerweb CSS Reset
 設計師不會用bootstrap normalize
@@ -136,10 +203,10 @@ css先放再放js檔案，放在body最後面是最保險的 可以先做自己�
     
     <item>
       <title>版型課程第四周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%9B%9B%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%9B%9B%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:10 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%9B%9B%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%9B%9B%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>Layout 類似 .Net MVC的share.cshtml
 用gulp整合 前端任務化 ejs樣板語言 &amp;lt;%- content %&amp;gt; app資料夾:放css,html,images,js檔案 dist資料夾:輸出在用沒事不要碰他，儲存就會放一份，把layout跟頁面合併在一起 會自動監聽 改layout.ejs檔案就好 只是幫助管理 Layout說明 ejs include(路徑) 把外部檔案載入 檔案要設成相對路徑 githubpage才會讀得到 連結到錨點 使用id選擇器 a href連結要加# Sass預處理器 是一種css的擴充，解決重複性、可維護性差的問題
 語法分為新的SCSS(Sassy CSS、Sass 3，檔名為 *.scss) 和舊的 SASS（不使用大括弧格式、使用縮排，不能直接使用 CSS 語法、學習曲線較高等特性，檔名為 *.sass） PPT 安裝套件 Live Sass Compiler 環境教學 可以幫助縮短語法語法介紹 github demo 變數設計 一定要放在最上面 前綴詞$ 可以做數值運算或色彩運算 lighten($primary,30%) 調亮 darken($primary,30%) 調暗 通常用來存色彩或空間跟尺寸 命名用情境色primary、secondary、accent 或功能background 命名可以參考bootstrap 避免使用色名 green或yellow，尺寸盡可能語意化large-size 主色 //變數$primary:#ff0000; import檔案拆分 _variable.scss &amp;gt; all.scss &amp;gt;all.css @import &amp;quot;variable&amp;quot; 檔名有_代表不會不輸出成css 拿來被合併用的(被忽略) .</description>
@@ -147,10 +214,10 @@ css先放再放js檔案，放在body最後面是最保險的 可以先做自己�
     
     <item>
       <title>版型課程第三周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%89%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%89%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:08 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%89%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%89%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>RWD自適應語法 依照顯示器寬度去呈現樣式 375px iphone7-11 414px ipad 768px~992px 767px 手機以下 bootstrap 1140px media要從最大寫到最小 潛規則 &amp;gt;去客戶那邊紀錄裝置解析度/瀏覽器/手機型號 .list .item{ width:25%; } @media (max-width :992px) { .list .item{ width:50%; } } @media (max-width :767px) { .list .item{ width:100%; } } 響應式要加 &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&amp;gt;
 CSS 語法 media queries @media(max-width:768px){}
 可以設定限定方式 有需要再查 css權重 先看權重再看先後順序，後者贏 HTML標籤 1分 lang=css tag { color:black; } 類別選擇器10分 .class { color:black; } id選擇器100分 #id { color:black; } 行內樣式1000分 &amp;lt;h1 style=&amp;quot;color:black;&amp;quot;&amp;gt;&amp;lt;/h1&amp;gt; !</description>
@@ -158,10 +225,10 @@ CSS 語法 media queries @media(max-width:768px){}
     
     <item>
       <title>版型課程第二周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:06 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>Flex container 1.內元件要有效果，就要在外容器加上 display:flex 2.每個 HTML 標籤，能同時擁有內元件跟外容器身份 Flex 主軸與交錯軸觀念(測試工具) 外容器語法 決定軸線：flex-direction (互動詢問)
 1.row (預設) 2.row-reverse 3.column 4.column-reverse 主軸對齊：justify-content
 1.flex-start (預設) 2.center 3.flex-end 4.space-between 5.space-around 6.space-evenly 換行屬性：flex-wrap
@@ -172,10 +239,10 @@ normal：也就是預設字體厚度，其實可以不用特別寫出來。 bold
     
     <item>
       <title>版型課程第一周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%80%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%80%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:03 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%80%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%80%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>css reset 可以reset讓瀏覽器一致 css reset 加速寫CODE的速度 練習英打，若沒時間最少練習常用的單字，可參考 透過 keybr.com 練習內容 使用套件 TabNine 記憶單辭。 容器 區塊元素 預設display:block 盡可能占滿整個版面 會另起一行進行呈現 可以設定寬高 div、p、h1~h6、 ul、ol、li、 dl、dt、dd、 form、table、hr、 blockquote 、 address、menu 行內元素 display inline 比較常用在段落裡 不能設定寬高 除非改成區塊元素display:block span、em、i、b、strong、a、img、input、br、select、textarea、q、bdo、sub、sup 邊界線 {border: 1px solid blue;} 說明:
 線條粗細 樣式 solid實心線 dashed虛線 dotted點點 顏色 留白 padding 往內推元素 margin 往外推元素 盡量要一致 水平置中 是整個元素置中
 { margin-left: auto; margin-right: auto; margin:0 auto; } 文字內容置中
@@ -184,10 +251,10 @@ normal：也就是預設字體厚度，其實可以不用特別寫出來。 bold
     
     <item>
       <title>Docker建立Mysql資料庫</title>
-      <link>https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/</link>
       <pubDate>Thu, 27 Oct 2022 17:09:09 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker%E5%BB%BA%E7%AB%8Bmysql%E8%B3%87%E6%96%99%E5%BA%AB/</guid>
       <description>docker建立container 1.docker pull mysql:8 2.docker run &amp;ndash;name mysql_test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8 3.可以用mysql workbench登入 127.0.0.1:3306
 下指令進入mysql client 1.docker exec -it bash 進入互動模式 2.mysql -h localhost -u root -p 進入client 就可以下指令
 https://hub.docker.com/_/mysql
@@ -196,10 +263,10 @@ https://hub.docker.com/_/mysql
     
     <item>
       <title>Mysql的limit、offset</title>
-      <link>https://shadow061103.github.io/posts/202210/mysql%E7%9A%84limitoffset/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/mysql%E7%9A%84limitoffset/</link>
       <pubDate>Thu, 27 Oct 2022 17:08:21 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/mysql%E7%9A%84limitoffset/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/mysql%E7%9A%84limitoffset/</guid>
       <description>limit [count] 代表限制回傳幾筆
 limit [index,count] index是從0開始算 limit 2,4表示從第3筆開始回傳4筆 可以想成是跳過index筆取count筆
 limit [cnt1] offset [cnt2] 跳過cnt2筆取cnt1筆 跟上面有點類似</description>
@@ -207,78 +274,78 @@ limit [cnt1] offset [cnt2] 跳過cnt2筆取cnt1筆 跟上面有點類似</descri
     
     <item>
       <title>測試mysql datetime2</title>
-      <link>https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/</link>
       <pubDate>Thu, 27 Oct 2022 17:07:35 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E6%B8%AC%E8%A9%A6mysql-datetime2/</guid>
       <description>question 用mysql db 新增欄位時用datetime2會跳錯誤訊息
 System.ArgumentOutOfRangeException: Index and length must refer to a location within the string. (Parameter &amp;#39;length&amp;#39;)at System.String.Substring(Int32 startIndex, Int32 length)at MySql.Data.Types.MySqlBinary.MySql.Data.Types.IMySqlValue.WriteValue(MySqlPacket packet, Boolean binary, Object val, Int32 length)at MySql.Data.MySqlClient.MySqlParameter.Serialize(MySqlPacket packet, Boolean binary, MySqlConnectionStringBuilder settings)at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex)at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet)at MySql.Data.MySqlClient.Statement.BindParameters()at MySql.Data.MySqlClient.PreparableStatement.Execute()at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()at System.Data.Common.DbCommand.ExecuteNonQueryAsync(CancellationToken cancellationToken)--- End of stack trace from previous location ---at Dapper.</description>
     </item>
     
     <item>
       <title>Revert commit</title>
-      <link>https://shadow061103.github.io/posts/202210/revert-commit/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/revert-commit/</link>
       <pubDate>Thu, 27 Oct 2022 16:54:36 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/revert-commit/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/revert-commit/</guid>
       <description>情境 不小心把uat或sit分支的東西merge到開發分支 且後來又繼續commit 可以用Revert指令還原，不建議用reset，因為就算退回去 後面開發的東西還要重做
 1.首先要找到Merge的那個分支 再對他用revert 指定哪一個parent https://medium.com/@kurosean/%E7%B5%82%E6%96%BC%E6%90%9E%E6%87%82%E5%A6%82%E4%BD%95-revert-merge-commit-a034b9e69fef</description>
     </item>
     
     <item>
       <title>git merge 不直接合併的方法</title>
-      <link>https://shadow061103.github.io/posts/202210/git-merge-%E4%B8%8D%E7%9B%B4%E6%8E%A5%E5%90%88%E4%BD%B5%E7%9A%84%E6%96%B9%E6%B3%95/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/git-merge-%E4%B8%8D%E7%9B%B4%E6%8E%A5%E5%90%88%E4%BD%B5%E7%9A%84%E6%96%B9%E6%B3%95/</link>
       <pubDate>Thu, 27 Oct 2022 16:53:23 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/git-merge-%E4%B8%8D%E7%9B%B4%E6%8E%A5%E5%90%88%E4%BD%B5%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/git-merge-%E4%B8%8D%E7%9B%B4%E6%8E%A5%E5%90%88%E4%BD%B5%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
       <description> git merge member --no-commit --no-ff &amp;ndash;no-commit就是不產生一個commit,資料會放到暫存區 &amp;ndash;no-ff不要fast forward 不commit的話可以git reset --merge或git merge --abort </description>
     </item>
     
     <item>
       <title>取得遠端分支</title>
-      <link>https://shadow061103.github.io/posts/202210/%E5%8F%96%E5%BE%97%E9%81%A0%E7%AB%AF%E5%88%86%E6%94%AF/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E5%8F%96%E5%BE%97%E9%81%A0%E7%AB%AF%E5%88%86%E6%94%AF/</link>
       <pubDate>Thu, 27 Oct 2022 16:52:43 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E5%8F%96%E5%BE%97%E9%81%A0%E7%AB%AF%E5%88%86%E6%94%AF/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E5%8F%96%E5%BE%97%E9%81%A0%E7%AB%AF%E5%88%86%E6%94%AF/</guid>
       <description>1. Fetch all remote branches git fetch origin 2.List the branches available for checkout git branch -a Pull changes from a remote branch git checkout -b fix-failing-tests origin/fix-failing-tests 另一種做法 取得遠端分支git branch --remote拉到本地端新建一個追蹤分支git checkout -t origin/refactoring或是直接把origin拿掉git checkout refactoring </description>
     </item>
     
     <item>
       <title>git unsafe repository錯誤解決</title>
-      <link>https://shadow061103.github.io/posts/202210/git-unsafe-repository%E9%8C%AF%E8%AA%A4%E8%A7%A3%E6%B1%BA/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/git-unsafe-repository%E9%8C%AF%E8%AA%A4%E8%A7%A3%E6%B1%BA/</link>
       <pubDate>Thu, 27 Oct 2022 16:51:00 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/git-unsafe-repository%E9%8C%AF%E8%AA%A4%E8%A7%A3%E6%B1%BA/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/git-unsafe-repository%E9%8C%AF%E8%AA%A4%E8%A7%A3%E6%B1%BA/</guid>
       <description>在下git指令的時候會跳出錯誤 原因是git更新的安全修正 要解決可以用它上面的指令 或是去找gitconfig(路徑:C:/[user][user name].gitconfig) 加上這一段
 [safe]directory = * Git unsafe repository 錯誤與 Gitea 整合問題</description>
     </item>
     
     <item>
       <title>Mock測試物件</title>
-      <link>https://shadow061103.github.io/posts/202210/mock%E6%B8%AC%E8%A9%A6%E7%89%A9%E4%BB%B6/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/mock%E6%B8%AC%E8%A9%A6%E7%89%A9%E4%BB%B6/</link>
       <pubDate>Mon, 24 Oct 2022 15:55:06 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/mock%E6%B8%AC%E8%A9%A6%E7%89%A9%E4%BB%B6/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/mock%E6%B8%AC%E8%A9%A6%E7%89%A9%E4%BB%B6/</guid>
       <description>安裝套件 Install-Package Moq -Version 4.18.2
 用法 var cal=new Mock&amp;lt;ICaculator&amp;gt;(); cal.Setup(x=&amp;gt;x.Add(It.IsAny&amp;lt;int&amp;gt;(),It.IsAny&amp;lt;int&amp;gt;())).Returns(3); cal.Object.Add(1,2).Dump(); ASP.NET MVC 單元測試系列 (3)：瞭解 Mock 假物件 ( moq )</description>
     </item>
     
     <item>
       <title>用CodeMaid進行程式碼分析</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%94%A8codemaid%E9%80%B2%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%88%86%E6%9E%90/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%94%A8codemaid%E9%80%B2%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%88%86%E6%9E%90/</link>
       <pubDate>Mon, 24 Oct 2022 15:51:51 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%94%A8codemaid%E9%80%B2%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%88%86%E6%9E%90/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%94%A8codemaid%E9%80%B2%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%88%86%E6%9E%90/</guid>
       <description> 分析&amp;gt;計算方案的程式法度量
 五種指標 可維護性指標 (Maintainbility Index) 循環複雜度 (Cyclomatic Complexity) 繼承深度 (Depth of Inheritance) 類別結合程度 (Class Coupling) 程式碼行數 (Lines of Code) 可維護性指標 算出介於 0 到 100 之間的指數值，代表維護程式碼的相對難易程度。 值愈高表示可維護性愈佳 綠色等級介於 20 和 100 之間，表示程式碼的可維護性良好。 黃色等級介於 10 和 19 之間，表示程式碼的可維護性適中。 紅色等級是介於 0 和 9 之間的等級，表示可維護性低。 循環複雜度 測量程式碼在結構上的複雜程度。建立此複雜度的方式是計算程式流程中不同程式碼路徑的數目 要越低越好，方法不超過10或15 繼承深度 指出延伸到類別 (Class) 階層的根 (Root) 的類別定義數目。 階層愈深，可能愈難找出定義與/或重新定義特定方法和欄位的位置 越低越好 類別結合程度 透過參數、區域變數、傳回型別、方法呼叫、泛型或樣板具現化、基底型別、介面實作、外部型別上定義的欄位以及屬性修飾等，測量特殊類別的結合程度 良好的軟體設計應指定聚結性 (Cohesion) 高但結合程度 (Coupling) 低的型別和方法。 程式碼行數 指出程式碼中行數的約略值。 這個數目是以 IL 程式碼為依據，因此不是原始程式碼檔案中精確的行數 如果數目非常大，表示型別或方法嘗試執行的工作可能過多，而應該分割工作，也表示該型別或方法可能難以維護 </description>
     </item>
     
     <item>
       <title>Test-Driven Development(TDD)</title>
-      <link>https://shadow061103.github.io/posts/202210/test-driven-developmenttdd/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/test-driven-developmenttdd/</link>
       <pubDate>Mon, 24 Oct 2022 15:51:14 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/test-driven-developmenttdd/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/test-driven-developmenttdd/</guid>
       <description>測試驅動開發
 需求 透過測試（單元測試）推動整個開發的進行 在撰寫程式碼之前，先透過測試案例的撰寫，確定外部如何使用物件，包含了功能、類別、方法的確定。 以需求為出發點，開發符合需求的程式， 避免過度設計（Over Design） 開發流程 1.定義目前要完成的功能（確定需求） 2.撰寫測試案例。撰寫的過程應針對意圖進行命名，思考需要得到什麼結果，要得到這樣的結果會需要提供什麼資訊。 3.編譯測試程式不通過。 4.撰寫對應測試程式的功能程式碼。 5.讓測試通過。 6.對程式碼進行重構，並確保測試可以通過。 7.依照同樣的循環，完成所有的功能開發。
 三原則 1.You are not allowed to write any production code unless it is to make a failing unit test pass. (除非這能讓失敗的單元測試通過， 否則不允許去編寫任何的產品代碼。) 2.You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures. (只允許編寫剛好能夠導致失敗的單元測試。) 3.You are not allowed to write any more production code than is sufficient to pass the one failing unit test.</description>
@@ -286,19 +353,19 @@ System.ArgumentOutOfRangeException: Index and length must refer to a location wi
     
     <item>
       <title>單元測試</title>
-      <link>https://shadow061103.github.io/posts/202210/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</link>
       <pubDate>Mon, 24 Oct 2022 15:50:08 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</guid>
       <description>定義 一個測試案例只測一種情境 最小的測試單位 不跟外部資源相依 沒有邏輯判斷 測試案例之間的相依性為0 特性FIRST Fast：快速。每個單元測試的執行時間應該要很短。 Independent：獨立。單元測試不與外部資源相依，單元測試之間也不能夠相依，要能夠單獨針對測試目標進行測試。 Repeatable：可重複。所有的單元測試都可重複被執行，且不影響預期的結果。 Self-Validating：自我驗證（可反應驗證結果）。單元測試執行不論成功或失敗，都應該要能夠從測試報告裡直接瞭解其意義或失敗的原因。 Timely：及時。單元測試應該在產品程式碼完成的當下就可以驗證執行結果是否符合預期。 驗證方式 驗證測試目標物件的方法回傳值是否符合預期 驗證測試目標物件的狀態改變是否符合預期 驗證測試目標物件與相依物件的互動是否符合預期 3A原則 Arrange 初始化目標物件 初始化方法參數 建立模擬物件行為 設定環境變數期望結果 Act 實際呼叫測試目標物件的方法 Assert 驗證政目標是否如預期運作 測試方法的命名 被測試方法名稱+測試場景描述+預期行為 可以用中文 受測對象:可使用target或sut(system under test) 預期結果 - expected 實際執行結果 - actual 範例:ToInt_傳入為正整數的物件_應傳回正確的正整數 快捷鍵 testc建立測試類別 testm 建立測試方法 Ctrl+R, T: 執行單一測試 Ctrl+R, A: 執行所有測試（開發時最常使用） Ctrl+R, Ctrl+T: 偵錯單一測試（測試失敗時，最常使用） Ctrl+R, Ctrl+A: 偵錯所有測試 測試相關標籤Attribute [TestClass()] [TestMethod()] [Owenr(“User_Name”)] [TestCategory(“Calculator”)] [TestProperty(“Calculator”, “Add”)] [Ignore] 建立群組 可以依據類別、持續期間、執行結果、TestCategory內容、測試專案區分群組 也可以建立播放清單 Assert類別 Assert.AreEqual(expected, actual); Assert.AreNotEqual(expected, actual); Assert.</description>
     </item>
     
     <item>
       <title>docker container操作</title>
-      <link>https://shadow061103.github.io/posts/202210/docker-container%E6%93%8D%E4%BD%9C/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker-container%E6%93%8D%E4%BD%9C/</link>
       <pubDate>Mon, 24 Oct 2022 15:45:01 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker-container%E6%93%8D%E4%BD%9C/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker-container%E6%93%8D%E4%BD%9C/</guid>
       <description>進container改檔案 方法一 1.docker exec -it bash 2.apt-get update 3.apt-get install vim 4.vim &amp;lt;檔名&amp;gt; 5.用insert模式修改，完成後Esc + :wq
 方法二 1.docker exec -it bash 看配置跟檔案位置 2.docker cp :&amp;lt;file path+file name&amp;gt; 3.改完檔案內容之後複製回去 docker cp &amp;lt;host file path +file name&amp;gt; :
 刪除container docker container rm [hash]
@@ -308,48 +375,48 @@ https://blog.clarence.tw/2019/09/10/docker-removing-containers-images-volumes-an
     
     <item>
       <title>Dockerfile</title>
-      <link>https://shadow061103.github.io/posts/202210/dockerfile/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/dockerfile/</link>
       <pubDate>Mon, 24 Oct 2022 15:42:59 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/dockerfile/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/dockerfile/</guid>
       <description>介紹 #開頭的是註解 指令分成指令名稱，然後是args instruction arguments # key=value的是設定參數 docker build ~/path可以建image，後面是指定檔案目錄(不是file檔路徑)，目錄底下要有Dockerfile 可以用-t指定名稱跟tag(跟建container一樣) 如果名稱不是Dockerfile可以用-f指定檔案名稱 docker build -t mytag . 後面有.表示用這個資料夾的檔案 基礎指令 FROM 指定建置的image是基於哪個image而來 格式 FROM &amp;lt;image&amp;gt;FROM &amp;lt;image&amp;gt;:&amp;lt;tag&amp;gt;FROM &amp;lt;image&amp;gt;@&amp;lt;digest&amp;gt;tag跟digest都是optional的，沒填就用latestFROM &amp;lt;image&amp;gt; as &amp;lt;name&amp;gt;這個name可以自訂 之後用COPY --from指定 MAINTAINER 提供工作者資訊 MAINTAINER &amp;lt;name&amp;gt; 控制指令 RUN RUN command para1 para2是用shell程式執行指令，可以支援換列, 實際上是用/bin/sh執行 如果指令一樣但結果不同，docker會用快取的結果，所以可以指定--no-cache解決 建構映像的過程中執行，並把結果提交到新的映像層中 RUN command para1 para2... //比較好RUN [&amp;#34;executable&amp;#34;,&amp;#34;para1&amp;#34;,&amp;#34;para2&amp;#34;,...] WORKDIR 用來切換工作目錄，可以是相對或絕對路徑 允許使用環境變數 WORKDIR /usrWORKDIR local用相對路徑會參考目前工作目錄去切換 ONBUILD 可以攜帶另一個指令，但不會在建構目前映像的時候執行 而是在建構其他映像，並透過FROM把目前映像當作基礎映像的時候執行 可以用docker inspect查看有哪些指令 引入指令 ADD 可以把source code或設定檔之類的東西匯入 可以用go的萬用字元比對規格指定多個檔案ADD hom* /dir/ src只能用相對路徑，而且是相對於dockerfile的路徑，不能往上層找(就是只能找dockerfile下的檔案) dest可以是相對或絕對路徑， src可以放網址下載外部網路的內容 ADD &amp;lt;src&amp;gt;.</description>
     </item>
     
     <item>
       <title>docker管理工具</title>
-      <link>https://shadow061103.github.io/posts/202210/docker%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/</link>
       <pubDate>Mon, 24 Oct 2022 15:42:34 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/</guid>
       <description>docker compose 組態預設放在docker-compose.yml檔案，也可以自訂檔名 windows或MacOS已經內建安裝，用docker-compose version查看 其他OS要安裝需要去github抓檔案下來裝 Docker compose是用yaml格式，可以上網找怎麼寫 範例 可以看kevin寫的docker-compose.yaml
 文件規格 services:代表所有組成專案的服務容器與配置 image或build:代表容器用的基礎映像，build是用dockerfile產生的，值是dockerfile的目錄 volume:跟-v用法一樣，但是可以指定相對於檔案的目錄 environment:指定環境變數 ports:指定連接port，最好用雙引號 links:容器間的連接 指令 docker-compose build 建構專案映像 &amp;ndash;pull:總是拉最新的image &amp;ndash;firce-rm:刪除基於原有映像的容器 &amp;ndash;no-cache:不使用快取 docker-compose create 建立專案容器 &amp;ndash;force-create:重新建立已存在於docker的容器 &amp;ndash;build:建構容器所需的映像 docker-compose start 啟動所有容器 docker-compose start nginx php mysql 指定要啟動的服務 docker-compose up docker-compose down組合執行 docker-compose stop停止專案 docker-compose rm刪除專案 docker-compose logs &amp;lt;service&amp;gt;取得服務日誌 </description>
     </item>
     
     <item>
       <title>Docker api</title>
-      <link>https://shadow061103.github.io/posts/202210/docker-api/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker-api/</link>
       <pubDate>Mon, 24 Oct 2022 15:41:56 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker-api/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker-api/</guid>
       <description> 是restful的
 docker remote api:用來操作映像或容器 docker registry api:管理遠端映像倉庫 docker cloud api:操作docker雲端服務 Docker Remote API 取得docker運行宿主機環境介面sudo curl --unix-socket /var/run/docker.sock http://localhost/info遠端打的話可以用api用法 前面網址是基底sudo curl http://host:port/info列出容器GET /containers/json列出inagesGET /images/json docker registry api 取得image資訊Get /v2/[name]/manifests/[references]pull imageGET /v2/[name]/blobs/[digest]推送映像先判斷registry已經準備好POSt /v2/[name]/blobs/uploads </description>
     </item>
     
     <item>
       <title>docker的安全性</title>
-      <link>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7/</link>
       <pubDate>Mon, 24 Oct 2022 15:41:29 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7/</guid>
       <description>資源控制群組CGroup 可以限制資源:分配電腦資源 優先化: 用量報告:取得控制群組分配資源的統計資訊 核心能力機制 權限檢查 復原更改 資源使用限制 限制分配的最大記憶體 限制實體記憶體-m--memory限制總記憶體--memory-swap 限制CPU 透過權重分配-c--cpu-shares--cpu-period--cpu-quota 狀態監控 docker ps看資源占有情況 --no-stream是只看當下的docker stats --no-stream [name]docker logs </description>
     </item>
     
     <item>
       <title>docker的網路(II)</title>
-      <link>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E7%B6%B2%E8%B7%AFii/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker%E7%9A%84%E7%B6%B2%E8%B7%AFii/</link>
       <pubDate>Mon, 24 Oct 2022 15:40:50 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E7%B6%B2%E8%B7%AFii/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker%E7%9A%84%E7%B6%B2%E8%B7%AFii/</guid>
       <description>基於Linux的network container裡面的Network Nampspaces 透過Veth pair(Virtual Ethernet Pair)虛擬網路通道出去 docker利用bridge連接到宿主機的橋接器 就可以跟其他container通訊 主要組成 Network Nampspaces:實現網路的隔離 Veth Pair:打穿隔離環境的網路傳輸資料通道 Linux Bridge:網路交換機，宿主機的橋接器 Iptables:提供網路資料穿透與NAT等功能 容器網路模型CNM 實作Libnetwork，實作上面那些東西
 Sandbox:容器中隔離網路配置的虛擬環境，有獨立的網路組態等資訊，類似Network Nampspace Endpoint:傳遞網路資料的通道入口，類似Veth Pair Network:由一組端點組成，同一個網路的端點可以互相通訊 預設網路 docker network ls可以顯示所有網路清單，首次啟用會有3個預設網路 bridge是容器預設的網路，會對應到docker0 想改變容器網路可以在run的時候用--network修改 host是使用宿主機的網卡 docker network inspect bridge可以查看相關資訊 PS C:\Users\KuanFu&amp;gt; docker network lsNETWORK ID NAME DRIVER SCOPE0d96b30c3fca bridge bridge local8f72209b8925 host host local76e669bab0e6 none null local 自訂網路跟相關指令 想要讓幾個特定容器互相溝通，而不是所有容器都用bridge互相存取
 建立網路 docker network create 預設會使用bridge 可以用&amp;ndash;subnet 建一個有子網範圍的容器網路 //create一個網路 --driver可以簡化-ddocker network create --driver bridge isolateddocker network create --subnet 10.</description>
@@ -357,20 +424,20 @@ Sandbox:容器中隔離網路配置的虛擬環境，有獨立的網路組態等
     
     <item>
       <title>docker的資料卷Data Volume</title>
-      <link>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E8%B3%87%E6%96%99%E5%8D%B7data-volume/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker%E7%9A%84%E8%B3%87%E6%96%99%E5%8D%B7data-volume/</link>
       <pubDate>Mon, 24 Oct 2022 15:40:10 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E8%B3%87%E6%96%99%E5%8D%B7data-volume/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker%E7%9A%84%E8%B3%87%E6%96%99%E5%8D%B7data-volume/</guid>
       <description>保存檔案資料的模組
 容器內的檔案環境是在一個臨時層上，容器停止或刪除時，檔案就不見了 資料卷是掛載在容器內檔案系統的檔案或目錄，可以永久保存 不依賴於容器，所以容器可以共用 指令 對資料卷指定名稱，不然就要用hash才能取得 docker volume create --name html 掛載volume在容器 docker create --name web -v /html -v /var/log/nginx nginx -v [name]:[dest] : name是資料卷名稱 dest是目錄 也可以把server的目錄當作資料卷掛到容器上，用 -v [src]:[dest] 後面加:ro可以變唯讀檔案 範例是掛2個volume 檢查 docker volume inspect html[{&amp;#34;CreatedAt&amp;#34;: &amp;#34;2021-11-30T15:10:52Z&amp;#34;,&amp;#34;Driver&amp;#34;: &amp;#34;local&amp;#34;,&amp;#34;Labels&amp;#34;: {},&amp;#34;Mountpoint&amp;#34;: &amp;#34;/var/lib/docker/volumes/html/_data&amp;#34;,&amp;#34;Name&amp;#34;: &amp;#34;html&amp;#34;,&amp;#34;Options&amp;#34;: {},&amp;#34;Scope&amp;#34;: &amp;#34;local&amp;#34;}] 查看所有的 docker volume list 刪除資料卷(沒被任何容器使用時才會刪) docker volume rm [hash]或是隨容器刪除docker rm -v web 資料卷容器 用來管理資料卷，是其他容器的橋樑 不用處在運行狀態也可以用 其他容器只是透過資料卷容器取得的資料卷資訊 docker create --name data -v /html ubuntudocker inspect data//掛載指定資料卷的所有資料卷docker run -d --name web --volumes-from data nginx &amp;ndash;volumes-from指定要掛哪一個 同一個資料卷容器內的檔案會共享 要匯出資料卷 先建立一個新的container 用&amp;ndash;volumes-from指定資料捲容器 -v指定本地端檔案 建立之後把包成tar檔 關閉container Docker筆記 - 讓資料遠離Container，使用 Volume、Bind Mount 與 Tmpfs Mount</description>
     </item>
     
     <item>
       <title>SSH服務</title>
-      <link>https://shadow061103.github.io/posts/202210/ssh%E6%9C%8D%E5%8B%99/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/ssh%E6%9C%8D%E5%8B%99/</link>
       <pubDate>Mon, 24 Oct 2022 15:39:33 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/ssh%E6%9C%8D%E5%8B%99/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/ssh%E6%9C%8D%E5%8B%99/</guid>
       <description>遠端操作主機的方式，docker也可以用ssh連接和存取內部容器
 Linux下安裝OpenSSH 定義在應用層和傳輸層的安全協定 相較於FTP,Telnet更安全 Linux安裝SSH sudo apt-get purge openssh-serversudo apt-get install openssh-serversudo service sshd startsudo service ssh status /lib/systemd/systemd-sysv-install enable ssh預設會裝到/usr/sbin下啟動方式是守護狀態 要用-D轉到前台運行sudo /usr/sbin/sshd -D 啟動程式後會監聽port 22，就可以接收用戶端請求了 windows用戶端程式是PuTTY
 指令 登入 ssh user@host -p可以指定port ssh host 不指定登入使用者 應用情境 把一些設定檔放在資料卷容器 然後起一個SSH的容器去操作這個資料卷容器
@@ -379,56 +446,56 @@ docker create --name config -v /etc/nginx alpine echo Nginx Configurationdocker
     
     <item>
       <title>docker安裝Web server</title>
-      <link>https://shadow061103.github.io/posts/202210/docker%E5%AE%89%E8%A3%9Dweb-server/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker%E5%AE%89%E8%A3%9Dweb-server/</link>
       <pubDate>Mon, 24 Oct 2022 15:37:57 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker%E5%AE%89%E8%A3%9Dweb-server/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker%E5%AE%89%E8%A3%9Dweb-server/</guid>
       <description>Apache 下指令 docker run -it --name apache ubuntu:16.04 /bin/bash#apt-get update &amp;amp;&amp;amp; apt-get -y install apache2 &amp;amp;&amp;amp; apt-get clean//開啟TLS安全加密模組#a2ensite default-ssl# service apache2 reload#a2enmod ssldocker commit -m &amp;#39;apache server&amp;#39; apache kuan/apachedocker run -d -p 1002:80 kuan/apache /usr/sbin/apache2ctl -D FOREGROUND Dockerfile FROM ubuntu:16.04MAINTAINER kuan &amp;lt;shadow061103@gmail.com&amp;gt;RUN apt-get update &amp;amp;&amp;amp; apt-get -y install apache2 &amp;amp;&amp;amp; apt-get cleanRUN /usr/sbin/a2ensite default-sslRUN /usr/sbin/a2enmod sslEXPOSE 80EXPOSE 443CMD [&amp;#34;/usr/sbin/apache2ctl&amp;#34;,&amp;#34;-D&amp;#34;,&amp;#34;FOREGROUND&amp;#34;] docker build -t kuan/apache .</description>
     </item>
     
     <item>
       <title>docker-compose.yml範例</title>
-      <link>https://shadow061103.github.io/posts/202210/docker-compose.yml%E7%AF%84%E4%BE%8B/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker-compose.yml%E7%AF%84%E4%BE%8B/</link>
       <pubDate>Mon, 24 Oct 2022 15:37:25 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker-compose.yml%E7%AF%84%E4%BE%8B/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker-compose.yml%E7%AF%84%E4%BE%8B/</guid>
       <description>docker-compose.yml version: &amp;#34;3.2&amp;#34;services:elasticsearch:image: elasticsearch:7.10.1container_name: elasticsearch-localports:- &amp;#34;9200:9200&amp;#34;- &amp;#34;9300:9300&amp;#34;environment:- cluster.name=docker-cluster- bootstrap.memory_lock=true- http.host=0.0.0.0- http.port=9200- transport.host=127.0.0.1- &amp;#34;ES_JAVA_OPTS=-Xms512m -Xmx512m&amp;#34;- &amp;#34;http.cors.allow-origin=http://127.0.0.1:1358&amp;#34;- &amp;#34;http.cors.enabled=true&amp;#34;- &amp;#34;http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization&amp;#34;- &amp;#34;http.cors.allow-credentials=true&amp;#34;ulimits:memlock:soft: -1hard: -1volumes:- es_data:/usr/share/elasticsearch/datanetworks:- esnetkibana:image: kibana:7.10.1container_name: kibana-localenvironment:SERVER_NAME: kibana-serverELASTICSEARCH_URL: http://elasticsearch:9200networks:- esnetdepends_on:- elasticsearchports:- &amp;#34;5601:5601&amp;#34;cerebro:image: yannart/cerebro:latestcontainer_name: cerebro-073networks:- esnetports:- &amp;#34;9900:9000&amp;#34;depends_on:- elasticsearch dejavu:image: appbaseio/dejavu:latestcontainer_name: dejavunetworks:- esnet ports:- &amp;#34;1358:1358&amp;#34;volumes:es_data:driver: local networks:esnet:driver: bridge </description>
     </item>
     
     <item>
       <title>docker 安裝ping套件&amp;proxy</title>
-      <link>https://shadow061103.github.io/posts/202210/docker-%E5%AE%89%E8%A3%9Dping%E5%A5%97%E4%BB%B6proxy/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker-%E5%AE%89%E8%A3%9Dping%E5%A5%97%E4%BB%B6proxy/</link>
       <pubDate>Mon, 24 Oct 2022 15:36:51 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker-%E5%AE%89%E8%A3%9Dping%E5%A5%97%E4%BB%B6proxy/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker-%E5%AE%89%E8%A3%9Dping%E5%A5%97%E4%BB%B6proxy/</guid>
       <description>安裝套件 apt-get update apt-get install -y iputils-ping
 設定proxy export http_proxy=http://secproxy.evertrust.com.tw:6588 &amp;amp;&amp;amp; export https_proxy=https://secproxy.evertrust.com.tw:6588</description>
     </item>
     
     <item>
       <title>docker的網路</title>
-      <link>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E7%B6%B2%E8%B7%AF/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker%E7%9A%84%E7%B6%B2%E8%B7%AF/</link>
       <pubDate>Mon, 24 Oct 2022 15:36:11 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker%E7%9A%84%E7%B6%B2%E8%B7%AF/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker%E7%9A%84%E7%B6%B2%E8%B7%AF/</guid>
       <description>介紹 透過Network Namespace虛擬出網路環境，提供獨立的網路設備、IP協定堆疊、IP路由表、防火牆 docker啟動時會在宿主機架一個docker0的虛擬網路，連接宿主機跟容器(用Weth pair) 這個是僅限於容器跟宿主機溝通，不對外 查網路設定 inspect的NetworkSettings docker inspect [name] port映射 容器可以透過預設的docker0連接到外網，但是外網不能連到容器，因為可能同時好幾個容器在使用docker0 建立容器的時候加上-P，會在宿主機隨機找可用的port，再綁定到容器的port上 -p是指定特定的port 前面是宿主機的port後面是docker的port docker run -p &amp;lt;hport&amp;gt;:&amp;lt;cport&amp;gt; -p可以設定多個 可以限制特定IP -p &amp;lt;ip&amp;gt;:&amp;lt;hport&amp;gt;:&amp;lt;cport&amp;gt; 容器間通訊 建立容器時加上&amp;ndash;link參數 指定container --link [container name] 連接其他容器時不使用IP，而是直接指定容器名稱 docker run -d -p 80:80 -p 443:443 --name web --link redis-lab nginx 可以用環境變數檢查 docker exec -it web /bin/bashroot@e4e93bef390b:/# envHOSTNAME=e4e93bef390bPWD=/REDIS_LAB_PORT_6379_TCP=tcp://172.17.0.3:6379REDIS_LAB_PORT=tcp://172.17.0.3:6379PKG_RELEASE=1~bullseyeHOME=/rootREDIS_LAB_ENV_REDIS_VERSION=6.2.6REDIS_LAB_PORT_6379_TCP_PROTO=tcpREDIS_LAB_NAME=/web/redis-labNJS_VERSION=0.7.0TERM=xtermREDIS_LAB_ENV_GOSU_VERSION=1.12REDIS_LAB_PORT_6379_TCP_ADDR=172.17.0.3SHLVL=1REDIS_LAB_ENV_REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-6.2.6.tar.gzPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/binREDIS_LAB_PORT_6379_TCP_PORT=6379NGINX_VERSION=1.21.4REDIS_LAB_ENV_REDIS_DOWNLOAD_SHA=5b2b8b7a50111ef395bf1c1d5be11e6e167ac018125055daa8b5c2317ae131ab_=/usr/bin/env </description>
     </item>
     
     <item>
       <title>Docker image</title>
-      <link>https://shadow061103.github.io/posts/202210/docker-image/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker-image/</link>
       <pubDate>Mon, 24 Oct 2022 15:35:38 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker-image/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker-image/</guid>
       <description>指令 把image拉到本地端 sudo docker pull 查看image的詳細資訊 sudo docker inspect [image name|image id] 刪除docker image sudo docker rmi [image name] -f可以強制刪除 匯出image變成檔案 sudo docker save -o ubuntu.tar ubuntu:latestsudo docker save ubuntu:latest &amp;gt; ubuntu.tar 匯入檔案變成image sudo docker load -i ubuntu.tarsudo docker load &amp;lt; ubuntu.tar 建立容器 sudo docker run debian:jessie 執行容器 sudo docker run debian:jessie -i或-interative 互動模式 -t或-tty 開啟偽終端機 -d後臺執行 不能跟-i一起用 查看處理序狀態 比較像linux的ps用法 docker top [container] 查看容器資訊 docker inspect [container] 可以用-f 過濾資訊 容器日誌 docker run -d --name log_demo ubuntu /bin/bash -c &amp;#39;for((i=0;1;i++)); do echo &amp;#34;time $i&amp;#34;; sleep 1;done;&amp;#39; docker logs log_demo 只輸出最後幾行 docker logs --tail 5 log_demo 限定時間 docker logs --since 2021-11-21T05:56:38 log_demo 附加到容器，就是切換成前台運行模式(依附在主處理序)，但是退出也會讓容器一起停止 docker attach [name] 容器中執行命令 docker exec [name] 提交容器更改 docker commit [hash]可以產生新的image 匯出容器 docker export -o [name].</description>
     </item>
     
     <item>
       <title>Docker介紹</title>
-      <link>https://shadow061103.github.io/posts/202210/docker%E4%BB%8B%E7%B4%B9/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/docker%E4%BB%8B%E7%B4%B9/</link>
       <pubDate>Mon, 24 Oct 2022 15:34:48 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/docker%E4%BB%8B%E7%B4%B9/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/docker%E4%BB%8B%E7%B4%B9/</guid>
       <description>底層實作 使用 Linux Kernel的 Namespace: 和 Cgroup 組合而成
 Namespace:作環境隔離使用的，像是把Process ID、User ID、Network…等等的環境執行狀態隔離開來 Cgroup:用來做系統資源的管理，如：CPU、Memory、I/O…等等，資源做有效的隔離和做使用上的限制 系統架構 client-server的架構，client部分稱為docker client，server的部分稱為docker daemon
 Docker Daemon：用來執行管理Docker image、啟動 container、停止 container的service，有提供 Restful API 給使用者做操作或是顯示一些 Docker container 的狀態訊息 Docker Client:使用 Restful API 連到 Docker daemon，並且提供 command line 的方式讓使用者可以操作 docker 常用名詞 docker image:啟動docker container要使用的擋案，是一個唯讀映像檔，可以像積木一樣一層一層堆起來 可以從Docker Hubpull下來 從另外一台電腦上的 Docker image export 出來，然後import到自已的電腦 寫dockerfile Docker Container:透過 Docker image 執行起來的 Process，同一個 Docker image 可以啟動多個 Docker Container，container之間的環境是隔離開來的 Docker Hub:存放 Docker image的倉庫，內部環境架的私有docker hub叫Docker Registry 小練習
@@ -437,20 +504,20 @@ Docker Daemon：用來執行管理Docker image、啟動 container、停止 conta
     
     <item>
       <title>AutomapperResolver無法用建構式注入解法</title>
-      <link>https://shadow061103.github.io/posts/202210/automapperresolver%E7%84%A1%E6%B3%95%E7%94%A8%E5%BB%BA%E6%A7%8B%E5%BC%8F%E6%B3%A8%E5%85%A5%E8%A7%A3%E6%B3%95/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/automapperresolver%E7%84%A1%E6%B3%95%E7%94%A8%E5%BB%BA%E6%A7%8B%E5%BC%8F%E6%B3%A8%E5%85%A5%E8%A7%A3%E6%B3%95/</link>
       <pubDate>Thu, 20 Oct 2022 17:06:27 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/automapperresolver%E7%84%A1%E6%B3%95%E7%94%A8%E5%BB%BA%E6%A7%8B%E5%BC%8F%E6%B3%A8%E5%85%A5%E8%A7%A3%E6%B3%95/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/automapperresolver%E7%84%A1%E6%B3%95%E7%94%A8%E5%BB%BA%E6%A7%8B%E5%BC%8F%E6%B3%A8%E5%85%A5%E8%A7%A3%E6%B3%95/</guid>
       <description>原本寫法 var mapperConfiguration = new MapperConfiguration(mapperConfig =&amp;gt; { mapperConfig.AddProfile&amp;lt;ControllerProfile&amp;gt;(); mapperConfig.AddProfile&amp;lt;ServiceProfile&amp;gt;(); }); services.AddSingleton(mapperConfiguration.CreateMapper()); 更新後寫法
 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); Resolver範例 public class CaseFromResolver : IValueResolver&amp;lt;CaseFromDataModel, CaseFromDto, string&amp;gt; { public IWebRentCaseSiteService _webRentCaseSiteService; public CaseFromResolver(IWebRentCaseSiteService webRentCaseSiteService) { _webRentCaseSiteService = webRentCaseSiteService; } public string Resolve(CaseFromDataModel source, CaseFromDto destination, string destMember, ResolutionContext context) { var dict = _webRentCaseSiteService.GetRentCaseSourceDictionary() .ConfigureAwait(false) .GetAwaiter() .GetResult(); return dict.ContainsKey(source.CaseFrom) ? dict[source.CaseFrom] : &amp;#34;&amp;#34;; } } </description>
     </item>
     
     <item>
       <title>取檔案路徑作法</title>
-      <link>https://shadow061103.github.io/posts/202210/%E5%8F%96%E6%AA%94%E6%A1%88%E8%B7%AF%E5%BE%91%E4%BD%9C%E6%B3%95/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E5%8F%96%E6%AA%94%E6%A1%88%E8%B7%AF%E5%BE%91%E4%BD%9C%E6%B3%95/</link>
       <pubDate>Thu, 20 Oct 2022 17:05:35 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E5%8F%96%E6%AA%94%E6%A1%88%E8%B7%AF%E5%BE%91%E4%BD%9C%E6%B3%95/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E5%8F%96%E6%AA%94%E6%A1%88%E8%B7%AF%E5%BE%91%E4%BD%9C%E6%B3%95/</guid>
       <description> AppDomain.CurrentDomain.BaseDirectory 執行的應用程式在哪裡 D:\CorporateProject\Yungching.Webservice.Rent\Yungching.Webservice.Rent\bin\Debug\netcoreapp3.1\
 Assembly.GetExecutingAssembly().Location 目前執行的組件在哪裡 D:\CorporateProject\Yungching.Webservice.Rent\Yungching.Webservice.Rent\bin\Debug\netcoreapp3.1\Yungching.Webservice.Rent.Service.dll
 Directory.GetCurrentDirectory() 在哪裡下執行指令 D:\CorporateProject\Yungching.Webservice.Rent\Yungching.Webservice.Rent
@@ -459,47 +526,47 @@ Directory.GetCurrentDirectory() 在哪裡下執行指令 D:\CorporateProject\Yun
     
     <item>
       <title>測試Task.WhenAll執行緒</title>
-      <link>https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6task.whenall%E5%9F%B7%E8%A1%8C%E7%B7%92/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E6%B8%AC%E8%A9%A6task.whenall%E5%9F%B7%E8%A1%8C%E7%B7%92/</link>
       <pubDate>Thu, 20 Oct 2022 17:05:06 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E6%B8%AC%E8%A9%A6task.whenall%E5%9F%B7%E8%A1%8C%E7%B7%92/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E6%B8%AC%E8%A9%A6task.whenall%E5%9F%B7%E8%A1%8C%E7%B7%92/</guid>
       <description>async Task Main() { var tasks = new List&amp;lt;Task&amp;lt;string&amp;gt;&amp;gt;(); foreach (var i in Enumerable.Range(1, 30)) { var task = download(&amp;#34;https://www.cmoney.tw/finance/technicalanalysis.aspx?s=2399&amp;#34;,i); tasks.Add(task); } await Task.WhenAll(tasks); } async Task&amp;lt;string&amp;gt; download(string url,int id) { ($&amp;#34;{id}:1:{Thread.CurrentThread.ManagedThreadId}&amp;#34;).Dump(); var client=new WebClient(); ($&amp;#34;{id}:2:{Thread.CurrentThread.ManagedThreadId}&amp;#34;).Dump(); var task=client.DownloadStringTaskAsync(url); ($&amp;#34;{id}:3:{Thread.CurrentThread.ManagedThreadId}&amp;#34;).Dump(); string content=await task; ($&amp;#34;{id}:4:{Thread.CurrentThread.ManagedThreadId}&amp;#34;).Dump(); return content; } </description>
     </item>
     
     <item>
       <title>Csharp本事筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/csharp%E6%9C%AC%E4%BA%8B%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/csharp%E6%9C%AC%E4%BA%8B%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 20 Oct 2022 17:04:27 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/csharp%E6%9C%AC%E4%BA%8B%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/csharp%E6%9C%AC%E4%BA%8B%E7%AD%86%E8%A8%98/</guid>
       <description>共變性逆變性 無法在編譯時期抓出型別不相容的錯誤 泛型可以把小的型別當作大的來操作，但因為宣告是&amp;lt;out T&amp;gt;，所以只能用在輸出的場合 任何參考型別（reference type）的泛型串列，你都可以將它當作IEnumerable&amp;lt;object&amp;gt;的物件來操作 共變性:把較小型別指派給較大型別 逆變性:把較大型別指派給較小型別 List&amp;lt;string&amp;gt; stringList = new List&amp;lt;string&amp;gt;(); List&amp;lt;object&amp;gt; objectList = stringList; // 即使C# 4 也不能這樣寫! 但是可以 List&amp;lt;string&amp;gt; stringList = new List&amp;lt;string&amp;gt;(); IEnumerable&amp;lt;object&amp;gt; objects = stringList; IEnumerable&amp;lt;T&amp;gt;都是唯讀的，可以當作參數使用 nullable 只有實質型別可以用Nullable&amp;lt; T&amp;gt; int? x = null; int? y= x ?? 5; //等同於 int? y= =(x != null)? x : 5; 委派 可以在方法裡外包一個函式，方法在執行的時候可以回頭呼叫那個涵式
 C#內建委派 Action&amp;lt;in T1, in T2, in T3&amp;gt;(T1 arg1, T2 arg2, T3 arg3, T4 arg4) 無回傳值 TResult Func&amp;lt;in T1, in T2, out TResult&amp;gt;(T1 arg1, T2 arg2); 有回傳值 事件 基於委派衍生出來的語法</description>
     </item>
     
     <item>
       <title>DI注入不同實體做法</title>
-      <link>https://shadow061103.github.io/posts/202210/di%E6%B3%A8%E5%85%A5%E4%B8%8D%E5%90%8C%E5%AF%A6%E9%AB%94%E5%81%9A%E6%B3%95/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/di%E6%B3%A8%E5%85%A5%E4%B8%8D%E5%90%8C%E5%AF%A6%E9%AB%94%E5%81%9A%E6%B3%95/</link>
       <pubDate>Thu, 20 Oct 2022 17:03:53 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/di%E6%B3%A8%E5%85%A5%E4%B8%8D%E5%90%8C%E5%AF%A6%E9%AB%94%E5%81%9A%E6%B3%95/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/di%E6%B3%A8%E5%85%A5%E4%B8%8D%E5%90%8C%E5%AF%A6%E9%AB%94%E5%81%9A%E6%B3%95/</guid>
       <description>註冊DI使用Func 有兩個不同class都繼承IESCaseRepository 使用EnvTag做區別 services.AddScoped&amp;lt;ESCaseRepository&amp;gt;(); services.AddScoped&amp;lt;ESCaseCloudRepository&amp;gt;(); services.AddScoped&amp;lt;Func&amp;lt;EnvTag, IESCaseRepository&amp;gt;&amp;gt;(sp =&amp;gt; env =&amp;gt; { return env switch { EnvTag.Cloud =&amp;gt; sp.GetService&amp;lt;ESCaseCloudRepository&amp;gt;(), EnvTag.Local =&amp;gt; sp.GetService&amp;lt;ESCaseRepository&amp;gt;(), _ =&amp;gt; throw new Exception($&amp;#34;找不到 {EnvTag.Cloud}的注入設定，請在DI設定&amp;#34;) }; }); 使用時 記得宣告 private IESCaseRepository _esWebCaseRepository; private IESCaseRepository _esCloudWebCaseRepository; 在建構試寫Func&amp;lt;EnvTag, IESCaseRepository&amp;gt; resolver 使用時像這樣 _esWebCaseRepository = resolver(EnvTag.Local); _esCloudWebCaseRepository = resolver(EnvTag.Cloud); 兩個class邏輯一樣 只有差在裡面的建構式用不同實體 可以不用寫兩個class，只需要一個然後用func去指定實做就好 注入 ElasticClient是實作內容不一樣 services.AddScoped&amp;lt;Func&amp;lt;EnvTag, IESCaseRepository&amp;gt;&amp;gt;(sp =&amp;gt; env =&amp;gt; { var resolver = sp.GetService&amp;lt;Func&amp;lt;EnvTag, ElasticClient&amp;gt;&amp;gt;(); return new ESCaseRepository(env, resolver, sp.GetService&amp;lt;ICommonGeographyRepository&amp;gt;()); }); </description>
     </item>
     
     <item>
       <title>打包Nuget套件</title>
-      <link>https://shadow061103.github.io/posts/202210/%E6%89%93%E5%8C%85nuget%E5%A5%97%E4%BB%B6/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E6%89%93%E5%8C%85nuget%E5%A5%97%E4%BB%B6/</link>
       <pubDate>Thu, 20 Oct 2022 17:03:25 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E6%89%93%E5%8C%85nuget%E5%A5%97%E4%BB%B6/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E6%89%93%E5%8C%85nuget%E5%A5%97%E4%BB%B6/</guid>
       <description>設定練習用套件來源 公司練習的位置是http://package.evertrust.com.tw/feeds/Exercise 開發環境設定 安裝node.js https://nodejs.org/en/ 下載安裝檔案 設定npm npm config set registry=&amp;quot;http://package.evertrust.com.tw/npm/registry npm config set strict-ssl=false 安裝nuget命令列 npm install nuget-cli -g 下載nuget.exe download 把nuget.exe.檔案路徑加到環境變數PATH，重開cmd就可以用了 使用NuGet Package Explorer製作套件 下載並開啟NuGet Package Explorer Create a new package 編輯Package metadata(id、version、description&amp;hellip;) &amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;utf-8&amp;#34;?&amp;gt;&amp;lt;package xmlns=&amp;#34;http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd&amp;#34;&amp;gt;&amp;lt;metadata&amp;gt;&amp;lt;id&amp;gt;EvertrustStrongLibrary-g5341&amp;lt;/id&amp;gt;&amp;lt;version&amp;gt;1.0.0&amp;lt;/version&amp;gt;&amp;lt;title&amp;gt;EvertrustStrongLibrary-g5341&amp;lt;/title&amp;gt;&amp;lt;authors&amp;gt;G5341&amp;lt;/authors&amp;gt;&amp;lt;owners&amp;gt;Evertrust&amp;lt;/owners&amp;gt;&amp;lt;requireLicenseAcceptance&amp;gt;false&amp;lt;/requireLicenseAcceptance&amp;gt;&amp;lt;description&amp;gt;My package description.&amp;lt;/description&amp;gt;&amp;lt;/metadata&amp;gt;&amp;lt;/package&amp;gt; Add Lib Folder新增資料夾 因為專案版本是 .net standard所以增加一個netstandard2.0資料夾 把專案編譯好的dll放進netstandard2.0資料夾中 按儲存 檔名會是{Id}.{Version}.nupkg EvertrustStrongLibrary-g5341.1.0.0.nupkg 最後上傳package server 打開 http://package.evertrust.com.tw/feeds/Exercise add package 使用command製作套件 打開套件管理主控台或在專案目錄下打開cmd，把nuget更新到最新版本，下指令 nuget update -self 切到專案目錄下，建立nuspec nuget spec，再把檔案加到專案中，記得要先在專案裡面調整metadata不然NuGet Package Explorer打不開 使用Nuget Package Explorer編輯剛建好的nuspec 編輯Metadata 清除所有content 用save Matadata As存檔，檔名選原來那個覆蓋過去EvertrustStrongLibrary.</description>
     </item>
     
     <item>
       <title>C# OOP物件導向</title>
-      <link>https://shadow061103.github.io/posts/202210/oop%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/oop%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/</link>
       <pubDate>Thu, 20 Oct 2022 17:02:58 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/oop%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/oop%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/</guid>
       <description>三大特性 繼承 繼承者會擁有被繼承者的型別特徵
 繼承一個上層類別 (只能一個) 實做介面 (可以多個) 封裝 隱藏不必要為外界所知的資訊 隱藏行為的變化 隔離出物件的內部與外部，就是定義「物件的邊界」，以及定義出「外部可視部分」 將外部使用端不需要瞭解的物件內部資訊給封裝起來，也就是「封裝物件的實作細節」 將物件內部的變化封裝起來，也就是「封裝變化」 多型 父類別指標指向子類別物件
 廣義多型 (universal polymorphism) 繼承式多型 (inclusion):一般常見的 參數式多型 (parametric):以參數型式，讓類別可以達到動態變化的方法(EX 泛型) 特設多型 (ad hoc polymorphism) 多載 (overloading):表示使用同一個名稱但不同的參數清單，定義多個版本的程序 強制同型 (coercions):會用到boxing跟unboxing EX (int)num 型別 參考型別 變數內容則是儲存指向物件的參考(指標)，存在 Heap
@@ -509,28 +576,28 @@ C#內建委派 Action&amp;lt;in T1, in T2, in T3&amp;gt;(T1 arg1, T2 arg2, T3 ar
     
     <item>
       <title>ModelValidator驗證(service、repository)</title>
-      <link>https://shadow061103.github.io/posts/202210/modelvalidator%E9%A9%97%E8%AD%89/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/modelvalidator%E9%A9%97%E8%AD%89/</link>
       <pubDate>Thu, 20 Oct 2022 17:02:03 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/modelvalidator%E9%A9%97%E8%AD%89/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/modelvalidator%E9%A9%97%E8%AD%89/</guid>
       <description>可以在Service層或Repository層做參數驗證 會使用到System.ComponentModel.DataAnnotations 一樣在參數上掛驗證Attribute public class InputParameter { [Required] public int[] arr1 { get; set; } [Required] public int[] arr2 { get; set; } [StringLength(5)] public string IP { get; set; } } 驗證方法 public class ModelValidator { /// &amp;lt;summary&amp;gt; /// Validates the specified model. /// &amp;lt;/summary&amp;gt; /// &amp;lt;typeparam name=&amp;#34;T&amp;#34;&amp;gt;&amp;lt;/typeparam&amp;gt; /// &amp;lt;param name=&amp;#34;model&amp;#34;&amp;gt;The model.&amp;lt;/param&amp;gt; /// &amp;lt;param name=&amp;#34;parameterName&amp;#34;&amp;gt;parameterName&amp;lt;/param&amp;gt; /// &amp;lt;exception cref=&amp;#34;ArgumentException&amp;#34;&amp;gt;&amp;lt;/exception&amp;gt; public static void Validate&amp;lt;T&amp;gt;(T model, string parameterName) where T : class { if (model is null) { if (string.</description>
     </item>
     
     <item>
       <title>Messagepack</title>
-      <link>https://shadow061103.github.io/posts/202210/messagepack/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/messagepack/</link>
       <pubDate>Thu, 20 Oct 2022 17:01:33 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/messagepack/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/messagepack/</guid>
       <description>Nuget Install-Package MessagePack//分析器Install-Package MessagePackAnalyzer//擴展Install-Package MessagePack.ImmutableCollectionInstall-Package MessagePack.ReactivePropertyInstall-Package MessagePack.UnityShimsInstall-Package MessagePack.AspNetCoreMvcFormatter Class範例 class上要加上[MessagePackObject] 屬性加上[Key(0)]或`[Key&amp;quot;name&amp;quot;] [IgnoreMember]可以不序列化 作者建議Key使用int，因為會比較快，但是轉出的json不會有key name key建議不要跳數字，否則會出現[null,null,null,0,null,null,null,null,null,null,0] 序列化對象 可以是public class或struct 必須標記[MessagePackObject]跟[key] [MessagePackObject]可以用[DataContract]取代，[key(0)]可以用[DataMember(Order = 0)]或[DataMember(Name = string)]取代 [MessagePackObject] public class PackClass { // Key 是序列化索引，对于版本控制非常重要。 [Key(0)] public int Age { get; set; } [Key(1)] public string FirstName { get; set; } [Key(2)] public string LastName { get; set; } // 公共成员中不序列化目标，标记IgnoreMemberAttribute [IgnoreMember] public string FullName { get { return FirstName + LastName; } } } //結果 [99,&amp;#34;hoge&amp;#34;,&amp;#34;huga&amp;#34;] [MessagePackObject] public class Sample2 { [Key(&amp;#34;foo&amp;#34;)] public int Foo { get; set; } [Key(&amp;#34;bar&amp;#34;)] public int Bar { get; set; } } // 結果 {&amp;#34;foo&amp;#34;:123,&amp;#34;bar&amp;#34;:456} [DataContract] public class PackClass { [DataMember(Order = 0)] public int Age { get; set; } [DataMember(Order = 1)] public string FirstName { get; set; } [DataMember(Order = 2)] public string LastName { get; set; } [IgnoreDataMember] public string FullName { get { return FirstName + LastName; } } } 使用 // 序列化 var bytes = MessagePackSerializer.</description>
     </item>
     
     <item>
       <title>MediatR</title>
-      <link>https://shadow061103.github.io/posts/202210/mediatr/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/mediatr/</link>
       <pubDate>Thu, 20 Oct 2022 17:01:00 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/mediatr/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/mediatr/</guid>
       <description>安裝套件 Install-Package MediatRInstall-Package MediatR.Extensions.Microsoft.DependencyInjection DI注入 public void ConfigureServices(IServiceCollection services){services.AddMediatR(Assembly.GetExecutingAssembly());//IRequestPreProcessor跟IRequestPostProcessor都不用再注入//但是IPipelineBehavior要} git
 IRequestHandler IRequestHandler&amp;lt;in TRequest, TResponse&amp;gt; 如果是沒有回傳值TResponse可以放Unit IRequest可不放(不回傳)或寫要回傳的型別IRequest&amp;lt;T&amp;gt; 只能一對一執行handler INotificationHandler INotificationHandler&amp;lt;in TNotification, TResponse&amp;gt; T要繼承INotification，沒有回傳值 是一對多的事件(event) 要用publish通知執行動作 實作 看git比較快
 Pipeline IRequestPreProcessor&amp;lt;TRequest&amp;gt;是在request之前執行 IRequestPostProcessor&amp;lt;TRequest, TResponse&amp;gt;是在request之後執行，所以可以拿到response IPipelineBehavior在執行方法前後執行 執行順序:IRequestPreProcessor&amp;gt;IPipelineBehavior&amp;gt;方法&amp;gt;IPipelineBehavior&amp;gt;IRequestPostProcessor </description>
@@ -538,19 +605,19 @@ Pipeline IRequestPreProcessor&amp;lt;TRequest&amp;gt;是在request之前執行 I
     
     <item>
       <title>背景執行工作</title>
-      <link>https://shadow061103.github.io/posts/202210/%E8%83%8C%E6%99%AF%E5%9F%B7%E8%A1%8C%E5%B7%A5%E4%BD%9C/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E8%83%8C%E6%99%AF%E5%9F%B7%E8%A1%8C%E5%B7%A5%E4%BD%9C/</link>
       <pubDate>Thu, 20 Oct 2022 16:59:46 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E8%83%8C%E6%99%AF%E5%9F%B7%E8%A1%8C%E5%B7%A5%E4%BD%9C/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E8%83%8C%E6%99%AF%E5%9F%B7%E8%A1%8C%E5%B7%A5%E4%BD%9C/</guid>
       <description>要執行的工作繼承BackgroundService 實作Task ExecuteAsync(CancellationToken stoppingToken) 設定時間await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken); StartUp.cs註冊 services.AddHostedService&amp;lt;CacheCheckService&amp;gt;(); 其他相關連有用到的都要改成Singleton，但也可以不用，需要使用IServiceScopeFactory public class CacheCheckService { //宣告 private readonly IServiceScopeFactory _serviceScopeFactory; public CacheCheckService(IServiceScopeFactory serviceScopeFactory) { _serviceScopeFactory = serviceScopeFactory; } //會用到的service private IChatNotifyService _notifyService; private IChatNotifyService NotifyService { get { if (this._notifyService != null) { return this._notifyService; } var scope = this._serviceScopeFactory.CreateScope(); var notifyService = scope.ServiceProvider.GetRequiredService&amp;lt;IChatNotifyService&amp;gt;(); this._notifyService = notifyService; return this._notifyService; } } } 微軟文件 在 ASP.NET Core 中使用託管服務的背景工作 在微服務中使用 IHostedService 和 BackgroundService 類別實作背景工作</description>
     </item>
     
     <item>
       <title>grpc使用http2_health_check問題</title>
-      <link>https://shadow061103.github.io/posts/202210/grpc%E4%BD%BF%E7%94%A8http2_health_check%E5%95%8F%E9%A1%8C/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/grpc%E4%BD%BF%E7%94%A8http2_health_check%E5%95%8F%E9%A1%8C/</link>
       <pubDate>Thu, 20 Oct 2022 16:58:58 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/grpc%E4%BD%BF%E7%94%A8http2_health_check%E5%95%8F%E9%A1%8C/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/grpc%E4%BD%BF%E7%94%A8http2_health_check%E5%95%8F%E9%A1%8C/</guid>
       <description>grpc內appsetting設定 &amp;#34;Kestrel&amp;#34;: {&amp;#34;EndPoints&amp;#34;: {&amp;#34;Grpc&amp;#34;: {&amp;#34;Url&amp;#34;: &amp;#34;http://+:4270&amp;#34;,&amp;#34;Protocols&amp;#34;: &amp;#34;Http2&amp;#34;}}} http/2支援可以用http或https 但是因為瀏覽器的http/2只支援https 所以health check只能用https才連的到 可以用curl指令去打grpc的endpoint
 curl 預設安裝git會安裝的版本，預設是不支援http/2的 路徑在C:\Program Files\Git\mingw64\bin
 curl --http2 http://localhost:5000/health curl --http2-prior-knowledge -X GET http://192.168.249.122:7202/backend/health
@@ -560,20 +627,20 @@ curl --http2 http://localhost:5000/health curl --http2-prior-knowledge -X GET ht
     
     <item>
       <title>EFCore使用</title>
-      <link>https://shadow061103.github.io/posts/202210/efcore%E4%BD%BF%E7%94%A8/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/efcore%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Thu, 20 Oct 2022 16:55:56 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/efcore%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/efcore%E4%BD%BF%E7%94%A8/</guid>
       <description>安裝 下載nuget clidotnet add package Microsoft.EntityFrameworkCore.SqlServer套件管理員主控台Install-Package Microsoft.EntityFrameworkCore.SqlServer 非必要 建資料庫 dotnet tool install --global dotnet-efdotnet add package Microsoft.EntityFrameworkCore.Designdotnet ef migrations add InitialCreatedotnet ef database update這邊用法//要指定資料夾dotnet ef migrations add addPayToken -o Infrastructure/Migrationsdotnet ef database update 這邊如果要新增database 需要先寫好entity跟context
 產生Scriptdotnet ef migrations script --context FinancialContext 可以使用EF core power tool建立DBContext檔 使用 如果只要單一實例DBContext，可以在startUp做DI設定，使用時在建構子注入 public void ConfigureServices(IServiceCollection services) { services.AddControllers(); services.AddDbContext&amp;lt;ApplicationDbContext&amp;gt;( options =&amp;gt; options.UseSqlServer(&amp;#34;name=ConnectionStrings:DefaultConnection&amp;#34;)); } //DBContext要使用這個函式 public class ApplicationDbContext : DbContext { public ApplicationDbContext(DbContextOptions&amp;lt;ApplicationDbContext&amp;gt; options) : base(options) { } } new 初始化，覆寫 OnConfiguring 方法 public class ApplicationDbContext : DbContext { protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { optionsBuilder.</description>
     </item>
     
     <item>
       <title>FluentValidation作法</title>
-      <link>https://shadow061103.github.io/posts/202210/fluentvalidation%E4%BD%9C%E6%B3%95/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/fluentvalidation%E4%BD%9C%E6%B3%95/</link>
       <pubDate>Thu, 20 Oct 2022 16:55:10 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/fluentvalidation%E4%BD%9C%E6%B3%95/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/fluentvalidation%E4%BD%9C%E6%B3%95/</guid>
       <description>文件 安裝套件 Install-Package FluentValidation.AspNetCore startUp.cs設定 會去偵測組件所在位置所有繼承AbstractValidator的類別
 services.AddControllers(options =&amp;gt;{ }).AddJsonOptions(options =&amp;gt; options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())).AddFluentValidation(fv =&amp;gt; fv.RegisterValidatorsFromAssemblyContaining&amp;lt;Startup&amp;gt;()); 參考這篇文章 後面需加上把model validator的驗證關掉
 services.Configure&amp;lt;ApiBehaviorOptions&amp;gt;(options =&amp;gt;{options.SuppressModelStateInvalidFilter = true;}); 還有另一個解法是用stackoverflow的作法，但其實會有問題 踩到的雷是[FromBody]不會有問題，但用[HttppGet]打api還是會驗證 要依照連結的做法去調整
@@ -583,94 +650,94 @@ public class AddMessageParameterValidator : AbstractValidator&amp;lt;AddMessageP
     
     <item>
       <title>針對enum寫attribute並取值</title>
-      <link>https://shadow061103.github.io/posts/202210/%E9%87%9D%E5%B0%8Denum%E5%AF%ABattribute%E4%B8%A6%E5%8F%96%E5%80%BC/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E9%87%9D%E5%B0%8Denum%E5%AF%ABattribute%E4%B8%A6%E5%8F%96%E5%80%BC/</link>
       <pubDate>Thu, 20 Oct 2022 16:54:37 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E9%87%9D%E5%B0%8Denum%E5%AF%ABattribute%E4%B8%A6%E5%8F%96%E5%80%BC/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E9%87%9D%E5%B0%8Denum%E5%AF%ABattribute%E4%B8%A6%E5%8F%96%E5%80%BC/</guid>
       <description>1.設定Attribute public class StringValueAttribute : Attribute{public string Value { get; private set; }public StringValueAttribute(string value){this.Value = value;}} 寫enum public enum CategoryCode{//餐飲[StringValue(&amp;#34;A&amp;#34;)]Food,//購物[StringValue(&amp;#34;B&amp;#34;)]Shopping,//美容[StringValue(&amp;#34;C&amp;#34;)]Cosmetic,//寵物[StringValue(&amp;#34;D&amp;#34;)]Pet,//生活服務[StringValue(&amp;#34;E&amp;#34;)]Life,//線上購物[StringValue(&amp;#34;F&amp;#34;)]EC,//生活繳費[StringValue(&amp;#34;G&amp;#34;)]Bill,//其他[StringValue(&amp;#34;Z&amp;#34;)]Other} 3.寫擴充方法 public static class CategoryCodeExtension{public static string GetStringValue(this CategoryCode value){var attributes = (StringValueAttribute[])value.</description>
     </item>
     
     <item>
       <title>Polly錯誤自動重試機制</title>
-      <link>https://shadow061103.github.io/posts/202210/polly%E9%8C%AF%E8%AA%A4%E8%87%AA%E5%8B%95%E9%87%8D%E8%A9%A6%E6%A9%9F%E5%88%B6/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/polly%E9%8C%AF%E8%AA%A4%E8%87%AA%E5%8B%95%E9%87%8D%E8%A9%A6%E6%A9%9F%E5%88%B6/</link>
       <pubDate>Thu, 20 Oct 2022 16:54:03 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/polly%E9%8C%AF%E8%AA%A4%E8%87%AA%E5%8B%95%E9%87%8D%E8%A9%A6%E6%A9%9F%E5%88%B6/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/polly%E9%8C%AF%E8%AA%A4%E8%87%AA%E5%8B%95%E9%87%8D%E8%A9%A6%E6%A9%9F%E5%88%B6/</guid>
       <description>如何使用 需要先安裝nuget套件 (Polly) 主要結構 Policy.Handle&amp;lt;HttpRequestException&amp;gt;() .OrResult&amp;lt;HttpResponseMessage&amp;gt;(result =&amp;gt; result.StatusCode != HttpStatusCode.OK) .Retry(3, onRetry: (exception, retryCnt) =&amp;gt; { Console.WriteLine($&amp;#34;polly 呼叫api異常 進行第{retryCnt}次重試,error{exception.Result.StatusCode}&amp;#34;); }).Execute(DoMockRequest); Polly支援的策略 Handle&amp;lt;T&amp;gt;:故障時的處理機制，或是指定要處理什麼樣的異常,有多個的話可以用Or&amp;lt;T&amp;gt; HandleResult&amp;lt;T&amp;gt;:依據回傳內容進行故障處理，有多個可以用OrResult Retry:重試機制，定義發生故障時要重試的次數或指定工作 WaitAndRetry:可以定義間隔秒數重試 Policy.Handle&amp;lt;SomeExceptionType&amp;gt;().WaitAndRetry(5, retryAttempt =&amp;gt; TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) ); Execute:要執行的任務 Fallback (替代措施):出錯時啟用備援方案，維持營運 Circuit Breaker(熔斷):一定期間錯誤次數超過上限，即先停止執行相關動作 Timeout:超過一定時間就放棄 Bulkhead Isolation(艙倉隔離):避免出錯請求耗用過多資源拖垮整個系統，限定作業可用資源上限(主要是限制同時執行的請求數量)，隔離其對其他系統的影響 PolicyWrap:組合上述多種措施混用，彈性因應 範例 把實作方法先包成Action方法，這樣就可以比較彈性 或是直接在ExecuteAsync呼叫寫好的方法
 private static async Task Main(string[] args) { var test = new Test(); Func&amp;lt;Task&amp;lt;bool&amp;gt;&amp;gt; action = async () =&amp;gt; { Random myObject = new Random(); var num = myObject.</description>
     </item>
     
     <item>
       <title>非同步程式</title>
-      <link>https://shadow061103.github.io/posts/202210/%E9%9D%9E%E5%90%8C%E6%AD%A5%E7%A8%8B%E5%BC%8F/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E9%9D%9E%E5%90%8C%E6%AD%A5%E7%A8%8B%E5%BC%8F/</link>
       <pubDate>Thu, 20 Oct 2022 16:53:24 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E9%9D%9E%E5%90%8C%E6%AD%A5%E7%A8%8B%E5%BC%8F/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E9%9D%9E%E5%90%8C%E6%AD%A5%E7%A8%8B%E5%BC%8F/</guid>
       <description>同步執行的問題 需要跟使用者互動的應用程式來說，如果有某項工作要花很⻑的時間才能跑完，使用者就只能在螢幕前發呆 某個應用程式進入無窮迴圈將導致其他應用程式暫停，整個作業系統看起來就像當掉 處理序 隔離應用程式的基本單位 當使用者開啟某應用程式，作業系統會將它載入記憶體並開始執行，這個載入記憶體中運行的應用程式實體（instance），便稱為處理序 會占用一個記憶體區塊，是獨立的虛擬位址空間，包含該應用程式的程式碼及相關資源，而且此空間只有該應用程式實體能夠存取 應用程式跟OS可以透過處理序分隔，但CPU沒辦法，所以要靠執行緒 執行緒 Windows 會給每一個處理序（process）配發一個專屬的執行緒（其功能近似於CPU），而當某應用程式進入無窮迴圈，其所屬之處理序形同凍結，但其他處理序（擁有各自的執行緒）並未凍結；它們都還能夠繼續運行
 執行緒是Windows 作業系統用來虛擬化CPU 的概念 執行緒就是用來切割CPU的基本單位，可以同時執行多項工作 一個處理序可以同時跑多個執行緒 建一條thread要配置1MB的記憶體，包含執行緒核心物件、環境區塊（Thread Environment Block）、使用者模式堆疊、核心模式堆疊等等 Context Switch 切割並分配CPU運算時間給應用程式的各個執行緒 把CPU內部各暫存器的值保存至目前執行緒的內部資料結構 挑選下一個&amp;quot;幸運&amp;quot;的執行緒。若該執行緒屬於另一個處理序，則在切換之前，Windows 還必須切換虛擬位址空間，這樣CPU 才能存取到正確的程式碼和資料 從選中的執行緒之內部資料結構載入CPU暫存器的值 建立、摧毀、管理和切換執行緒都得額外消耗一些記憶體空間，所以沒必要不要多建額外的thread CLR 回收資源時，它會先暫停所有的執行緒，等到回收動作完成後才恢復 執行緒優先順序 優先順序分成32個等級，0-31 優先權越高愈能分到更多CPU時間 等級低的會發生starvation的情況，容易分不到資源，但是多核心的機器可以減少這種狀況 用處理序的優先順序類別跟執行緒的優先順序決定等級 處理序的優先順序 即時（RealTime） 可能會影響OS正常運作 高（High） I/O 執行時間短的才適用 高於標準（Above Normal） 標準（Normal） 低於標準（Below Normal） 閒置（Idle） var p=Process.GetCurrentProcess(); p.PriorityClass=ProcessPriorityClass.High; 執行緒的優先順序 閒置（Idle） 最低（Lowest 低於正常（Below Normal） 正常（Normal） 高於正常（Above Normal） 最高（Highest） 時間緊迫（Time-Critical） var t = new Thread(() =&amp;gt; { &amp;#34;aaa&amp;#34;.Dump();}); t.Priority=ThreadPriority.Highest; 名詞解釋 並行（concurrency）：一次處理多件工作。例如：使用者一邊輸入文字，應用程式在背後一邊執行拼字檢查 多執行緒（multithreading）：特別指以多執行緒的方式來實現並行（concurrency） 平行處理（parallel processing）：把工作切分成多個小單位，並分別交給多條執行緒來同時執行 非同步處理（asynchronous processing）：是並行（concurrency）的一種形式，但不必然（甚至會避免）使用執行緒，而是採用「承諾」（promise ）或回呼事件（callback event）的方式來達到並行的效果 非同步工作會在將來某個時間執行完畢，執行這些工作的時候不會擋住當前的執行緒，也就是說呼叫非同步工作的執行緒仍然可以繼續執行其它工作，等非同步工作完成會透過callback event/promise/ 專屬執行緒dedicated thread 直接建立一條執行緒專門執行某件工作</description>
     </item>
     
     <item>
       <title>取得.net環境變數</title>
-      <link>https://shadow061103.github.io/posts/202210/%E5%8F%96%E5%BE%97.net%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E5%8F%96%E5%BE%97.net%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/</link>
       <pubDate>Thu, 20 Oct 2022 16:52:39 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E5%8F%96%E5%BE%97.net%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E5%8F%96%E5%BE%97.net%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/</guid>
       <description> 最新版的環境變數有分兩個DOTNET_ENVIRONMENT跟ASPNETCORE_ENVIRONMENT 可以在方法注入IHostEnvironment 然後用_hostEnvironment.IsProduction()判斷 </description>
     </item>
     
     <item>
       <title>unit of work實作</title>
-      <link>https://shadow061103.github.io/posts/202210/unit-of-work%E5%AF%A6%E4%BD%9C/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/unit-of-work%E5%AF%A6%E4%BD%9C/</link>
       <pubDate>Thu, 20 Oct 2022 16:52:04 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/unit-of-work%E5%AF%A6%E4%BD%9C/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/unit-of-work%E5%AF%A6%E4%BD%9C/</guid>
       <description>public interface IUnitOfWork : IDisposable { IDbConnection Connection { get; } IDbTransaction Transaction { get; } void BeginTransaction(); void Commit(); void RollBack(); } public class UnitOfWork : IUnitOfWork { public IDbConnection Connection { get; private set; } public IDbTransaction Transaction { get; private set; } public Guid _id = Guid.Empty; public UnitOfWork(IDbConnection connection) { _id = Guid.NewGuid(); Connection = connection; DefaultTypeMap.MatchNamesWithUnderscores = true; } public void BeginTransaction() { if (!</description>
     </item>
     
     <item>
       <title>ASP.Net Core註冊中文編碼</title>
-      <link>https://shadow061103.github.io/posts/202210/asp.net-core%E8%A8%BB%E5%86%8A%E4%B8%AD%E6%96%87%E7%B7%A8%E7%A2%BC/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/asp.net-core%E8%A8%BB%E5%86%8A%E4%B8%AD%E6%96%87%E7%B7%A8%E7%A2%BC/</link>
       <pubDate>Thu, 20 Oct 2022 16:50:39 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/asp.net-core%E8%A8%BB%E5%86%8A%E4%B8%AD%E6%96%87%E7%B7%A8%E7%A2%BC/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/asp.net-core%E8%A8%BB%E5%86%8A%E4%B8%AD%E6%96%87%E7%B7%A8%E7%A2%BC/</guid>
       <description>安裝nuget套件System.Text.Encoding.CodePages 在程式內註冊 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance)</description>
     </item>
     
     <item>
       <title>檔案串流彙整</title>
-      <link>https://shadow061103.github.io/posts/202210/%E6%AA%94%E6%A1%88%E4%B8%B2%E6%B5%81%E5%BD%99%E6%95%B4/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E6%AA%94%E6%A1%88%E4%B8%B2%E6%B5%81%E5%BD%99%E6%95%B4/</link>
       <pubDate>Thu, 20 Oct 2022 16:49:58 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E6%AA%94%E6%A1%88%E4%B8%B2%E6%B5%81%E5%BD%99%E6%95%B4/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E6%AA%94%E6%A1%88%E4%B8%B2%E6%B5%81%E5%BD%99%E6%95%B4/</guid>
       <description>連結 https://dotblogs.com.tw/kinanson/2017/06/03/142558
 開啟檔案轉成Stream private MemoryStream GetFileStream(string filePath, string fileName) { var path = Path.Combine(filePath, fileName); using var fileStream = new FileStream(path, FileMode.Open); var memoryStream = new MemoryStream(); fileStream.CopyTo(memoryStream); return memoryStream; } 讀取本地端檔案 var result=new List&amp;lt;string&amp;gt;(); var path = @&amp;#34;D:\merchantcode.txt&amp;#34;; using var reader = new StreamReader(path, Encoding.GetEncoding(950)); //直接用ReadLine讀也可以 var content = await reader.ReadToEndAsync(); using var reader2 = new StringReader(content); string line; while ((line = reader2.ReadLine()) != null) { result.Add(line); } //result.Dump(); return result; 串流轉成string public static string ToStringContent(this Stream stream){var reader = new StreamReader(stream, Encoding.</description>
     </item>
     
     <item>
       <title>Automapper_flattern</title>
-      <link>https://shadow061103.github.io/posts/202210/automapperflattern/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/automapperflattern/</link>
       <pubDate>Thu, 20 Oct 2022 16:49:14 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/automapperflattern/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/automapperflattern/</guid>
       <description> 可以對應到Customer 下的Name 來源沒有Total的話會用GetTotal()方法的值 void Main() { var configuration = new MapperConfiguration(cfg =&amp;gt; { cfg.CreateMap&amp;lt;Order, OrderDto&amp;gt;(); cfg.CreateMap&amp;lt;Test, Order&amp;gt;(); }); var mapper = configuration.CreateMapper(); var customer = new Customer () { Name = &amp;#34;Tom&amp;#34; }; var temp = new Test {Customer = customer,Total=80M}; var order = mapper.Map&amp;lt;Order&amp;gt;(temp); var test=mapper.Map&amp;lt;OrderDto&amp;gt;(order); test.Dump(); } public class Order { public Customer Customer { get; set; } public decimal Total{get;set;} public decimal GetTotal() { return 100M; } } public class Customer { public string Name { get; set; } } public class OrderDto { public string CustomerName { get; set; } public decimal Total { get; set; } } public class Test { public Customer Customer { get; set; } public decimal Total{get;set;} } </description>
     </item>
     
     <item>
       <title>保哥非同步課程</title>
-      <link>https://shadow061103.github.io/posts/202210/%E4%BF%9D%E5%93%A5%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%AA%B2%E7%A8%8B/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E4%BF%9D%E5%93%A5%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%AA%B2%E7%A8%8B/</link>
       <pubDate>Thu, 20 Oct 2022 16:48:10 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E4%BF%9D%E5%93%A5%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%AA%B2%E7%A8%8B/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E4%BF%9D%E5%93%A5%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%AA%B2%E7%A8%8B/</guid>
       <description>thread要執行要進CPU排隊，所以不一定先start的會先跑 非同步不一定是multi thread(user thread)，File.WriteAsync 會叫dreiver去處理寫檔，完成後會告知已完成 會造成deadlock的情境 用windowform、WPF有內建syncronizecontext 宣告方法是有用async、await關鍵字 呼叫非同步方法的時候用.Result() 或wait() .Wait()跟.Result會block thread，不會還回去，只有用await才會還 沒有等待的動作，就不會有把執行緒還回去的動作 CPU bound的工作可以用Task.Run()去實作，這種方式會去thread pool拉一條新的thread,IO bound 的用async await就可以 thread pool會動態長大，如果電腦8核16的邏輯處理單元，一開始只會分配16個thread，把thread用完還會一直分配，但是用.Result會block thread，就會等到有Thread可以用的時候才會繼續往下做 .net core把HttpContext.Current刪掉了,要改成注入的方式 Task的完成狀態 IsCompleted 這個值表示工作是否已經完成執行（無論成功或失敗都叫完成） IsCompletedSuccessfully這個值表示工作是否已經完成執行（只有成功才會為true） IsCanceled這個值表示工作是否因取消才完成執行 IsFaulted這個值表示工作是否因未處理的例外狀況才完成執行 Task.Status屬性列舉 Canceled	6	工作確認取消動作，不論是因為工作在語彙基元處於信號狀態時使用自己的 CancellationToken 擲回 OperationCanceledException，或是工作的 CancellationToken 信號在工作開始執行之前便已存在。 如需詳細資訊，請參閱工作取消。 Created	0 工作已初始化但尚未排程。 Faulted	7	工作因未處理的例外狀況而完成。 RanToCompletion	5	工作已成功完成執行。 Running	3	工作正在執行，但尚未完成。 WaitingForActivation	1	工作正在等候由 .NET 基礎結構從內部啟動並排程。 WaitingForChildrenToComplete	4	工作已完成執行，而且在暗中等候附加的子工作完成。 WaitingToRun	2	工作已排定執行，但尚未開始執行。 參考 會封鎖執行緒的等候方法 沒有回傳值 MethodAsync().Wait() 封鎖並等待MethodAsync 方法執行完成 Task.</description>
     </item>
     
     <item>
       <title>CoreProfiler效能監測工具</title>
-      <link>https://shadow061103.github.io/posts/202210/coreprofiler-%E6%95%88%E8%83%BD%E7%9B%A3%E6%B8%AC%E5%B7%A5%E5%85%B7/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/coreprofiler-%E6%95%88%E8%83%BD%E7%9B%A3%E6%B8%AC%E5%B7%A5%E5%85%B7/</link>
       <pubDate>Thu, 20 Oct 2022 16:46:25 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/coreprofiler-%E6%95%88%E8%83%BD%E7%9B%A3%E6%B8%AC%E5%B7%A5%E5%85%B7/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/coreprofiler-%E6%95%88%E8%83%BD%E7%9B%A3%E6%B8%AC%E5%B7%A5%E5%85%B7/</guid>
       <description>安裝nuget套件 CoreProfiler.Web CoreProfiler 註冊StartUp 在 Configure加上app.UseCoreProfiler(true);
 加上coreprofiler.json檔案 檔案屬性要改成內容-有更新才複製
 { &amp;#34;circularBufferSize&amp;#34;: 200, &amp;#34;filters&amp;#34;: [ { &amp;#34;key&amp;#34;: &amp;#34;/coreprofiler&amp;#34;, &amp;#34;value&amp;#34;: &amp;#34;/coreprofiler&amp;#34;, &amp;#34;type&amp;#34;: &amp;#34;CoreProfiler.ProfilingFilters.NameContainsProfilingFilter, CoreProfiler&amp;#34; }, { &amp;#34;key&amp;#34;: &amp;#34;static files&amp;#34;, &amp;#34;value&amp;#34;: &amp;#34;ico,jpg,js,css,svg,json,ttf,woff,woff2,eot&amp;#34;, &amp;#34;type&amp;#34;: &amp;#34;CoreProfiler.ProfilingFilters.FileExtensionProfilingFilter, CoreProfiler&amp;#34; } ] } 如何使用 在要監看的程式包起來 var stepName = $&amp;#34;{nameof(這邊是監看的類別)}.{nameof(這邊是監看的方法)}&amp;#34;; using (ProfilingSession.Current.Step(stepName)) { } 使用attribute，需要安裝套件AspectInjector.Broker [Injection(typeof(CoreProfilerAspect))] public class CoreProfilingAttribute : System.Attribute { /// &amp;lt;summary&amp;gt; /// ProfilingName. /// &amp;lt;/summary&amp;gt; /// &amp;lt;value&amp;gt;The name of the profiling.&amp;lt;/value&amp;gt; public string ProfilingName { get; set; } /// &amp;lt;summary&amp;gt; /// ProfilingStep.</description>
@@ -678,10 +745,10 @@ private static async Task Main(string[] args) { var test = new Test(); Func&amp;
     
     <item>
       <title>EFcore模型驗證預設不檢查插入問題</title>
-      <link>https://shadow061103.github.io/posts/202210/efcore%E6%A8%A1%E5%9E%8B%E9%A9%97%E8%AD%89%E9%A0%90%E8%A8%AD%E4%B8%8D%E6%AA%A2%E6%9F%A5%E6%8F%92%E5%85%A5%E5%95%8F%E9%A1%8C/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/efcore%E6%A8%A1%E5%9E%8B%E9%A9%97%E8%AD%89%E9%A0%90%E8%A8%AD%E4%B8%8D%E6%AA%A2%E6%9F%A5%E6%8F%92%E5%85%A5%E5%95%8F%E9%A1%8C/</link>
       <pubDate>Thu, 20 Oct 2022 16:44:27 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/efcore%E6%A8%A1%E5%9E%8B%E9%A9%97%E8%AD%89%E9%A0%90%E8%A8%AD%E4%B8%8D%E6%AA%A2%E6%9F%A5%E6%8F%92%E5%85%A5%E5%95%8F%E9%A1%8C/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/efcore%E6%A8%A1%E5%9E%8B%E9%A9%97%E8%AD%89%E9%A0%90%E8%A8%AD%E4%B8%8D%E6%AA%A2%E6%9F%A5%E6%8F%92%E5%85%A5%E5%95%8F%E9%A1%8C/</guid>
       <description>情境 在model上的屬性設置如下
 [Column(&amp;#34;bank_trade_no&amp;#34;)] [MaxLength(30)] [Required] public string BankTradeNo { get; set; } DB欄位是設定成可為null且預設Null的值
 問題發生原因 問題發生在 DB有一筆資料的欄位是null，用ef core撈出來的時候報exception error stack
@@ -690,10 +757,10 @@ System.InvalidOperationException: An error occurred while reading a database val
     
     <item>
       <title>big5難字處理</title>
-      <link>https://shadow061103.github.io/posts/202210/big5%E9%9B%A3%E5%AD%97%E8%99%95%E7%90%86/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/big5%E9%9B%A3%E5%AD%97%E8%99%95%E7%90%86/</link>
       <pubDate>Tue, 18 Oct 2022 11:14:55 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/big5%E9%9B%A3%E5%AD%97%E8%99%95%E7%90%86/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/big5%E9%9B%A3%E5%AD%97%E8%99%95%E7%90%86/</guid>
       <description>判斷轉big5後是不是? public bool IsBelongHardWord(char str) { var big5 = Encoding.GetEncoding(&amp;#34;big5&amp;#34;); var cInBig5 = big5.GetString(big5.GetBytes(new[] { str })); return str != &amp;#39;?&amp;#39; &amp;amp;&amp;amp; cInBig5 == &amp;#34;?&amp;#34;; } StringInfo的解法 上面解法不適用&amp;quot;𨫎&amp;quot;、&amp;ldquo;𩗴&amp;rdquo; 這種組合字，因為會被拆成2個char Encoding.RegisterProvider(CodePagesEncodingProvider.Instance); string s = &amp;#34;𨫎𩗴嫑堃瀞abc一二三&amp;#34;; TextElementEnumerator charEnum = StringInfo.GetTextElementEnumerator(s); while (charEnum.MoveNext()) { var str = charEnum.GetTextElement(); var encode = Encoding.GetEncoding(950); var big5 = encode.GetString(encode.GetBytes(str)); ($&amp;#34;{str} 難字{str != big5}&amp;#34;).Dump(); } 參考 https://www.huanlintalk.com/2009/12/unicode-character-and-ranma-12.html</description>
     </item>
     

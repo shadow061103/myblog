@@ -2,36 +2,36 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>網頁切版直播課程 on Steve的技術筆記</title>
-    <link>https://shadow061103.github.io/tags/%E7%B6%B2%E9%A0%81%E5%88%87%E7%89%88%E7%9B%B4%E6%92%AD%E8%AA%B2%E7%A8%8B/</link>
+    <link>https://shadow061103.github.io/myblog/tags/%E7%B6%B2%E9%A0%81%E5%88%87%E7%89%88%E7%9B%B4%E6%92%AD%E8%AA%B2%E7%A8%8B/</link>
     <description>Recent content in 網頁切版直播課程 on Steve的技術筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 27 Oct 2022 17:12:36 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/tags/%E7%B6%B2%E9%A0%81%E5%88%87%E7%89%88%E7%9B%B4%E6%92%AD%E8%AA%B2%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 Oct 2022 17:12:36 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/myblog/tags/%E7%B6%B2%E9%A0%81%E5%88%87%E7%89%88%E7%9B%B4%E6%92%AD%E8%AA%B2%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>gulp 使用說明</title>
-      <link>https://shadow061103.github.io/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:36 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/gulp-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E/</guid>
       <description>gulp官方文件 gulpfile gulpfile就是gulpfile.js的簡稱，用gulp的指定的時後會自動載入 裡面會放相關api EX:src(), dest(), series(),parallel() 可用其他語言寫再轉譯 TypeScript,命名gulpfile.ts跟安裝ts-node module. Babel,命名 gulpfile.babel.js跟安裝the @babel/register module. 當檔案太大時可以寫在不同檔案，再import進來，資料夾名稱要命名成gulpfile.js(包含index.js) Gulp Task 非同步的js function
 public tasks:從gulpfile輸出，可以用gulp指令啟動 private tasks:for內部使用，常用的方法有series()、parallel() 外部使用者不能獨立使用 const { series } = require(&amp;#39;gulp&amp;#39;); // The `clean` function is not exported so it can be considered a private task. // It can still be used within the `series()` composition. function clean(cb) { // body omitted cb(); } // The `build` function is exported so it is public and can be run with the `gulp` command.</description>
     </item>
     
     <item>
       <title>環境安裝流程</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:31 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/</guid>
       <description>1.安裝Node.js，打開終端機或命令提示字元，輸入node -v，安裝完成會顯示版本號 2.在終端機安裝gulp，繼續輸入指令 npm i gulp@4 -g ,輸入gulp -v查詢是否有回傳版本號 3.下載此資料夾並解壓縮 4.移動到該資料夾 5.輸入指令 npm install 安裝插件，這是安裝專案內package.json列出的需要元件 npm install gulp -g 會在全域下安裝gulp 6.輸入指令gulp執行 7.若步驟6執行成功，會打開瀏覽器，看到指定畫面 指令列表 gulp - 執行開發模式(會開啟模擬瀏覽器並監聽相關檔案) gulp build - 執行編譯模式(不會開啟瀏覽器) gulp clean - 清除 dist 資料夾 gulp deploy - 將 dist 資料夾部署至 GitHub Pages npm install gulp-cli -g 才能使用gulp指令 </description>
     </item>
     
     <item>
       <title>版型課程第八周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AB%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AB%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:20 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AB%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AB%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>盡量用元件跟util組合，少用card li{}這種寫法 scss同類性質高的時候再拆資料夾 命名盡量一致化，小駝峰，用下底線或-會讓人誤解是子模組
 7+1 scss ###　BEM
 __區塊 元素 &amp;ndash;修飾符:樣式呈現 </description>
@@ -39,19 +39,19 @@ __區塊 元素 &amp;ndash;修飾符:樣式呈現 </description>
     
     <item>
       <title>版型課程第七周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%83%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%83%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:18 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%83%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%83%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>視差滾動 Css3 animation 範例 用keyframes去自訂動畫效果 from開始 to結束 @keyframes example { from {left:0px; top:0px;} to {left:200px; top:0px;} } div { /* 要執行的 animation 名稱 */ animation-name: example; /* 執行過程秒數 */ animation-duration: 10s; } 查瀏覽器兼容效果can I use 也可以設定比例 %數代表時間比例 @keyframes example { 0% {background-color:pink; left:0px; top:0px;} 25% {background-color:yellow; left:200px; top:0px;} 50% {background-color:blue; left:200px; top:200px;} 75% {background-color:green; left:0px; top:200px;} 100% {background-color:red; left:0px; top:50px;} } /* The element to apply the animation to */ div { width: 100px; height: 100px; position: relative; background-color: red; animation-name: example; animation-duration: 4s; /* 晚幾秒發動 */ animation-delay: 2s; /* 要重複跑幾次，或者是用 infinite 一直持續跑 */ animation-iteration-count: infinite; /* 停留在哪個影格 forwards、backwards、both */ /* animation-fill-mode: backwards; */ /* forwards 停留在最後一個位置 backwards: 留在第一個位置 both 擁有前兩者功能 */ } Animate.</description>
     </item>
     
     <item>
       <title>版型課程第六周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AD%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AD%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:15 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AD%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%85%AD%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>bootstrap是手機寫到PC
 格線系統 避免寫一些奇怪數字 俗稱magic number
 .col-1{ width:60px; } .col-2{ width:120px; } 格線系統關鍵字：column(欄)、gutter(間距) 左右會用margin推 960 grid 要符合1024*768解析度 通常會有12欄(比較好整除) 沒格線系統就會用magic number bootstrap是用padding推gutter的值 column內不能多用padding跟margin，因為寬度會超過%數 row裡面再包column，因為元素才會對齊 沒用格線系統只有局部區塊好看，用的話一致性高有規律 class=row的第一層只能放col bootstrap的斷點設計 文件位置 依照裝置大小去置換class 常見錯誤，在 .col 增加寬度 常見錯誤，在格線系統調整左右 margin 與 padding 常見觀念：可以加上下 的 margin 與 padding 常見觀念：最外層至少補一個 container 常見觀念：整體格線邏輯是一致
@@ -60,10 +60,10 @@ __區塊 元素 &amp;ndash;修飾符:樣式呈現 </description>
     
     <item>
       <title>版型課程第五周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%94%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%94%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:12 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%94%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%94%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>表單三要素 form input submit 使用id差別 為了使用者體驗 input使用id標註，用label for指定，只要點到label就會自動focus在input上 &amp;lt;label for=&amp;quot;Email&amp;quot;&amp;gt;請輸入email:&amp;lt;/label&amp;gt;
 select選單 彈跳樣式跟顏色不要改，每個瀏覽器的樣式也不一樣，除非用div+js自幹 可以用套件 可能下載過慢，太大包 流量比例:7成圖片、2成css跟js、1成文檔 disable的標籤資料不會送到後端，readonly的會 css reset 差異 meyerweb CSS Reset
 設計師不會用bootstrap normalize
@@ -76,10 +76,10 @@ css先放再放js檔案，放在body最後面是最保險的 可以先做自己�
     
     <item>
       <title>版型課程第四周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%9B%9B%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%9B%9B%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:10 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%9B%9B%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E5%9B%9B%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>Layout 類似 .Net MVC的share.cshtml
 用gulp整合 前端任務化 ejs樣板語言 &amp;lt;%- content %&amp;gt; app資料夾:放css,html,images,js檔案 dist資料夾:輸出在用沒事不要碰他，儲存就會放一份，把layout跟頁面合併在一起 會自動監聽 改layout.ejs檔案就好 只是幫助管理 Layout說明 ejs include(路徑) 把外部檔案載入 檔案要設成相對路徑 githubpage才會讀得到 連結到錨點 使用id選擇器 a href連結要加# Sass預處理器 是一種css的擴充，解決重複性、可維護性差的問題
 語法分為新的SCSS(Sassy CSS、Sass 3，檔名為 *.scss) 和舊的 SASS（不使用大括弧格式、使用縮排，不能直接使用 CSS 語法、學習曲線較高等特性，檔名為 *.sass） PPT 安裝套件 Live Sass Compiler 環境教學 可以幫助縮短語法語法介紹 github demo 變數設計 一定要放在最上面 前綴詞$ 可以做數值運算或色彩運算 lighten($primary,30%) 調亮 darken($primary,30%) 調暗 通常用來存色彩或空間跟尺寸 命名用情境色primary、secondary、accent 或功能background 命名可以參考bootstrap 避免使用色名 green或yellow，尺寸盡可能語意化large-size 主色 //變數$primary:#ff0000; import檔案拆分 _variable.scss &amp;gt; all.scss &amp;gt;all.css @import &amp;quot;variable&amp;quot; 檔名有_代表不會不輸出成css 拿來被合併用的(被忽略) .</description>
@@ -87,10 +87,10 @@ css先放再放js檔案，放在body最後面是最保險的 可以先做自己�
     
     <item>
       <title>版型課程第三周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%89%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%89%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:08 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%89%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%89%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>RWD自適應語法 依照顯示器寬度去呈現樣式 375px iphone7-11 414px ipad 768px~992px 767px 手機以下 bootstrap 1140px media要從最大寫到最小 潛規則 &amp;gt;去客戶那邊紀錄裝置解析度/瀏覽器/手機型號 .list .item{ width:25%; } @media (max-width :992px) { .list .item{ width:50%; } } @media (max-width :767px) { .list .item{ width:100%; } } 響應式要加 &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&amp;gt;
 CSS 語法 media queries @media(max-width:768px){}
 可以設定限定方式 有需要再查 css權重 先看權重再看先後順序，後者贏 HTML標籤 1分 lang=css tag { color:black; } 類別選擇器10分 .class { color:black; } id選擇器100分 #id { color:black; } 行內樣式1000分 &amp;lt;h1 style=&amp;quot;color:black;&amp;quot;&amp;gt;&amp;lt;/h1&amp;gt; !</description>
@@ -98,10 +98,10 @@ CSS 語法 media queries @media(max-width:768px){}
     
     <item>
       <title>版型課程第二周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:06 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>Flex container 1.內元件要有效果，就要在外容器加上 display:flex 2.每個 HTML 標籤，能同時擁有內元件跟外容器身份 Flex 主軸與交錯軸觀念(測試工具) 外容器語法 決定軸線：flex-direction (互動詢問)
 1.row (預設) 2.row-reverse 3.column 4.column-reverse 主軸對齊：justify-content
 1.flex-start (預設) 2.center 3.flex-end 4.space-between 5.space-around 6.space-evenly 換行屬性：flex-wrap
@@ -112,10 +112,10 @@ normal：也就是預設字體厚度，其實可以不用特別寫出來。 bold
     
     <item>
       <title>版型課程第一周筆記</title>
-      <link>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%80%E5%91%A8%E7%AD%86%E8%A8%98/</link>
+      <link>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%80%E5%91%A8%E7%AD%86%E8%A8%98/</link>
       <pubDate>Thu, 27 Oct 2022 17:12:03 +0800</pubDate>
       
-      <guid>https://shadow061103.github.io/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%80%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
+      <guid>https://shadow061103.github.io/myblog/posts/202210/%E7%89%88%E5%9E%8B%E8%AA%B2%E7%A8%8B%E7%AC%AC%E4%B8%80%E5%91%A8%E7%AD%86%E8%A8%98/</guid>
       <description>css reset 可以reset讓瀏覽器一致 css reset 加速寫CODE的速度 練習英打，若沒時間最少練習常用的單字，可參考 透過 keybr.com 練習內容 使用套件 TabNine 記憶單辭。 容器 區塊元素 預設display:block 盡可能占滿整個版面 會另起一行進行呈現 可以設定寬高 div、p、h1~h6、 ul、ol、li、 dl、dt、dd、 form、table、hr、 blockquote 、 address、menu 行內元素 display inline 比較常用在段落裡 不能設定寬高 除非改成區塊元素display:block span、em、i、b、strong、a、img、input、br、select、textarea、q、bdo、sub、sup 邊界線 {border: 1px solid blue;} 說明:
 線條粗細 樣式 solid實心線 dashed虛線 dotted點點 顏色 留白 padding 往內推元素 margin 往外推元素 盡量要一致 水平置中 是整個元素置中
 { margin-left: auto; margin-right: auto; margin:0 auto; } 文字內容置中

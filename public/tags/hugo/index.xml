@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hugo on Steve的技術筆記</title>
+    <link>https://shadow061103.github.io/myblog/tags/hugo/</link>
+    <description>Recent content in hugo on Steve的技術筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Fri, 16 Dec 2022 17:24:30 +0800</lastBuildDate><atom:link href="https://shadow061103.github.io/myblog/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>hugo自動佈署發佈文章</title>
+      <link>https://shadow061103.github.io/myblog/posts/202212/hugo%E8%87%AA%E5%8B%95%E4%BD%88%E7%BD%B2%E7%99%BC%E4%BD%88%E6%96%87%E7%AB%A0/</link>
+      <pubDate>Fri, 16 Dec 2022 17:24:30 +0800</pubDate>
+      
+      <guid>https://shadow061103.github.io/myblog/posts/202212/hugo%E8%87%AA%E5%8B%95%E4%BD%88%E7%BD%B2%E7%99%BC%E4%BD%88%E6%96%87%E7%AB%A0/</guid>
+      <description>原先要手動用hugo publish指令發佈後，再用git推上去才能發佈 現在使用github內建的github action的workflow就可以自動發佈
+實際做法 我不是照文章方式做的，文章的測試都無法佈署上去
+1.點進去repo裡面的Action頁籤可以看到Pages的類別
+2.找到hugo後按configure
+3.會在.github/workflows新增一個hugo.yml檔案
+4.新增完後commit
+5.以後每次push都會觸發github page的佈署
+# Sample workflow for building and deploying a Hugo site to GitHub Pagesname: Deploy Hugo site to Pageson:# Runs on pushes targeting the default branchpush:branches: [&amp;#34;master&amp;#34;]# Allows you to run this workflow manually from the Actions tabworkflow_dispatch:# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pagespermissions:contents: readpages: writeid-token: write# Allow one concurrent deploymentconcurrency:group: &amp;#34;pages&amp;#34;cancel-in-progress: true# Default to bashdefaults:run:shell: bashjobs:# Build jobbuild:runs-on: ubuntu-latestenv:HUGO_VERSION: 0.</description>
+    </item>
+    
+  </channel>
+</rss>

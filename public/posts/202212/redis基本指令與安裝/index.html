@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>Redis基本指令與安裝</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, redis'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/myblog/posts/202212/redis%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4%E8%88%87%E5%AE%89%E8%A3%9D/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Redis基本指令與安裝">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Redis基本指令與安裝">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/myblog/posts/202212/redis%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4%E8%88%87%E5%AE%89%E8%A3%9D/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/myblog/posts/202212/redis%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4%E8%88%87%E5%AE%89%E8%A3%9D/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/myblog/posts/202212/redis%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4%E8%88%87%E5%AE%89%E8%A3%9D/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io/myblog//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io/myblog//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io/myblog//css/dark.css">
+
+    <script src="https://shadow061103.github.io/myblog//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io/myblog//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io/myblog//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/myblog/">
+                <img src="https://shadow061103.github.io/myblog//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/myblog/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Redis基本指令與安裝</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            December 19, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/myblog/tags/redis">redis</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="特性">特性</h3>
+<ul>
+<li>儲存結構
+<ul>
+<li>字串</li>
+<li>散列類型Hash</li>
+<li>列表類型List</li>
+<li>集合類型Set</li>
+<li>有序集合類型Sorted List</li>
+</ul>
+</li>
+<li>數據持久化，一般都在記憶體，也可以存到硬碟</li>
+<li>可以用來作快取、隊列系統</li>
+<li>可以設置TTL(time to live)，到期後會自動消失</li>
+<li>單執行緒</li>
+<li>支援publish/subscribe</li>
+<li>可以限定資料占用的最大記憶體空間，達到限制後可以自動淘汰不需要的key</li>
+</ul>
+<h3 id="安裝redis">安裝Redis</h3>
+<ul>
+<li>次版本號偶數的是穩定版，奇數是非穩定版</li>
+<li>使用docker安裝</li>
+</ul>
+<pre tabindex="0"><code>docker pull redis
+docker run --name redis-lab -p 6379:6379 -d redis
+
+//確認container
+docker ps
+//測試 進bash 或是用docker desktop進入
+docker exec -it e819 bash
+//進bash之後輸入
+redis-cli
+
+# redis-cli
+127.0.0.1:6379&gt; ping
+PONG
+有回應就代表正常
+</code></pre><ul>
+<li><a href="https://marcus116.blogspot.com/2019/02/how-to-install-redis-in-windows-os.html">在windows安裝</a></li>
+</ul>
+<h3 id="啟動redis">啟動Redis</h3>
+<ul>
+<li>可執行文件(應該是工具的意思)</li>
+</ul>
+<pre tabindex="0"><code>redis-server Redis服務器
+redis-cli 客戶端命令列
+redis-benchmark 性能測試工具
+redis-check-aof AOF文件修復工具
+redis-check-dump RDB文件檢查工具
+</code></pre><ul>
+<li>直接啟動 
+進去bash後執行redis-server
+但docker已經有用6379了 所以這邊是給非docker使用的
+然後再執行<code>redis-server --port 6379</code></li>
+<li>透過redis_init_script執行(在Production環境用)</li>
+</ul>
+<h3 id="停止redis">停止Redis</h3>
+<p><code>redis-cli SHUTDOWN</code>
+收到指令會先斷掉連線，執行持久化工作後退出</p>
+<h3 id="使用redis-cli發送指令">使用redis-cli發送指令</h3>
+<ul>
+<li>redis-cli -h <code>[host name]</code> -p <code>[port]</code>可以指定redis server
+<code>redis-cli -h [your host] -p 6379</code></li>
+</ul>
+<h3 id="回傳值類型">回傳值類型</h3>
+<ul>
+<li>status reply:回復狀態
+<code>OK或PONG</code></li>
+<li>error reply:有錯誤的時候回傳error訊息</li>
+<li>integer reply (1或0):用(integer)開頭</li>
+<li>bulk reply(字串)</li>
+<li>multi-bulk reply (多重字串)</li>
+</ul>
+<h3 id="配置">配置</h3>
+<ul>
+<li>redis-server可以設定port、是否開啟持久化，日誌級別，可以透過文件設定
+<code>redis-server /path/to/redis.conf</code></li>
+<li>redis跟目錄有redis.conf，是提供的配置文件模板</li>
+<li>可以動態修改配置，但不是所有的都可以修改
+<code>CONFIG SET loglevel warning</code></li>
+</ul>
+<h3 id="基本指令">基本指令</h3>
+<ul>
+<li><code>keys pattern</code> 找符合條件的key
+<ul>
+<li>可以用正規表達式 ?、*、<code>[]</code>、\x</li>
+</ul>
+</li>
+<li><code>exists key</code>判斷是否存在 存在回傳1</li>
+<li><code>del key</code>刪除key 回傳值是key的個數(不支援regular)</li>
+<li><code>type key</code> 取得key的數據類型</li>
+</ul>
+<h3 id="字串類型">字串類型</h3>
+<ul>
+<li>可以存字串、二進位數據、json、圖片等等，最大容量是512MB</li>
+<li>key建議用<code>對象類型:對象ID:對象屬性</code>來命名 EX user:1:friends</li>
+<li>如果是複雜Json資料可以用MessagePack壓縮</li>
+<li><code>set key value</code>給值</li>
+<li><code>get key</code>取值</li>
+<li><code>incr key</code>遞增數字 回傳遞增後的值 失敗會傳傳<code>(error) ERR value is not an integer or out of range</code></li>
+<li><code>decr key</code>遞減數字</li>
+<li><code>incrby key increment</code>  一次增加指定數值</li>
+<li><code>decrby key decrement</code> 一次減少指定數值</li>
+<li><code>incrbyfloat key increment</code>增加指定浮點數</li>
+<li><code>append key value</code> 向尾部附加值 回傳增加後總長度</li>
+<li><code>strlen key</code>取得字串長度</li>
+<li><code>mget key [key...]</code> 同時取得多個值</li>
+<li><code>mset ket value[....]</code>同時設置多個鍵值</li>
+</ul>
+<h3 id="散列類型hash">散列類型Hash</h3>
+<ul>
+<li>結構是<code>KEY:字段:字段值 (key:field:value)</code> 字段值只能是字串</li>
+<li>對象類別和ID構成KEY，字段表示對象屬性，字段值儲存屬性值</li>
+<li><code>hset key field value </code>給值</li>
+<li><code>hget key field</code>取值</li>
+<li><code>Hmset key field value [field value]</code>設定好幾個field</li>
+<li><code>Hmget key field [field…]</code>一次取得好幾個key</li>
+<li><code>Hgetall key</code> 取得所有field value</li>
+<li>Hset不區分插入(insert)和更新(update)，如果插入前field不存在會返回1，如果是更新操作會返回0</li>
+<li><code>Hexists key field</code>判斷field是否存在</li>
+<li><code>Hsetnx key field value</code>當field不存在時給值(原子操作)，失敗回傳0</li>
+<li><code>Hincr key field increment</code>增加數字</li>
+<li><code>Hdel key field [field…]</code>刪除field</li>
+<li><code>Hkeys key</code> <code>Hvals key</code>只需要取得field或field value</li>
+<li><code>Hvals key</code>取得field數量</li>
+</ul>
+<h3 id="列表類型list">列表類型List</h3>
+<ul>
+<li>是雙向鍊結串列，兩邊元素的時間複雜度是O(1)</li>
+<li>列表兩端增加元素
+<code>Lpush key value [value…]</code>
+<code>Rpush key value [value…]</code>
+回傳值表示增加元素後的長度</li>
+<li>列表兩端移除元素
+<code>Lpop key</code> <code>Rpop key</code></li>
+<li>取得元素個數(會直接讀取現成的值，而不會尋訪所有元素統計) O(1)
+<code>Llen key</code></li>
+<li><code>lrange key start stop</code>取得列表的指定元素值，start跟stop是index，從0開始
+<ul>
+<li>支援負index EX:-1是最右邊第一個元素</li>
+<li>Lrange key 0 -1 可以取得所有元素</li>
+<li>如果start&lt;stop會回傳空列表如果stop大於實際的索引範圍，會回傳最右邊元素</li>
+</ul>
+</li>
+<li><code>Lrem key count value</code> 刪除列表中前count個值是value的元素
+<ul>
+<li>count&gt;0 從左邊開始刪除</li>
+<li>count&lt;0從右邊開始刪除</li>
+<li>count=0 刪除所有值為value的元素</li>
+</ul>
+</li>
+<li><code>Lindex key index</code> 取得指定index的元素</li>
+<li><code>Lset key index value</code>針對index給值</li>
+<li><code>Ltrim key start end</code>只保留指定範圍元素，指定索引之外的元素會刪除，可以用來限制元素數量</li>
+<li><code>Linsert key before|after pivot value</code>插入元素在特定值(pivot)前或後，從左到右找到值為pivot的元素，把value插進去</li>
+<li><code>rpoplpush source destination</code>把元素從一個list轉到另一個list，從source右邊取出元素放到destination左邊</li>
+</ul>
+<h3 id="集合類型set">集合類型Set</h3>
+<blockquote>
+<p>元素是沒有順序且唯一</p>
+</blockquote>
+<ul>
+<li><code>Sadd key member [member…]</code>
+<code>Srem key member [member…]</code>增加/刪除元素</li>
+<li><code>Smembers key</code>取得所有元素</li>
+<li><code>Sismember key member</code>判斷元素是否存在，時間複雜度O(1)</li>
+<li>集合運算
+<ul>
+<li><code>sdiff key [key…]</code>差集</li>
+</ul>
+<pre tabindex="0"><code>{1,2,3}-{2,3,4} ={1}
+{2,3,4}-{1,2,3}={4}
+</code></pre><ul>
+<li><code>Sinter key [key…]</code>交集
+<code>{1,2,3}&amp;{2,3,4}={2,3}</code></li>
+<li><code>Sunion key [key…]</code>聯集</li>
+</ul>
+</li>
+<li><code>Scard key</code>獲得集合元素個數</li>
+<li><code>Sdiffstore destination key [key…]</code>取差集再返回結果
+<code>Sinterstore destination key [key…]</code> 跟上面類似
+<code>Sunionstore destination key [key…]</code>
+進行集合運算並儲存結果</li>
+<li><code>Srandmember key [count]</code>隨機取得集合中元素
+<ul>
+<li>Count &gt;0 隨機取不重複元素</li>
+<li>Count &gt;元素個數 回傳全部元素</li>
+<li>Count &lt;0 隨機取|count|元素 但有可能會一樣</li>
+</ul>
+</li>
+<li><code>Spop key</code>隨機取出一個元素</li>
+</ul>
+<h3 id="有序集合類型sorted-list">有序集合類型Sorted List</h3>
+<blockquote>
+<p>每個元素都有一個分數，可以取得分數最高或最低的前N個元素</p>
+</blockquote>
+<ul>
+<li>跟List相同部分
+<ul>
+<li>2者都是有序</li>
+<li>2者都可以獲得某個範圍的元素</li>
+</ul>
+</li>
+<li>跟List差別部分
+<ul>
+<li>列表是linkerd list，取得兩端元素速度快，但元素變多後取得中間元素會變慢</li>
+<li>sosrted list是靠hash跟skip list實做，所以取得中間元素也很快</li>
+<li>列表不能單獨調整元素位置，但有序集合可以(改分數)</li>
+<li>有序集合更消耗記憶體</li>
+</ul>
+</li>
+<li><code>Zadd key score member [score member…]</code>增加元素,如果member已存在，會用score替換原有分數,Score也可以用double</li>
+<li><code>Zscore key member</code>取得元素分數</li>
+<li><code>Zrange key start stop [withscores]</code>
+<code>Zrevrange key start stop [withscores]</code>
+<ul>
+<li>取得某個範圍內的元素列表,跟lrange類似 要同時取得分數可以加上withscores</li>
+<li>元素按照分數從小到大排,Zrevrange就是從大到小,分數一樣會按照字典順序</li>
+</ul>
+</li>
+<li><code>Zrangebyscore key min max [withscores] [limit offset count]</code>取得指定分數範圍的元素
+<ul>
+<li>分數前加上”(“ 表示不包含 EX:80 (100   score&gt;=80 &amp;&amp; score&lt;100</li>
+<li>正無窮大+inf</li>
+<li>負無窮大-inf</li>
+<li>limit offset count表示要跳過offset的元素取count個</li>
+</ul>
+</li>
+<li><code>Zrevrangebyscore key max min [withscores] [limit offset count]</code>分數從大到小排列 min跟max也跟上面是相反的</li>
+<li><code>Zincryby key increment member</code>增加某個元素分數</li>
+<li><code>Zcard key</code>取得元素數量</li>
+<li><code>Zcount key min max</code>取得指定分數範圍的元素個數</li>
+<li><code>Zrem key member [member…]</code>刪除一個或多個元素</li>
+<li><code>Zremrangebyrank key start stop</code>按排名範圍刪除元素(用index)</li>
+<li><code>Zremrangebyscore key start stop</code>按分數範圍刪除元素</li>
+<li><code>Zrank key member</code> <code>Zrevrank key member</code>取得元素排名(從0開始)</li>
+<li><code>Zinterstore destination numkeys key [key…] [weights weight [weight…]] [aggregate sum|min|max] </code>計算多個有序集合的交集，並把結果存在destination</li>
+</ul>
+<pre tabindex="0"><code>zadd set1 1 a 2 b
+zadd set2 10 a 20 b
+ 
+zinterstore result 2 set1 set2
+zrange result  0 -1 withscores
+zrange result  0 -1 withscores
+
+ zinterstore result 2 set1 set2 aggregate min
+ srange result 0 -1
+</code></pre>
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2024 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

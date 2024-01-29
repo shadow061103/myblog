@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EBLW1S7P3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9EBLW1S7P3');
+</script>
+    
+    
+    <title>Redis進階用法</title>
+    <meta name="description" content="Embrace your past,it shaped your present.">
+    <meta name="keywords" content='blog, gokarna, hugo, redis'>
+
+    <meta property="og:url" content="https://shadow061103.github.io/myblog/posts/202212/redis%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Redis進階用法">
+    <meta property="og:description" content="Embrace your past,it shaped your present.">
+    <meta property="og:image" content="/images/profile.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Redis進階用法">
+    <meta name="twitter:description" content="Embrace your past,it shaped your present.">
+    <meta property="twitter:domain" content="https://shadow061103.github.io/myblog/posts/202212/redis%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95/">
+    <meta property="twitter:url" content="https://shadow061103.github.io/myblog/posts/202212/redis%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95/">
+    <meta name="twitter:image" content="/images/profile.jpg">
+
+    
+    <link rel="canonical" href="https://shadow061103.github.io/myblog/posts/202212/redis%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95/" />
+
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io/myblog//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://shadow061103.github.io/myblog//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://shadow061103.github.io/myblog//css/dark.css">
+
+    <script src="https://shadow061103.github.io/myblog//js/svg-injector.min.js"></script>
+    <script src="https://shadow061103.github.io/myblog//js/feather-icons.min.js"></script>
+    <script src="https://shadow061103.github.io/myblog//js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://shadow061103.github.io/myblog/">
+                <img src="https://shadow061103.github.io/myblog//images/profile.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://shadow061103.github.io/myblog/">Steve的技術筆記</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/favorites/"><span data-feather='code'></span> Favorite </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://shadow061103.github.io/myblog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/favorites/"><span data-feather='code'></span> Favorite </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://shadow061103.github.io/myblog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/shadow061103"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Redis進階用法</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            December 19, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://shadow061103.github.io/myblog/tags/redis">redis</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="transaction">Transaction</h3>
+<ul>
+<li>全執行或全部執行(ACID)</li>
+<li>先用<code>multi</code>告訴redis要執行事務的指令,會先進到queue等待</li>
+<li><code>exec</code>才會全部執行,回傳值是依照指令順序</li>
+<li>沒有rollback機制</li>
+</ul>
+<pre tabindex="0"><code>127.0.0.1:6379&gt; multi
+OK
+127.0.0.1:6379(TX)&gt; sadd user:1:following 2
+QUEUED
+127.0.0.1:6379(TX)&gt; sadd user:2:followers 1
+QUEUED
+127.0.0.1:6379(TX)&gt; exec
+1) (integer) 1
+2) (integer) 1
+127.0.0.1:6379&gt;
+</code></pre><ul>
+<li>有語法錯誤就不會執行</li>
+</ul>
+<pre tabindex="0"><code>127.0.0.1:6379&gt; multi
+OK
+127.0.0.1:6379(TX)&gt; set key value
+QUEUED
+127.0.0.1:6379(TX)&gt; set key
+(error) ERR wrong number of arguments for &#39;set&#39; command
+127.0.0.1:6379(TX)&gt; errorcommand key
+(error) ERR unknown command `errorcommand`, with args beginning with: `key`,
+127.0.0.1:6379(TX)&gt; exec
+(error) EXECABORT Transaction discarded because of previous errors.
+</code></pre><ul>
+<li>如果是執行時錯誤,其他指令還是會被執行</li>
+</ul>
+<pre tabindex="0"><code>127.0.0.1:6379&gt; multi
+OK
+127.0.0.1:6379(TX)&gt; set key 1
+QUEUED
+127.0.0.1:6379(TX)&gt; sadd key 2
+QUEUED
+127.0.0.1:6379(TX)&gt; set key 3
+QUEUED
+127.0.0.1:6379(TX)&gt; exec
+1) OK
+2) (error) WRONGTYPE Operation against a key holding the wrong kind of value
+3) OK
+127.0.0.1:6379&gt; get key
+&#34;3&#34;
+</code></pre><h3 id="watch">Watch</h3>
+<ul>
+<li>可以監控一個或多個key，有一個被修改或刪除，之後的交易就不會執行</li>
+<li>監控一直持續到exec執行後，所以watch可以修改watch監控的key-value</li>
+<li>在交易中想取消監控可以用<code>unwatch</code></li>
+</ul>
+<h3 id="timeout時間">Timeout時間</h3>
+<ul>
+<li><code>expire key seconds</code>設定生存時間</li>
+<li><code>ttl key</code>看剩餘時間(秒) 回傳-1表示沒有設定時間</li>
+<li><code>persist key</code>取消時間設定(永久)</li>
+<li>用<code>expire</code>可以重新設定時間或用<code>set</code>取消生存時間</li>
+<li><code>pexpire key</code> 單位是毫秒 <code>pttl</code>可以看剩餘時間</li>
+<li>如果用watch監控有生存時間的key，自動刪除不會被watch認為改變</li>
+<li>記憶體有限的情況下，要設定快取能用的最大值，可以透過修改<code>maxmemory-policy</code>來指定策略</li>
+</ul>
+<h3 id="排序">排序</h3>
+<ul>
+<li><code>sort</code>可以排序List、Set、Sorted List的類型</li>
+<li>對有序集合排序會忽略分數，只對值排序</li>
+<li>可以針對字典順序做排序</li>
+</ul>
+<pre tabindex="0"><code>127.0.0.1:6379&gt; lpush list a c e d B C A
+(integer) 7
+127.0.0.1:6379&gt; sort list
+(error) ERR One or more scores can&#39;t be converted into double
+127.0.0.1:6379&gt; sort list alpha
+1) &#34;A&#34;
+2) &#34;B&#34;
+3) &#34;C&#34;
+4) &#34;a&#34;
+5) &#34;c&#34;
+6) &#34;d&#34;
+7) &#34;e&#34;
+</code></pre><ul>
+<li><code>sort key desc</code>可以降冪排序</li>
+<li>可以搭配<code>limit offset count</code>使用</li>
+<li>時間複雜度是O(n+mlogm) (n是排序的列表元素個數，m是要回傳的元素個數)</li>
+<li>要調整排序性能要盡量減少排序的key中元素數量，或是用limit只取得需要的數據</li>
+</ul>
+<h4 id="by參考鍵">By參考鍵</h4>
+<ul>
+<li>可以是字串類型或Set的字段，sort可以依照by的欄位排序</li>
+</ul>
+<pre tabindex="0"><code>127.0.0.1:6379&gt; lpush sortbylist 2 1 3
+(integer) 3
+127.0.0.1:6379&gt; set itemscore:1 50
+OK
+127.0.0.1:6379&gt; set itemscore:2 100
+OK
+127.0.0.1:6379&gt; set itemscore:3 -10
+OK
+127.0.0.1:6379&gt; sort sortbylist by itemscore:* desc
+1) &#34;2&#34;
+2) &#34;1&#34;
+3) &#34;3&#34;
+</code></pre><ul>
+<li>by的參考鍵名要有<code>*</code>不然就跟一般取range的方式一樣不會排序(*只能在key部分才有用)</li>
+<li>如果參考鍵的值都一樣，那會比較元素本身的值</li>
+<li>參考鍵不存在的話，值會當成0，</li>
+</ul>
+<h4 id="get參數">Get參數</h4>
+<ul>
+<li>在sort後面加Get參數可以取得指定的鍵值，可以有多個get</li>
+<li><code>get #</code>會返回元素本身的值</li>
+</ul>
+<h4 id="store參數">Store參數</h4>
+<ul>
+<li>可以保存排序後的結果(List)</li>
+</ul>
+<h3 id="任務佇列">任務佇列</h3>
+<ul>
+<li>有producer跟consumer，producer會發送任務事件，consumer會去接收並執行</li>
+<li><code>brpop key [key...] timeout</code> 
+<code>blpopkey [key...] timeout</code> 可以監聽多個key，後面時間如果設成0表示會阻塞操作，直到取到值才會往下做</li>
+</ul>
+<pre tabindex="0"><code>redis-A
+127.0.0.1:6379&gt; blpop queue:1 queue:2 queue:3 0
+1) &#34;queue:2&#34;
+2) &#34;task&#34;
+(13.59s)
+redis-B
+127.0.0.1:6379&gt; lpush queue:2 task
+(integer) 1
+</code></pre><h3 id="發佈訂閱模式">發佈訂閱模式</h3>
+<ul>
+<li>發佈者可以向指定的頻道發送訊息，有訂閱的都會收到</li>
+<li>訂閱者可以訂閱多個頻道channel</li>
+<li><code>publish channel message</code>發佈消息，回傳值是收到訂閱的數量</li>
+<li><code>subscribe channel [channel...]</code>訂閱頻道，執行後進入訂閱狀態，只能使用<code>subscribe/unsubscribe/psubscribe/punsubscribe</code>這幾個命令</li>
+<li>會收到3種類型的回覆
+<ul>
+<li>subscribe:訂閱成功的訊息+訂閱成功的頻道名稱+目前client端訂閱的頻道數量</li>
+<li>message:接收到的訊息+產生訊息的頻道名稱+訊息內容</li>
+<li>unsubscribe:成功取消訂閱某頻道+對應頻道名稱+目前訂閱數</li>
+</ul>
+</li>
+</ul>
+<pre tabindex="0"><code>subscribe
+127.0.0.1:6379&gt; subscribe channel.1
+Reading messages... (press Ctrl-C to quit)
+1) &#34;subscribe&#34;
+2) &#34;channel.1&#34;
+3) (integer) 1
+1) &#34;message&#34;
+2) &#34;channel.1&#34;
+3) &#34;hi&#34;
+1) &#34;message&#34;
+2) &#34;channel.1&#34;
+3) &#34;fuck&#34;
+127.0.0.1:6379&gt; unsubscribe channel.1
+1) &#34;unsubscribe&#34;
+2) &#34;channel.1&#34;
+3) (integer) 0
+
+publisher
+127.0.0.1:6379&gt; publish channel.1 hi
+(integer) 0
+127.0.0.1:6379&gt; publish channel.1 hi
+(integer) 1
+127.0.0.1:6379&gt; publish channel.1 fuck
+</code></pre><ul>
+<li><code>psubscribe</code>可以訂閱指定名稱的頻道，支援glob匹配
+<ul>
+<li>可以重複訂閱同一個頻道，接收到的message也就會有2個</li>
+</ul>
+</li>
+</ul>
+<pre tabindex="0"><code>127.0.0.1:6379&gt; psubscribe channel.?*
+Reading messages... (press Ctrl-C to quit)
+1) &#34;psubscribe&#34;
+2) &#34;channel.?*&#34;
+3) (integer) 1
+</code></pre><ul>
+<li><code>punsubscribe [pattern...]</code>退訂指定的規則，但只限於psubscribe訂閱的</li>
+</ul>
+<h3 id="pipeline">Pipeline</h3>
+<ul>
+<li>可以一次發送多個命令給redis，執行完後一次把結果回傳，但每個命令彼此要獨立</li>
+<li>有效減少網路來回延遲的時間</li>
+<li><a href="https://jed1978.github.io/2018/05/11/Redis-Programming-CSharp-Basic-1.html">圖片說明</a></li>
+</ul>
+<h3 id="節省記憶體空間">節省記憶體空間</h3>
+<ul>
+<li>因為redis是存在記憶體，而記憶體比起硬碟相對貴</li>
+<li>精簡key name跟value值</li>
+<li>內部code優化，redis會自動調整，可以用<code>object excoding key</code>看</li>
+</ul>
+<h3 id="腳本">腳本</h3>
+<ul>
+<li>用Lua寫的,redis用5.1版</li>
+<li>減少網路開銷</li>
+<li>原子操作，不用使用transaction</li>
+<li>可以重複使用</li>
+<li>用法
+<ul>
+<li>寫完腳本後存成.lua檔案，然後下指令</li>
+<li><code>redis-cli --eval /path/to/ratelinit,lua rate.limiting:127.0.0.1, 10 3</code></li>
+<li><code>rate.limiting:127.0.0.1</code>是要操作的key，可以用<code>keys[1]</code>取得</li>
+<li>後面的10和3是參數，可以用<code>ARGV[1]</code>和<code>ARGV[2]</code>取得</li>
+</ul>
+</li>
+<li>常用型別
+<ul>
+<li>空nil:沒給值的變數或table的字段</li>
+<li>boolean</li>
+<li>number:整數或浮點數</li>
+<li>string:可以用&rsquo;或&quot;</li>
+<li>表table:可以當字典或數據結構</li>
+<li>function:可以儲存在變數中,做為函數的參數或回傳值</li>
+</ul>
+</li>
+<li>變數:只能用區域變數，因為全域變數可能影響腳本之間，宣告的時候用local，只能用英文字母、數字、下底線，區分大小寫，不能用保留字以及數字開頭</li>
+</ul>
+<pre tabindex="0"><code>local c --沒給值就是nil
+local d = 1
+local e, f --可以宣告多個
+</code></pre><ul>
+<li>註解:單行用<code>--</code>，多行用<code>--[[開始 ]]結束</code></li>
+<li>給值，(列表類型index從1開始)</li>
+</ul>
+<pre tabindex="0"><code>local a, b = 1, 2
+local c, d = 1, 2, 3 --3被捨棄
+</code></pre><ul>
+<li>運算子:+,-,*,/,%,-(負),^(冪)，
+<code>'1'+1=2 ,'10'*2=20 跟js一樣會自動轉換</code></li>
+<li>比較運算:==,~=(不相等),&gt;,&lt;,&gt;=,&lt;= (比較運算不會自動轉型)</li>
+<li>邏輯運算:not,and,or，只要不是nil或false就會當作true，包含0跟true，所以用exist回傳的0或1結果都是true，要改用==1判斷</li>
+</ul>
+<pre tabindex="0"><code>1 and 5 --5
+1 or 5 --1
+not 0 --false
+&#39;&#39; or 1 -- &#39;&#39;
+</code></pre><ul>
+<li>連接操作:用<code>..</code>連接字串</li>
+</ul>
+<pre tabindex="0"><code>&#39;hello&#39; .. &#39;world!&#39;
+&#39;the price is&#39; .. 25 --會把數字轉成字串
+</code></pre><ul>
+<li>取長度操作:用# <code>print(#'hello') --5</code></li>
+<li>不用縮排也不一定要用;結尾</li>
+<li>迴圈:while,repeat,for，有用到再找用法就好，可以用<code>ipairs</code>或<code>pairs</code>做iterator
+<ul>
+<li><code>ipairs</code>:只會從1開始巡覽到最後一個不為nil的整數索引</li>
+<li><code>pairs</code>:會巡覽所有值不為nil的索引</li>
+</ul>
+</li>
+</ul>
+<pre tabindex="0"><code>repeat
+ ...
+until
+
+while condition do
+    ...
+end
+
+for var=start ,end,step do
+    ...
+end
+</code></pre><ul>
+<li>table類型:就是js的物件類別，可以用[&ldquo;name&rdquo;]的方式取值，index是從1開始</li>
+</ul>
+<pre tabindex="0"><code>a = {}
+a[&#39;field&#39;]=&#39;value&#39;//set value
+people={
+name=&#39;Bob&#39;,
+age=29
+}
+</code></pre><ul>
+<li>函數</li>
+</ul>
+<pre tabindex="0"><code>function ()
+    ...
+end
+
+local square= function(num)
+    return num * num
+end
+--省略
+local function square(num)
+return num * num
+end
+</code></pre><ul>
+<li>Lua標準函式庫:Base,String,Table,Math,Debug</li>
+<li>其他函式庫:cjson跟cmsgpack可以用來序列化成json或msgpack</li>
+<li>用redis命令要下redis.call
+<code>redis.call('set','foo','bar')</code></li>
+</ul>
+<h3 id="腳本指令">腳本指令</h3>
+<ul>
+<li>EVAL:<code>eval [key...] [arg...]</code> 可以在腳本中用KEYS跟ARGV取得
+<code> EVAL &quot;return redis.call('set',KEYS[1],ARGV[1])&quot; 1 foo bar</code></li>
+<li>EVALSHA:會把腳本內容替換成SHA1</li>
+<li><code>script load</code> :把腳本加到快取</li>
+<li><code>script exists</code>:判斷腳本是否有快取</li>
+<li><code>script flush</code>:清空腳本快取</li>
+<li><code>script kill</code>終止當前腳本的執行</li>
+<li>原子性和執行時間:執行腳本期間不會執行其他指令，所有指令都要等腳本完成才能執行，<code>lua-time-limit</code>可以設定腳本執行時間(預設5秒)，執行腳本期間下其他指令會得到busy的錯誤，這時候只能下script kill或shutdown nosave，但如果腳本有對資料做修改是不能kill的，只能用shutdown的語法強制終止操作(不會持久話操作)</li>
+</ul>
+<pre tabindex="0"><code>BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.
+
+被終止的腳本會回傳錯誤
+(error) ERR Error running script (call to f_694a5fe1ddb97a4c6a1bf299d9537c7d3d0f84e7): @user_script:1: Script killed by user with SCRIPT KILL...
+</code></pre><ul>
+<li>腳本不應該放需要耗時的運算，因為redis是單執行緒</li>
+</ul>
+
+        </p>
+    </div>
+    <div class="disqus markdown">
+        <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://steveskillblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2024 The Steve&#39;s skill blog</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
